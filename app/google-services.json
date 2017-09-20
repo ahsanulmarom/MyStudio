@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "262045782184",
+    "firebase_url": "https://mystudio-ms.firebaseio.com",
+    "project_id": "mystudio-ms",
+    "storage_bucket": "mystudio-ms.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:262045782184:android:d61c2f98b6c67e76",
+        "android_client_info": {
+          "package_name": "com.user.mystudio"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "262045782184-vma2n4negmqeeh7tgkv8tdjcf3qipf0p.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAep1Bx4KMTRyKPYqskCcDJZONwY0w7Tb0"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
