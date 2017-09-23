@@ -32,6 +32,15 @@
         <activity
             android:name=".Login"
             android:theme="@style/AppTheme" />
+        <activity
+            android:name=".MenuToolbar"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".SignUp"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".BookingPhoto"
+            android:theme="@style/AppTheme" />
 </application>
 
 </manifest>
