@@ -134,9 +134,6 @@ public class SignUp extends AppCompatActivity {
                             data.put("email", email.getText().toString().trim());
                             data.put("username", username.getText().toString().trim());
                             data.put("displayName", 0);
-                            data.put("role", 0);
-                            data.put("bio", "Hello! I'm a new member here.");
-                            data.put("address", 0);
                             userData.setValue(data);
                             Toast.makeText(SignUp.this, "Sign up Successfully. Please check email to verify account! ",
                                     Toast.LENGTH_SHORT).show();

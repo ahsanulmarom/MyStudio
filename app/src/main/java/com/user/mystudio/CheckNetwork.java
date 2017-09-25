@@ -46,10 +46,10 @@ public class CheckNetwork extends AppCompatActivity {
                 if (user != null) {
                     // User sedang login
                     Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
-                    startActivity(new Intent(context, Login.class));
                 } else {
                     // User sedang logout
                     Log.d(TAG, "onAuthStateChanged:signed_out");
+                    startActivity(new Intent(context, Login.class));
                 }
             }
         };

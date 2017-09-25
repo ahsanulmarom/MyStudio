@@ -40,8 +40,6 @@ public class Login extends AppCompatActivity {
             Toast.makeText(this, "You are not connected internet. Pease check your connection!", Toast.LENGTH_LONG).show();
         }
 
-        cn.sessionCheck();
-
         email = (EditText) findViewById(R.id.login_email);
         password = (EditText) findViewById(R.id.login_password);
         submit = (Button) findViewById(R.id.login_btnLogin);
