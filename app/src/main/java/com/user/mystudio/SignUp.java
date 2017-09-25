@@ -89,8 +89,8 @@ public class SignUp extends AppCompatActivity {
                         usernama.orderByChild("username").equalTo(username.getText().toString().trim()).addValueEventListener(new ValueEventListener() {
                             @Override
                             public void onDataChange(DataSnapshot dataSnapshot) {
-                                Log.e(TAG, "onDataChange: asasa " + dataSnapshot.getRef());
-                                if (dataSnapshot.getRef() == null) {
+                                Log.e(TAG, "onDataChange: asasa " + dataSnapshot.getValue());
+                                if (dataSnapshot.getValue() == null) {
                                     signUp(email.getText().toString(), password.getText().toString());
                                 } else {
                                     Toast.makeText(SignUp.this, "Username already exist. Please try another username.",
@@ -115,9 +115,6 @@ public class SignUp extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         Log.d(TAG, "createUserWithEmail:onComplete:" + task.isSuccessful());
-                        // If sign in fails, display a message to the user. If sign in succeeds
-                        // the auth state listener will be notified and logic to handle the
-                        // signed in user can be handled in the listener.
                         if (!task.isSuccessful()) {
                             if (!cn.isConnected()) {
                                 Toast.makeText(SignUp.this, "You are offline. Pease check your connection!",
