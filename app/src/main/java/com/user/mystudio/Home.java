@@ -15,7 +15,7 @@ public class Home extends AppCompatActivity {
     private FirebaseAuth fAuth;
     private FirebaseAuth.AuthStateListener fStateListener;
     private static final String TAG = Home.class.getSimpleName();
-    private static int SPLASH_TIME_OUT = 5000;
+    private static int SPLASH_TIME_OUT = 3000;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -1,5 +1,6 @@
 package com.user.mystudio;
 
+import android.content.Intent;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -37,11 +38,11 @@ public class MenuToolbar extends AppCompatActivity {
                 switch (menuItem.getItemId()) {
                     // pilihan menu item navigasi akan menampilkan pesan toast klik kalian bisa menggantinya
                     //dengan intent activity
-                    case R.id.navigation1:
-                        Toast.makeText(getApplicationContext(), "Beranda Telah Dipilih", Toast.LENGTH_SHORT).show();
+                    case R.id.nav_home:
+                        startActivity(new Intent(getApplicationContext(), Home.class));
                         return true;
                     case R.id.navigation2:
-                        Toast.makeText(getApplicationContext(), "Profil Telah Dipilih", Toast.LENGTH_SHORT).show();
+                        startActivity(new Intent(getApplicationContext(), BookingPhoto.class));
                         return true;
                     case R.id.navigation3:
                         Toast.makeText(getApplicationContext(), "Daftar Telah Dipilih", Toast.LENGTH_SHORT).show();

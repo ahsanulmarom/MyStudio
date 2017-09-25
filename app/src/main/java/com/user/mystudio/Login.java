@@ -27,7 +27,7 @@ public class Login extends AppCompatActivity {
     private Button submit, daftar, reset;
     private FirebaseAuth fAuth;
     private FirebaseAuth.AuthStateListener fStateListener;
-    private static final String TAG = Login.class.getSimpleName();
+    private static final String TAG = SignUp.class.getSimpleName();
     private Context context = this;
     CheckNetwork cn;
 
@@ -39,6 +39,21 @@ public class Login extends AppCompatActivity {
         if (!cn.isConnected()) {
             Toast.makeText(this, "You are not connected internet. Pease check your connection!", Toast.LENGTH_LONG).show();
         }
+
+        fAuth = FirebaseAuth.getInstance();
+        fStateListener = new FirebaseAuth.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                FirebaseUser user = firebaseAuth.getCurrentUser();
+                if (user != null) {
+                    // User sedang login
+                    Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
+                } else {
+                    // User sedang logout
+                    Log.d(TAG, "onAuthStateChanged:signed_out");
+                }
+            }
+        };
 
         email = (EditText) findViewById(R.id.login_email);
         password = (EditText) findViewById(R.id.login_password);
