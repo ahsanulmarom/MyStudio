@@ -50,6 +50,8 @@ public class BookingPhoto extends AppCompatActivity {
         if (!cn.isConnected()) {
             Toast.makeText(this, "You are not connected internet. Pease check your connection!", Toast.LENGTH_LONG).show();
         }
+        checkSession();
+
         booking = (Button) findViewById(R.id.booking_now);
         date = (EditText) findViewById(R.id.booking_date);
         time = (EditText) findViewById(R.id.booking_time);
@@ -57,27 +59,8 @@ public class BookingPhoto extends AppCompatActivity {
         studio = (RadioButton) findViewById(R.id.radioStudio);
         alamatLain = (RadioButton) findViewById(R.id.radioLain);
 
-        fAuth = FirebaseAuth.getInstance();
-        fStateListener = new FirebaseAuth.AuthStateListener() {
-            @Override
-            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                FirebaseUser user = firebaseAuth.getCurrentUser();
-                if (user != null) {
-                    // User sedang login
-                    Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
-
-                } else {
-                    // User sedang logout
-                    Log.d(TAG, "onAuthStateChanged:signed_out");
-                    startActivity(new Intent(BookingPhoto.this, Login.class));
-                }
-            }
-        };
-
         booking.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Log.e(TAG, "onClick: substring date 1 = " + date.getText().toString().substring(2,3) );
-                Log.e(TAG, "onClick: substring date 1 = " + date.getText().toString().substring(5,6) );
                 if (date.getText().toString().equalsIgnoreCase("")) {
                     date.setError("This Field is Required");
                 } else if(date.getText().toString().length() != 10) {
@@ -139,6 +122,7 @@ public class BookingPhoto extends AppCompatActivity {
         drawerLayout.setDrawerListener(actionBarDrawerToggle);
         //memanggil synstate
         actionBarDrawerToggle.syncState();
+
     }
 
     public void setBooking(final String tanggal, final String jam, final String lokasi) {
@@ -204,14 +188,32 @@ public class BookingPhoto extends AppCompatActivity {
         });
     }
 
+    public void checkSession() {
+        fAuth = FirebaseAuth.getInstance();
+        fStateListener = new FirebaseAuth.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                FirebaseUser user = firebaseAuth.getCurrentUser();
+                if (user != null) {
+                    // User sedang login
+                    Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
+                } else {
+                    // User sedang logout
+                    Log.d(TAG, "onAuthStateChanged:signed_out");
+                    startActivity(new Intent(getApplicationContext(), Login.class));
+                }
+            }
+        };
+    }
+
     @Override
-    protected void onStart() {
+    public void onStart() {
         super.onStart();
         fAuth.addAuthStateListener(fStateListener);
     }
 
     @Override
-    protected void onStop() {
+    public void onStop() {
         super.onStop();
         if (fStateListener != null) {
             fAuth.removeAuthStateListener(fStateListener);

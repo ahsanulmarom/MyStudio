@@ -40,21 +40,6 @@ public class Login extends AppCompatActivity {
             Toast.makeText(this, "You are not connected internet. Pease check your connection!", Toast.LENGTH_LONG).show();
         }
 
-        fAuth = FirebaseAuth.getInstance();
-        fStateListener = new FirebaseAuth.AuthStateListener() {
-            @Override
-            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                FirebaseUser user = firebaseAuth.getCurrentUser();
-                if (user != null) {
-                    // User sedang login
-                    Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
-                } else {
-                    // User sedang logout
-                    Log.d(TAG, "onAuthStateChanged:signed_out");
-                }
-            }
-        };
-
         email = (EditText) findViewById(R.id.login_email);
         password = (EditText) findViewById(R.id.login_password);
         submit = (Button) findViewById(R.id.login_btnLogin);
@@ -170,7 +155,7 @@ public class Login extends AppCompatActivity {
         });
     }
 
-    @Override
+/*    @Override
     protected void onStart() {
         super.onStart();
         fAuth.addAuthStateListener(fStateListener);
@@ -182,6 +167,6 @@ public class Login extends AppCompatActivity {
         if (fStateListener != null) {
             fAuth.removeAuthStateListener(fStateListener);
         }
-    }
+    }*/
 
 }

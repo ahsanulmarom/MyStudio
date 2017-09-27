@@ -2,20 +2,17 @@ package com.user.mystudio;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 
 public class Menu extends AppCompatActivity {
     //Mendefinisikan variabel
@@ -39,21 +36,7 @@ public class Menu extends AppCompatActivity {
             Toast.makeText(this, "You are not connected internet. Please check your connection!", Toast.LENGTH_LONG).show();
         }
 
-        fAuth = FirebaseAuth.getInstance();
-        fStateListener = new FirebaseAuth.AuthStateListener() {
-            @Override
-            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                FirebaseUser user = firebaseAuth.getCurrentUser();
-                if (user != null) {
-                    // User sedang login
-                    Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
-                } else {
-                    // User sedang logout
-                    Log.d(TAG, "onAuthStateChanged:signed_out");
-                    startActivity(new Intent(getApplicationContext(), Login.class));
-                }
-            }
-        };
+        cn.checkSession();
 
         booking = (Button) findViewById(R.id.menu_booking);
         print = (Button) findViewById(R.id.menu_print);
@@ -108,7 +91,7 @@ public class Menu extends AppCompatActivity {
         actionBarDrawerToggle.syncState();
     }
 
-    @Override
+/*    @Override
     protected void onStart() {
         super.onStart();
         fAuth.addAuthStateListener(fStateListener);
@@ -120,5 +103,5 @@ public class Menu extends AppCompatActivity {
         if (fStateListener != null) {
             fAuth.removeAuthStateListener(fStateListener);
         }
-    }
+    }*/
 }
