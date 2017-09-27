@@ -38,6 +38,13 @@ public class SignUp extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
+        username = (EditText) findViewById(R.id.signup_username);
+        uname = username.getText().toString().trim();
+        email = (EditText) findViewById(R.id.signup_email);
+        mail = email.getText().toString().trim();
+        password = (EditText) findViewById(R.id.signup_password);
+        repassword = (EditText) findViewById(R.id.signup_repassword);
+        submit = (Button) findViewById(R.id.signup_submit);
 
         cn = new CheckNetwork(this);
         if (!cn.isConnected()) {
@@ -61,20 +68,12 @@ public class SignUp extends AppCompatActivity {
                 }
             };
 
-            username = (EditText) findViewById(R.id.signup_username);
-            uname = username.getText().toString().trim();
-            email = (EditText) findViewById(R.id.signup_email);
-            mail = email.getText().toString().trim();
-            password = (EditText) findViewById(R.id.signup_password);
-            repassword = (EditText) findViewById(R.id.signup_repassword);
-            submit = (Button) findViewById(R.id.signup_submit);
-
             submit.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
                     if (username.getText().toString().equalsIgnoreCase("")) {
                         username.setError("This Field is Required");
                     } else if (username.getText().toString().length() < 5) {
-                        username.setError("Username must be at least 5 characters");
+                        username.setError("Name must be at least 5 characters");
                     } else if (email.getText().toString().equalsIgnoreCase("")) {
                         email.setError("This Field is Required");
                     } else if (password.getText().toString().equalsIgnoreCase("")) {
@@ -128,9 +127,9 @@ public class SignUp extends AppCompatActivity {
                             FirebaseDatabase database = FirebaseDatabase.getInstance();
                             DatabaseReference userData = database.getReference("userData").child(user.getUid());
                             Map data = new HashMap();
+                            data.put("id", user.getUid());
                             data.put("email", email.getText().toString().trim());
-                            data.put("username", username.getText().toString().trim());
-                            data.put("displayName", 0);
+                            data.put("name", username.getText().toString().trim());
                             userData.setValue(data);
                             Toast.makeText(SignUp.this, "Sign up Successfully. Please check email to verify account! ",
                                     Toast.LENGTH_SHORT).show();
@@ -167,6 +166,12 @@ public class SignUp extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
+        fAuth.addAuthStateListener(fStateListener);
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
         fAuth.addAuthStateListener(fStateListener);
     }
 

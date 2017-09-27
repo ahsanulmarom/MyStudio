@@ -31,6 +31,7 @@
                 android:id="@+id/radioStudio"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:checked="true"
                 android:layout_alignTop="@+id/textView10"
                 android:layout_centerHorizontal="true"
                 android:text="Studio" />
@@ -77,6 +78,19 @@
             android:text="Tempat" />
 
         <EditText
+            android:id="@+id/booking_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/textView10"
+            android:layout_marginBottom="30dp"
+            android:layout_marginStart="15dp"
+            android:layout_toEndOf="@+id/textView8"
+            android:ems="10"
+            android:focusable="true"
+            android:hint="dd-mm-yyyy"
+            android:inputType="date" />
+
+        <EditText
             android:id="@+id/booking_alamat"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -88,23 +102,13 @@
             android:layout_alignStart="@+id/radiogroup" />
 
         <EditText
-            android:id="@+id/booking_date"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_above="@+id/textView10"
-            android:layout_marginBottom="30dp"
-            android:layout_marginStart="15dp"
-            android:layout_toEndOf="@+id/textView8"
-            android:ems="10"
-            android:inputType="date" />
-
-        <EditText
             android:id="@+id/booking_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignEnd="@+id/booking_date"
             android:layout_alignTop="@+id/textView9"
             android:ems="10"
+            android:hint="hh:mm"
             android:inputType="time" />
 
         <Button
@@ -130,6 +134,7 @@
             android:id="@+id/booking_now"
             android:layout_width="282dp"
             android:layout_height="53dp"
+            android:clickable="true"
             android:background="@drawable/roundbtn"
             android:backgroundTint="@color/colorPrimary"
             android:text="booking now"

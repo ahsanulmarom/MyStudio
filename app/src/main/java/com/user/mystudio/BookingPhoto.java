@@ -3,8 +3,13 @@ package com.user.mystudio;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.NavigationView;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -29,14 +34,19 @@ public class BookingPhoto extends AppCompatActivity {
     public final String TAG = getClass().getSimpleName();
     CheckNetwork cn;
     MenuToolbar mt;
-    Button booking;
+    private Button booking;
     EditText date, time, alamat;
     RadioButton studio, alamatLain;
+    private Toolbar toolbar;
+    private NavigationView navigationView;
+    private DrawerLayout drawerLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bookingphoto);
+        mt = new MenuToolbar(this);
+        cn = new CheckNetwork(this);
         if (!cn.isConnected()) {
             Toast.makeText(this, "You are not connected internet. Pease check your connection!", Toast.LENGTH_LONG).show();
         }
@@ -55,16 +65,6 @@ public class BookingPhoto extends AppCompatActivity {
                 if (user != null) {
                     // User sedang login
                     Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
-                    booking.setOnClickListener(new View.OnClickListener() {
-                        public void onClick(View v) {
-                            if(studio.isSelected()) {
-                                setBooking(date.getText().toString().trim(), time.getText().toString().trim(), "Studio");
-                            } else if(alamatLain.isSelected()) {
-                                setBooking(date.getText().toString().trim(), time.getText().toString().trim(),
-                                        alamatLain.getText().toString().trim());
-                            }
-                        }
-                    });
 
                 } else {
                     // User sedang logout
@@ -74,44 +74,90 @@ public class BookingPhoto extends AppCompatActivity {
             }
         };
 
-        mt = new MenuToolbar();
+        booking.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Log.e(TAG, "onClick: substring date 1 = " + date.getText().toString().substring(2,3) );
+                Log.e(TAG, "onClick: substring date 1 = " + date.getText().toString().substring(5,6) );
+                if (date.getText().toString().equalsIgnoreCase("")) {
+                    date.setError("This Field is Required");
+                } else if(date.getText().toString().length() != 10) {
+                    date.setError("Isi sesuai Format dd-mm-yyy");
+                } else if ((!(date.getText().toString().substring(2,3).equals("-"))) && (!(date.getText().toString().substring(5,6).equals("-")))) {
+                    date.setError("Isi sesuai Format dd-mm-yyy");
+                } else if (time.getText().toString().equalsIgnoreCase("")) {
+                    time.setError("This Field is Required");
+                } else if (time.getText().toString().length() != 5) {
+                    time.setError("Isi sesuai Format hh:mm");
+                } else {
+                    if(studio.isChecked()) {
+                        setBooking(date.getText().toString().trim(), time.getText().toString().trim(), "Studio");
+                        Log.e(TAG, "onClick: dipilih" );
+                    } else {
+                        setBooking(date.getText().toString().trim(), time.getText().toString().trim(),
+                                alamatLain.getText().toString().trim());
+                    }
+                }
+            }
+        });
+
+        // Menginisiasi Toolbar dan mensetting sebagai actionbar
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        // Menginisiasi  NavigationView
+        navigationView = (NavigationView) findViewById(R.id.navigation_view);
+        //Mengatur Navigasi View Item yang akan dipanggil untuk menangani item klik menu navigasi
+        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            // This method will trigger on item Click of navigation menu
+            @Override
+            public boolean onNavigationItemSelected(MenuItem menuItem) {
+                //Memeriksa apakah item tersebut dalam keadaan dicek  atau tidak,
+                if (menuItem.isChecked()) menuItem.setChecked(false);
+                else menuItem.setChecked(true);
+                //Menutup  drawer item klik
+                drawerLayout.closeDrawers();
+                //Memeriksa untuk melihat item yang akan dilklik dan melalukan aksi
+                mt.setNavToolbar(menuItem);
+                return true;
+            }
+        });
+        // Menginisasi Drawer Layout dan ActionBarToggle
+        drawerLayout = (DrawerLayout) findViewById(R.id.drawer);
+        ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.openDrawer, R.string.closeDrawer) {
+            @Override
+            public void onDrawerClosed(View drawerView) {
+                // Kode di sini akan merespons setelah drawer menutup disini kita biarkan kosong
+                super.onDrawerClosed(drawerView);
+            }
+
+            @Override
+            public void onDrawerOpened(View drawerView) {
+                //  Kode di sini akan merespons setelah drawer terbuka disini kita biarkan kosong
+                super.onDrawerOpened(drawerView);
+            }
+        };
+        //Mensetting actionbarToggle untuk drawer layout
+        drawerLayout.setDrawerListener(actionBarDrawerToggle);
+        //memanggil synstate
+        actionBarDrawerToggle.syncState();
     }
 
     public void setBooking(final String tanggal, final String jam, final String lokasi) {
+        Log.e(TAG, "setBooking: berhasil masuk sini" );
         final FirebaseUser user = fAuth.getCurrentUser();
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         final DatabaseReference booking = database.getReference("booking");
         booking.orderByChild("tanggal").equalTo(tanggal).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                if (dataSnapshot.getValue() == null) {
-                    FirebaseUser user = fAuth.getCurrentUser();
-                    FirebaseDatabase database = FirebaseDatabase.getInstance();
-                    DatabaseReference bookingInfo = database.getReference("booking");
-                    bookingInfo.child("tanggal").setValue(tanggal);
-                    bookingInfo.child("tanggal").child("jam").setValue(jam);
-                    Map data = new HashMap();
-                    data.put("idUSer", user.getUid());
-                    data.put("alamat", lokasi);
-                    bookingInfo.child("tanggal").child("jam").setValue(data);
-                    Toast.makeText(BookingPhoto.this, "Jadwal telah dipesan untuk Anda.",
-                            Toast.LENGTH_SHORT).show();
+                Log.e(TAG, "onDataChange: data = " + dataSnapshot.getValue(String.class) );
+                if (dataSnapshot.getValue(String.class) == null) {
+                    saveDataBooking(tanggal, jam, lokasi);
                 } else {
                     booking.orderByChild("jam").equalTo(jam).addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
-                            if (dataSnapshot.getValue() == null) {
-                                FirebaseUser user = fAuth.getCurrentUser();
-                                FirebaseDatabase database = FirebaseDatabase.getInstance();
-                                DatabaseReference bookingInfo = database.getReference("booking");
-                                bookingInfo.child("tanggal").setValue(tanggal);
-                                bookingInfo.child("tanggal").child("jam").setValue(jam);
-                                Map data = new HashMap();
-                                data.put("idUSer", user.getUid());
-                                data.put("alamat", lokasi);
-                                bookingInfo.child("tanggal").child("jam").setValue(data);
-                                Toast.makeText(BookingPhoto.this, "Jadwal telah dipesan untuk Anda.",
-                                        Toast.LENGTH_SHORT).show();
+                            if (dataSnapshot.getValue(String.class) == null) {
+                                saveDataBooking(tanggal, jam, lokasi);
                             } else {
                                 Toast.makeText(BookingPhoto.this, "Maaf jadwal tidak tersedia, silakan pilih jadwal lain!",
                                         Toast.LENGTH_LONG).show();
@@ -127,6 +173,34 @@ public class BookingPhoto extends AppCompatActivity {
             }
             @Override
             public void onCancelled(DatabaseError databaseError) {}
+        });
+    }
+
+    public void saveDataBooking(final String tanggal, final String jam, final String lokasi) {
+        final FirebaseUser user = fAuth.getCurrentUser();
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        final DatabaseReference bookingInfo = database.getReference("booking");
+        final DatabaseReference userInfo = database.getReference("userData").child(user.getUid());
+        userInfo.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Log.e(TAG, "onDataChange: namanya adalah " + dataSnapshot.child("name").getValue(String.class) );
+                String pemesan = dataSnapshot.child("name").getValue(String.class);
+                Map data = new HashMap();
+                data.put("idPemesan", user.getUid());
+                data.put("Pemesan", pemesan);
+                data.put("Tanggal", tanggal);
+                data.put("Jam", jam);
+                data.put("Alamat", lokasi);
+                bookingInfo.child(tanggal).child(jam).setValue(data);
+                Toast.makeText(BookingPhoto.this, "Jadwal telah dipesan untuk Anda.",
+                        Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
         });
     }
 
