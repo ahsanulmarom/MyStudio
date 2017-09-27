@@ -17,7 +17,6 @@ import com.google.firebase.auth.FirebaseAuth;
 public class Menu extends AppCompatActivity {
     //Mendefinisikan variabel
     CheckNetwork cn;
-    MenuToolbar mt;
     public FirebaseAuth fAuth;
     public FirebaseAuth.AuthStateListener fStateListener;
     public final String TAG = getClass().getSimpleName();
@@ -31,7 +30,6 @@ public class Menu extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu);
         cn = new CheckNetwork(this);
-        mt = new MenuToolbar(this);
         if (!cn.isConnected()) {
             Toast.makeText(this, "You are not connected internet. Please check your connection!", Toast.LENGTH_LONG).show();
         }
@@ -49,7 +47,10 @@ public class Menu extends AppCompatActivity {
                 finish();
             }
         });
+        setToolbar();
+    }
 
+    public void setToolbar() {
         // Menginisiasi Toolbar dan mensetting sebagai actionbar
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -66,7 +67,7 @@ public class Menu extends AppCompatActivity {
                 //Menutup  drawer item klik
                 drawerLayout.closeDrawers();
                 //Memeriksa untuk melihat item yang akan dilklik dan melalukan aksi
-                mt.setNavToolbar(menuItem);
+               toolbarNav(menuItem);
                 return true;
             }
         });
@@ -91,17 +92,29 @@ public class Menu extends AppCompatActivity {
         actionBarDrawerToggle.syncState();
     }
 
-/*    @Override
-    protected void onStart() {
-        super.onStart();
-        fAuth.addAuthStateListener(fStateListener);
+    public boolean toolbarNav(MenuItem menuItem) {
+        switch (menuItem.getItemId()) {
+            // pilihan menu item navigasi akan menampilkan pesan toast klik kalian bisa menggantinya
+            //dengan intent activity
+            case R.id.nav_home:
+                startActivity(new Intent(getApplication(), Menu.class));
+                return true;
+            case R.id.navigation2:
+                startActivity(new Intent(getApplication(), BookingPhoto.class));
+                return true;
+            case R.id.navigation3:
+                Toast.makeText(getApplication(), "Daftar Telah Dipilih", Toast.LENGTH_SHORT).show();
+                return true;
+            case R.id.navigation4:
+                Toast.makeText(getApplication(), "Setting telah dipilih", Toast.LENGTH_SHORT).show();
+                return true;
+            case R.id.navigation5:
+                Toast.makeText(getApplication(), "About telah dipilih", Toast.LENGTH_SHORT).show();
+                return true;
+            default:
+                Toast.makeText(getApplication(), "Kesalahan Terjadi ", Toast.LENGTH_SHORT).show();
+                return true;
+        }
     }
 
-    @Override
-    protected void onStop() {
-        super.onStop();
-        if (fStateListener != null) {
-            fAuth.removeAuthStateListener(fStateListener);
-        }
-    }*/
 }

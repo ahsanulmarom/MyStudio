@@ -33,7 +33,6 @@ public class BookingPhoto extends AppCompatActivity {
     public FirebaseAuth.AuthStateListener fStateListener;
     public final String TAG = getClass().getSimpleName();
     CheckNetwork cn;
-    MenuToolbar mt;
     private Button booking;
     EditText date, time, alamat;
     RadioButton studio, alamatLain;
@@ -45,7 +44,6 @@ public class BookingPhoto extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bookingphoto);
-        mt = new MenuToolbar(this);
         cn = new CheckNetwork(this);
         if (!cn.isConnected()) {
             Toast.makeText(this, "You are not connected internet. Pease check your connection!", Toast.LENGTH_LONG).show();
@@ -82,7 +80,10 @@ public class BookingPhoto extends AppCompatActivity {
                 }
             }
         });
+        setToolbar();
+    }
 
+    public void setToolbar() {
         // Menginisiasi Toolbar dan mensetting sebagai actionbar
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -99,7 +100,7 @@ public class BookingPhoto extends AppCompatActivity {
                 //Menutup  drawer item klik
                 drawerLayout.closeDrawers();
                 //Memeriksa untuk melihat item yang akan dilklik dan melalukan aksi
-                mt.setNavToolbar(menuItem);
+                toolbarNav(menuItem);
                 return true;
             }
         });
@@ -122,8 +123,33 @@ public class BookingPhoto extends AppCompatActivity {
         drawerLayout.setDrawerListener(actionBarDrawerToggle);
         //memanggil synstate
         actionBarDrawerToggle.syncState();
-
     }
+
+    public boolean toolbarNav(MenuItem menuItem) {
+        switch (menuItem.getItemId()) {
+            // pilihan menu item navigasi akan menampilkan pesan toast klik kalian bisa menggantinya
+            //dengan intent activity
+            case R.id.nav_home:
+                startActivity(new Intent(getApplication(), Menu.class));
+                return true;
+            case R.id.navigation2:
+                startActivity(new Intent(getApplication(), BookingPhoto.class));
+                return true;
+            case R.id.navigation3:
+                Toast.makeText(getApplication(), "Daftar Telah Dipilih", Toast.LENGTH_SHORT).show();
+                return true;
+            case R.id.navigation4:
+                Toast.makeText(getApplication(), "Setting telah dipilih", Toast.LENGTH_SHORT).show();
+                return true;
+            case R.id.navigation5:
+                Toast.makeText(getApplication(), "About telah dipilih", Toast.LENGTH_SHORT).show();
+                return true;
+            default:
+                Toast.makeText(getApplication(), "Kesalahan Terjadi ", Toast.LENGTH_SHORT).show();
+                return true;
+        }
+    }
+
 
     public void setBooking(final String tanggal, final String jam, final String lokasi) {
         Log.e(TAG, "setBooking: berhasil masuk sini" );
