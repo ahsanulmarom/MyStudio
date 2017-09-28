@@ -6,7 +6,8 @@
     android:layout_height="match_parent"
     tools:context="com.user.mystudio.SignUp"
     tools:layout_editor_absoluteY="25dp"
-    tools:layout_editor_absoluteX="0dp">
+    tools:layout_editor_absoluteX="0dp"
+    android:background="@drawable/borobudur_edited">
 
     <TextView
         android:id="@+id/textView"
