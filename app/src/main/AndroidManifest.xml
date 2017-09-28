@@ -38,6 +38,12 @@
         <activity
             android:name=".BookingPhoto"
             android:theme="@style/AppTheme" />
+        <activity
+            android:name=".Schedule"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".admin.AdminSchedule"
+            android:theme="@style/AppTheme" />
 </application>
 
 </manifest>

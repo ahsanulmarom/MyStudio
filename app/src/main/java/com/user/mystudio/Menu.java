@@ -99,17 +99,14 @@ public class Menu extends AppCompatActivity {
             case R.id.nav_home:
                 startActivity(new Intent(getApplication(), Menu.class));
                 return true;
-            case R.id.navigation2:
+            case R.id.nav_booking:
                 startActivity(new Intent(getApplication(), BookingPhoto.class));
                 return true;
-            case R.id.navigation3:
-                Toast.makeText(getApplication(), "Daftar Telah Dipilih", Toast.LENGTH_SHORT).show();
+            case R.id.nav_schedule:
+                startActivity(new Intent(getApplication(), Schedule.class));
                 return true;
-            case R.id.navigation4:
-                Toast.makeText(getApplication(), "Setting telah dipilih", Toast.LENGTH_SHORT).show();
-                return true;
-            case R.id.navigation5:
-                Toast.makeText(getApplication(), "About telah dipilih", Toast.LENGTH_SHORT).show();
+            case R.id.nav_logout:
+                FirebaseAuth.getInstance().signOut();
                 return true;
             default:
                 Toast.makeText(getApplication(), "Kesalahan Terjadi ", Toast.LENGTH_SHORT).show();

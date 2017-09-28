@@ -33,7 +33,7 @@ public class BookingPhoto extends AppCompatActivity {
     public FirebaseAuth.AuthStateListener fStateListener;
     public final String TAG = getClass().getSimpleName();
     CheckNetwork cn;
-    private Button booking;
+    private Button booking, schedule;
     EditText date, time, alamat;
     RadioButton studio, alamatLain;
     private Toolbar toolbar;
@@ -51,6 +51,7 @@ public class BookingPhoto extends AppCompatActivity {
         checkSession();
 
         booking = (Button) findViewById(R.id.booking_now);
+        schedule = (Button) findViewById(R.id.booking_schedule);
         date = (EditText) findViewById(R.id.booking_date);
         time = (EditText) findViewById(R.id.booking_time);
         alamat = (EditText) findViewById(R.id.booking_alamat);
@@ -75,12 +76,100 @@ public class BookingPhoto extends AppCompatActivity {
                         Log.e(TAG, "onClick: dipilih" );
                     } else {
                         setBooking(date.getText().toString().trim(), time.getText().toString().trim(),
-                                alamatLain.getText().toString().trim());
+                                alamat.getText().toString().trim());
                     }
                 }
             }
         });
+
+        schedule.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+               startActivity(new Intent(BookingPhoto.this, Schedule.class));
+                finish();
+            }
+        });
         setToolbar();
+    }
+
+    public void setBooking(final String tanggal, final String jam, final String lokasi) {
+        Log.e(TAG, "setBooking: berhasil masuk sini" );
+        final FirebaseUser user = fAuth.getCurrentUser();
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        final DatabaseReference booking = database.getReference("booking");
+        booking.orderByChild("Tanggal").equalTo(date.getText().toString().trim()).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Log.e(TAG, "onDataChange: data = " + dataSnapshot.getValue() );
+                if (dataSnapshot.getValue() == null) {
+                    saveDataBooking(tanggal, jam, lokasi);
+                } else {
+                    booking.orderByChild("Jam").equalTo(time.getText().toString().trim()).addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            if (dataSnapshot.getValue() == null) {
+                                saveDataBooking(tanggal, jam, lokasi);
+                            } else {
+                                Toast.makeText(BookingPhoto.this, "Maaf jadwal tidak tersedia, silakan pilih jadwal lain!",
+                                        Toast.LENGTH_LONG).show();
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+
+                        }
+                    });
+                }
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {}
+        });
+    }
+
+    public void saveDataBooking(final String tanggal, final String jam, final String lokasi) {
+        final FirebaseUser user = fAuth.getCurrentUser();
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        final DatabaseReference bookingInfo = database.getReference("booking");
+        final DatabaseReference userInfo = database.getReference("userData").child(user.getUid());
+        userInfo.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                String pemesan = dataSnapshot.child("name").getValue(String.class);
+                Map data = new HashMap();
+                data.put("idPemesan", user.getUid());
+                data.put("Pemesan", pemesan);
+                data.put("Tanggal", tanggal);
+                data.put("Jam", jam);
+                data.put("Alamat", lokasi);
+                data.put("Status", "Menunggu Persetujuan Admin");
+                bookingInfo.push().setValue(data);
+                Toast.makeText(BookingPhoto.this, "Jadwal telah dipesan untuk Anda.",
+                        Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    public void checkSession() {
+        fAuth = FirebaseAuth.getInstance();
+        fStateListener = new FirebaseAuth.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                FirebaseUser user = firebaseAuth.getCurrentUser();
+                if (user != null) {
+                    // User sedang login
+                    Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
+                } else {
+                    // User sedang logout
+                    Log.d(TAG, "onAuthStateChanged:signed_out");
+                    startActivity(new Intent(getApplicationContext(), Login.class));
+                }
+            }
+        };
     }
 
     public void setToolbar() {
@@ -132,104 +221,19 @@ public class BookingPhoto extends AppCompatActivity {
             case R.id.nav_home:
                 startActivity(new Intent(getApplication(), Menu.class));
                 return true;
-            case R.id.navigation2:
+            case R.id.nav_booking:
                 startActivity(new Intent(getApplication(), BookingPhoto.class));
                 return true;
-            case R.id.navigation3:
-                Toast.makeText(getApplication(), "Daftar Telah Dipilih", Toast.LENGTH_SHORT).show();
+            case R.id.nav_schedule:
+                startActivity(new Intent(getApplication(), Schedule.class));
                 return true;
-            case R.id.navigation4:
-                Toast.makeText(getApplication(), "Setting telah dipilih", Toast.LENGTH_SHORT).show();
-                return true;
-            case R.id.navigation5:
-                Toast.makeText(getApplication(), "About telah dipilih", Toast.LENGTH_SHORT).show();
+            case R.id.nav_logout:
+                FirebaseAuth.getInstance().signOut();
                 return true;
             default:
                 Toast.makeText(getApplication(), "Kesalahan Terjadi ", Toast.LENGTH_SHORT).show();
                 return true;
         }
-    }
-
-
-    public void setBooking(final String tanggal, final String jam, final String lokasi) {
-        Log.e(TAG, "setBooking: berhasil masuk sini" );
-        final FirebaseUser user = fAuth.getCurrentUser();
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        final DatabaseReference booking = database.getReference("booking");
-        booking.orderByChild("tanggal").equalTo(tanggal).addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                Log.e(TAG, "onDataChange: data = " + dataSnapshot.getValue(String.class) );
-                if (dataSnapshot.getValue(String.class) == null) {
-                    saveDataBooking(tanggal, jam, lokasi);
-                } else {
-                    booking.orderByChild("jam").equalTo(jam).addValueEventListener(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(DataSnapshot dataSnapshot) {
-                            if (dataSnapshot.getValue(String.class) == null) {
-                                saveDataBooking(tanggal, jam, lokasi);
-                            } else {
-                                Toast.makeText(BookingPhoto.this, "Maaf jadwal tidak tersedia, silakan pilih jadwal lain!",
-                                        Toast.LENGTH_LONG).show();
-                            }
-                        }
-
-                        @Override
-                        public void onCancelled(DatabaseError databaseError) {
-
-                        }
-                    });
-                }
-            }
-            @Override
-            public void onCancelled(DatabaseError databaseError) {}
-        });
-    }
-
-    public void saveDataBooking(final String tanggal, final String jam, final String lokasi) {
-        final FirebaseUser user = fAuth.getCurrentUser();
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        final DatabaseReference bookingInfo = database.getReference("booking");
-        final DatabaseReference userInfo = database.getReference("userData").child(user.getUid());
-        userInfo.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                Log.e(TAG, "onDataChange: namanya adalah " + dataSnapshot.child("name").getValue(String.class) );
-                String pemesan = dataSnapshot.child("name").getValue(String.class);
-                Map data = new HashMap();
-                data.put("idPemesan", user.getUid());
-                data.put("Pemesan", pemesan);
-                data.put("Tanggal", tanggal);
-                data.put("Jam", jam);
-                data.put("Alamat", lokasi);
-                bookingInfo.child(tanggal).child(jam).setValue(data);
-                Toast.makeText(BookingPhoto.this, "Jadwal telah dipesan untuk Anda.",
-                        Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
-    }
-
-    public void checkSession() {
-        fAuth = FirebaseAuth.getInstance();
-        fStateListener = new FirebaseAuth.AuthStateListener() {
-            @Override
-            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                FirebaseUser user = firebaseAuth.getCurrentUser();
-                if (user != null) {
-                    // User sedang login
-                    Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
-                } else {
-                    // User sedang logout
-                    Log.d(TAG, "onAuthStateChanged:signed_out");
-                    startActivity(new Intent(getApplicationContext(), Login.class));
-                }
-            }
-        };
     }
 
     @Override

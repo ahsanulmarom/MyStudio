@@ -7,12 +7,12 @@
             android:icon="@drawable/ic_menu_camera"
             android:title="@string/navigation_view_item_1" />
         <item
-            android:id="@+id/navigation2"
+            android:id="@+id/nav_booking"
             android:checked="false"
             android:icon="@drawable/ic_menu_gallery"
             android:title="@string/navigation_view_item_2" />
         <item
-            android:id="@+id/navigation3"
+            android:id="@+id/nav_schedule"
             android:checked="false"
             android:icon="@drawable/ic_menu_send"
             android:title="@string/navigation_view_item_3" />
@@ -23,12 +23,7 @@
         android:title="@string/navigasi_kategori_2" >
     <menu>
         <item
-            android:id="@+id/navigation4"
-            android:checked="false"
-            android:icon="@drawable/ic_menu_manage"
-            android:title="@string/navigation_view_item_4" />
-        <item
-            android:id="@+id/navigation5"
+            android:id="@+id/nav_logout"
             android:checked="false"
             android:icon="@drawable/ic_menu_share"
             android:title="@string/navigation_view_item_5" />

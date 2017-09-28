@@ -1,0 +1,75 @@
+
+    <RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:measureWithLargestChild="false"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/minsch_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="20dp" />
+
+        <TextView
+            android:id="@+id/minsch_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:layout_toEndOf="@+id/minsch_date"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="10dp" />
+
+        <TextView
+            android:id="@+id/minsch_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="3dp"
+            android:layout_marginLeft="20dp"
+            android:layout_below="@+id/minsch_date" />
+
+        <TextView
+            android:id="@+id/minsch_location"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="3dp"
+            android:layout_marginLeft="20dp"
+            android:layout_below="@+id/minsch_name" />
+
+        <TextView
+            android:id="@+id/txtviewStats"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Status :"
+            android:layout_below="@+id/minsch_location"
+            android:layout_marginTop="3dp"
+            android:layout_marginLeft="20dp" />
+
+        <TextView
+            android:id="@+id/minsch_stats"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/minsch_location"
+            android:layout_toEndOf="@+id/txtviewStats"
+            android:layout_marginTop="3dp"
+            android:layout_marginLeft="10dp" />
+
+        <Button
+            android:id="@+id/addFr_btnAddFr"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/colorAccent"
+            android:text="Cancel"
+            android:visibility="invisible"
+            android:enabled="false"
+            android:textColor="#ffffff"
+            android:layout_marginLeft="270dp"
+            android:layout_marginTop="65dp"
+            app:layout_constraintTop_toBottomOf="@+id/toolbar2" />
+
+    </RelativeLayout>
