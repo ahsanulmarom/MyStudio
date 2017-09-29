@@ -15,6 +15,8 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Adapter;
+import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.ListView;
@@ -38,11 +40,12 @@ import java.util.Map;
  * Created by user on 27/09/2017.
  */
 
-public class Schedule extends AppCompatActivity {
+public class Schedule extends AppCompatActivity implements AdapterView.OnItemClickListener {
     CheckNetwork cn;
     Model_Schedule modelSchedule;
     private Context context = this;
     private ListView lv;
+    private Button cancel;
     List<HashMap<String, Object>> fillMaps = new ArrayList<>();
     Adapter adapter;
     Map map;
@@ -78,27 +81,37 @@ public class Schedule extends AppCompatActivity {
                 if (dataSnapshot.getValue() == null) {
                     nullSchedule();
                 } else {
-                    for (final DataSnapshot snap : dataSnapshot.getChildren()) {
-                        Log.e(TAG, "onDataChange: testkey " + snap.getKey());
-                        String key = snap.getKey();
-                        booking.child(key).addValueEventListener(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(DataSnapshot dataSnapshot) {
-                                modelSchedule = new Model_Schedule(dataSnapshot.child("Tanggal").getValue(String.class),
-                                        dataSnapshot.child("Jam").getValue(String.class),
-                                        dataSnapshot.child("Alamat").getValue(String.class),
-                                        dataSnapshot.child("Pemesan").getValue(String.class),
-                                        dataSnapshot.child("Status").getValue(String.class));
-                                loadSchedule(modelSchedule.getDate(), modelSchedule.getTime(), modelSchedule.getLokasi(),
-                                        modelSchedule.getPemesan(), modelSchedule.getStatus());
-                            }
+                    booking.orderByChild("Tanggal").addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            for (final DataSnapshot snap : dataSnapshot.getChildren()) {
+                                Log.e(TAG, "onDataChange: testkey " + snap.getKey());
+                                final String key = snap.getKey();
+                                booking.child(key).addValueEventListener(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(final DataSnapshot dataSnapshot) {
+                                        modelSchedule = new Model_Schedule(dataSnapshot.child("Tanggal").getValue(String.class),
+                                                dataSnapshot.child("Jam").getValue(String.class),
+                                                dataSnapshot.child("Alamat").getValue(String.class),
+                                                dataSnapshot.child("Pemesan").getValue(String.class),
+                                                dataSnapshot.child("Status").getValue(String.class));
+                                        loadSchedule(key, modelSchedule.getDate(), modelSchedule.getTime(), modelSchedule.getLokasi(),
+                                                modelSchedule.getPemesan(), modelSchedule.getStatus());
+                                    }
 
-                            @Override
-                            public void onCancelled(DatabaseError databaseError) {
+                                    @Override
+                                    public void onCancelled(DatabaseError databaseError) {
 
+                                    }
+                                });
                             }
-                        });
-                    }
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+
+                        }
+                    });
                 }
             }
             @Override
@@ -107,18 +120,93 @@ public class Schedule extends AppCompatActivity {
         });
     }
 
-    public void loadSchedule(String date, String time, String lokasi, String pemesan, String status) {
+    public void loadSchedule(final String key, final String date, final String time, final String lokasi, String pemesan, final String status) {
         map = new HashMap();
         map.put("date", date);
         map.put("time", time);
         map.put("lokasi", lokasi);
         map.put("pemesan", pemesan);
         map.put("status", status);
+        map.put("key", key);
         fillMaps.add((HashMap) map);
         adapter = new SimpleAdapter(getBaseContext(), fillMaps, R.layout.activity_schedule,
-                new String[]{"date", "time", "lokasi", "status"},
+                new String[]{"date", "time", "lokasi", "status",},
                 new int[]{R.id.sch_date, R.id.sch_time, R.id.sch_location, R.id.sch_stats});
         lv.setAdapter((ListAdapter) adapter);
+        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
+                Log.e(TAG, "onItemClick: "+fillMaps.get(position) );
+                Log.e(TAG, "onItemClick: "+fillMaps.get(position).get("date") );
+                fillMaps.get(position);
+                LinearLayout layoutinput = new LinearLayout(context);   //layout
+                layoutinput.setOrientation(LinearLayout.VERTICAL);
+                layoutinput.setPadding(50, 50, 50, 50);
+
+                if (fillMaps.get(position).get("status").toString().equalsIgnoreCase("Menunggu Persetujuan Admin")) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                    builder.setTitle("My Detail Schedule");
+                    builder.setMessage(fillMaps.get(position).get("date") + " " +
+                            fillMaps.get(position).get("time") + "\n" +
+                            fillMaps.get(position).get("lokasi") + "\n" +
+                            fillMaps.get(position).get("status") + "\n" +
+                            "* * * * *" + "\n" +
+                            "Anda dapat membatalkan SEBELUM mendapat approval admin.");
+                    builder.setView(layoutinput);
+                    //posstive button
+                    builder.setPositiveButton("Cancel Booking", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            FirebaseDatabase database = FirebaseDatabase.getInstance();
+                            DatabaseReference booking = database.getReference("booking");
+                            booking.child(fillMaps.get(position).get("key").toString()).removeValue();
+                            startActivity(new Intent(Schedule.this, Schedule.class));
+                            finish();
+                        }
+                    });
+                    builder.setNeutralButton("Close", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+
+                        }
+                    });
+                    builder.show();
+                } else if(fillMaps.get(position).get("status").toString().equalsIgnoreCase("Disetujui Admin")) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                    builder.setTitle("My Detail Schedule");
+                    builder.setMessage(fillMaps.get(position).get("date") + " " +
+                            fillMaps.get(position).get("time") + "\n" +
+                            fillMaps.get(position).get("lokasi") + "\n" +
+                            fillMaps.get(position).get("status") + "\n" +
+                            "* * * * *" + "\n" +
+                            "Pesanan telah dikonfirmasi admin. Pesanan tidak dapat dibatalkan.");
+                    builder.setView(layoutinput);
+                    //posstive button
+                    builder.setPositiveButton("Close", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+
+                        }
+                    });
+                    builder.show();
+                } else {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                    builder.setTitle("Booking Detail");
+                    builder.setMessage(fillMaps.get(position).get("date") + " " +
+                            fillMaps.get(position).get("time") + "\n" +
+                            fillMaps.get(position).get("lokasi") + "\n" +
+                            fillMaps.get(position).get("status") + "\n" +
+                            "* * * * *" + "\n" +
+                            "Booking telah selesai. Selamat.");
+                    builder.setView(layoutinput);
+                    //posstive button
+                    builder.setPositiveButton("Close", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+
+                        }
+                    });
+                    builder.show();
+                }
+            }
+        });
     }
 
     public void nullSchedule() {
@@ -141,6 +229,7 @@ public class Schedule extends AppCompatActivity {
         builder.setPositiveButton("Booking Photo", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
                 startActivity(new Intent(Schedule.this, BookingPhoto.class));
+                finish();
             }
         });
         builder.show();
@@ -194,12 +283,15 @@ public class Schedule extends AppCompatActivity {
             //dengan intent activity
             case R.id.nav_home:
                 startActivity(new Intent(getApplication(), Menu.class));
+                finish();
                 return true;
             case R.id.nav_booking:
                 startActivity(new Intent(getApplication(), BookingPhoto.class));
+                finish();
                 return true;
             case R.id.nav_schedule:
                 startActivity(new Intent(getApplication(), Schedule.class));
+                finish();
                 return true;
             case R.id.nav_logout:
                 FirebaseAuth.getInstance().signOut();
@@ -240,5 +332,10 @@ public class Schedule extends AppCompatActivity {
         if (fStateListener != null) {
             fAuth.removeAuthStateListener(fStateListener);
         }
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
     }
 }

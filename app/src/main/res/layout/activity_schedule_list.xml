@@ -26,7 +26,8 @@
         android:id="@+id/sch_listView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="65dp" />
+        android:layout_marginTop="65dp"
+        android:layout_marginBottom="10dp"/>
 
     </RelativeLayout>
     <android.support.design.widget.NavigationView

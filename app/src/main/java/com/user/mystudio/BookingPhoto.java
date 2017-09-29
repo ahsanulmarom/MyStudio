@@ -70,14 +70,11 @@ public class BookingPhoto extends AppCompatActivity {
                     time.setError("This Field is Required");
                 } else if (time.getText().toString().length() != 5) {
                     time.setError("Isi sesuai Format hh:mm");
-                } else {
-                    if(studio.isChecked()) {
+                } else if(studio.isChecked()) {
                         setBooking(date.getText().toString().trim(), time.getText().toString().trim(), "Studio");
-                        Log.e(TAG, "onClick: dipilih" );
-                    } else {
+                } else if(alamatLain.isChecked()){
                         setBooking(date.getText().toString().trim(), time.getText().toString().trim(),
                                 alamat.getText().toString().trim());
-                    }
                 }
             }
         });
@@ -99,13 +96,14 @@ public class BookingPhoto extends AppCompatActivity {
         booking.orderByChild("Tanggal").equalTo(date.getText().toString().trim()).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                Log.e(TAG, "onDataChange: data = " + dataSnapshot.getValue() );
+                Log.e(TAG, "onDataChange: data1 = " + dataSnapshot.getValue() );
                 if (dataSnapshot.getValue() == null) {
                     saveDataBooking(tanggal, jam, lokasi);
-                } else {
+                } else if(!dataSnapshot.getValue().equals(null)) {
                     booking.orderByChild("Jam").equalTo(time.getText().toString().trim()).addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
+                            Log.e(TAG, "onDataChange: data2 = " + dataSnapshot.getValue() );
                             if (dataSnapshot.getValue() == null) {
                                 saveDataBooking(tanggal, jam, lokasi);
                             } else {
@@ -145,6 +143,8 @@ public class BookingPhoto extends AppCompatActivity {
                 bookingInfo.push().setValue(data);
                 Toast.makeText(BookingPhoto.this, "Jadwal telah dipesan untuk Anda.",
                         Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(BookingPhoto.this, Schedule.class));
+                finish();
             }
 
             @Override
@@ -220,12 +220,15 @@ public class BookingPhoto extends AppCompatActivity {
             //dengan intent activity
             case R.id.nav_home:
                 startActivity(new Intent(getApplication(), Menu.class));
+                finish();
                 return true;
             case R.id.nav_booking:
                 startActivity(new Intent(getApplication(), BookingPhoto.class));
+                finish();
                 return true;
             case R.id.nav_schedule:
                 startActivity(new Intent(getApplication(), Schedule.class));
+                finish();
                 return true;
             case R.id.nav_logout:
                 FirebaseAuth.getInstance().signOut();

@@ -98,12 +98,15 @@ public class Menu extends AppCompatActivity {
             //dengan intent activity
             case R.id.nav_home:
                 startActivity(new Intent(getApplication(), Menu.class));
+                finish();
                 return true;
             case R.id.nav_booking:
                 startActivity(new Intent(getApplication(), BookingPhoto.class));
+                finish();
                 return true;
             case R.id.nav_schedule:
                 startActivity(new Intent(getApplication(), Schedule.class));
+                finish();
                 return true;
             case R.id.nav_logout:
                 FirebaseAuth.getInstance().signOut();

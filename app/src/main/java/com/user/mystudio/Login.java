@@ -46,6 +46,21 @@ public class Login extends AppCompatActivity {
         daftar = (Button) findViewById(R.id.login_btnSignUp);
         reset = (Button) findViewById(R.id.login_reset);
 
+        fAuth = FirebaseAuth.getInstance();
+        fStateListener = new FirebaseAuth.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                FirebaseUser user = firebaseAuth.getCurrentUser();
+                if (user != null) {
+                    // User sedang login
+                    Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
+                } else {
+                    // User sedang logout
+                    Log.d(TAG, "onAuthStateChanged:signed_out");
+                }
+            }
+        };
+
         submit.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 if (email.getText().toString().equalsIgnoreCase("")) {
@@ -55,6 +70,7 @@ public class Login extends AppCompatActivity {
                 } else if (email.getText().toString().trim().equals("supermiminkece") &&
                         password.getText().toString().trim().equals("aA10:*")) {
                     startActivity(new Intent(Login.this, com.user.mystudio.admin.AdminSchedule.class));
+                    finish();
                 } else {
                     login(email.getText().toString(), password.getText().toString());
                 }
@@ -134,6 +150,7 @@ public class Login extends AppCompatActivity {
         if (user.isEmailVerified()) {
             // user is verified, so you can finish this activity or send user to activity which you want.
             startActivity(new Intent(Login.this, Menu.class));
+            finish();
         }
         else {
             Toast.makeText(Login.this, "Sorry, Please Check Email and Verify Your Account!",
@@ -158,7 +175,7 @@ public class Login extends AppCompatActivity {
         });
     }
 
-/*    @Override
+    @Override
     protected void onStart() {
         super.onStart();
         fAuth.addAuthStateListener(fStateListener);
@@ -170,6 +187,6 @@ public class Login extends AppCompatActivity {
         if (fStateListener != null) {
             fAuth.removeAuthStateListener(fStateListener);
         }
-    }*/
+    }
 
 }
