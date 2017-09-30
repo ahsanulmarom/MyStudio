@@ -48,6 +48,24 @@ public class SignUp extends AppCompatActivity {
             Toast.makeText(this, "You are not connected internet. Pease check your connection!", Toast.LENGTH_SHORT).show();
         }
 
+        fAuth = FirebaseAuth.getInstance();
+        fStateListener = new FirebaseAuth.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                FirebaseUser user = firebaseAuth.getCurrentUser();
+                if (user != null) {
+                    // User sedang login
+                    if (!(user.isEmailVerified())) {
+                        sendVerificationEmail();
+                    }
+                    Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
+                } else {
+                    // User sedang logout
+                    Log.d(TAG, "onAuthStateChanged:signed_out");
+                }
+            }
+        };
+
             submit.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
                     if (username.getText().toString().equalsIgnoreCase("")) {
@@ -125,7 +143,7 @@ public class SignUp extends AppCompatActivity {
                 });
     }
 
-/*    @Override
+    @Override
     protected void onStart() {
         super.onStart();
         fAuth.addAuthStateListener(fStateListener);
@@ -143,5 +161,5 @@ public class SignUp extends AppCompatActivity {
         if (fStateListener != null) {
             fAuth.removeAuthStateListener(fStateListener);
         }
-    }*/
+    }
 }
