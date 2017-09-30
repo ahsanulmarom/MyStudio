@@ -140,6 +140,7 @@ public class Login extends AppCompatActivity {
                             }
                         } else if (task.isSuccessful()) {
                             checkIfEmailVerified();
+                            finish();
                         }
                     }
                 });
