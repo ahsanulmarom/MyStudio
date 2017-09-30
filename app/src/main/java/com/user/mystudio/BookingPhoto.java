@@ -64,6 +64,12 @@ public class BookingPhoto extends AppCompatActivity {
                     date.setError("This Field is Required");
                 } else if(date.getText().toString().length() != 10) {
                     date.setError("Isi sesuai Format dd-mm-yyy");
+                } else if(Integer.parseInt(date.getText().toString().substring(0,2)) > 30) {
+                    date.setError("Maksimal tanggal 30");
+                } else if(Integer.parseInt(date.getText().toString().substring(3,5)) > 12) {
+                    date.setError("Maksimal bulan adalah 12");
+                } else if(Integer.parseInt(date.getText().toString().substring(6,10)) > 2018) {
+                    date.setError("Maksimal tahun adalah 2018");
                 } else if ((!(date.getText().toString().substring(2,3).equals("-"))) && (!(date.getText().toString().substring(5,6).equals("-")))) {
                     date.setError("Isi sesuai Format dd-mm-yyy");
                 } else if (time.getText().toString().equalsIgnoreCase("")) {

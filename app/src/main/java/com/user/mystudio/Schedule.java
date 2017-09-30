@@ -81,47 +81,27 @@ public class Schedule extends AppCompatActivity implements AdapterView.OnItemCli
                 if (dataSnapshot.getValue() == null) {
                     nullSchedule();
                 } else {
-                    booking.orderByChild("idPemesan").equalTo(user.getUid()).addValueEventListener(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(DataSnapshot dataSnapshot) {
-                            booking.orderByChild("Tanggal").addValueEventListener(new ValueEventListener() {
-                                @Override
-                                public void onDataChange(DataSnapshot dataSnapshot) {
-                                    for (final DataSnapshot snap : dataSnapshot.getChildren()) {
-                                        Log.e(TAG, "onDataChange: testkey " + snap.getKey());
-                                        final String key = snap.getKey();
-                                        booking.child(key).addValueEventListener(new ValueEventListener() {
-                                            @Override
-                                            public void onDataChange(final DataSnapshot dataSnapshot) {
-                                                modelSchedule = new Model_Schedule(dataSnapshot.child("Tanggal").getValue(String.class),
-                                                        dataSnapshot.child("Jam").getValue(String.class),
-                                                        dataSnapshot.child("Alamat").getValue(String.class),
-                                                        dataSnapshot.child("Pemesan").getValue(String.class),
-                                                        dataSnapshot.child("Status").getValue(String.class));
-                                                loadSchedule(key, modelSchedule.getDate(), modelSchedule.getTime(), modelSchedule.getLokasi(),
-                                                        modelSchedule.getPemesan(), modelSchedule.getStatus());
-                                            }
+                    for (final DataSnapshot snap : dataSnapshot.getChildren()) {
+                        Log.e(TAG, "onDataChange: testkey " + snap.getKey());
+                        final String key = snap.getKey();
+                        booking.child(key).addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(final DataSnapshot dataSnapshot) {
+                                modelSchedule = new Model_Schedule(dataSnapshot.child("Tanggal").getValue(String.class),
+                                        dataSnapshot.child("Jam").getValue(String.class),
+                                        dataSnapshot.child("Alamat").getValue(String.class),
+                                        dataSnapshot.child("Pemesan").getValue(String.class),
+                                        dataSnapshot.child("Status").getValue(String.class));
+                                        loadSchedule(key, modelSchedule.getDate(), modelSchedule.getTime(), modelSchedule.getLokasi(),
+                                                modelSchedule.getPemesan(), modelSchedule.getStatus());
+                            }
 
-                                            @Override
-                                            public void onCancelled(DatabaseError databaseError) {
+                            @Override
+                            public void onCancelled(DatabaseError databaseError) {
 
-                                            }
-                                        });
-                                    }
-                                }
-
-                                @Override
-                                public void onCancelled(DatabaseError databaseError) {
-
-                                }
-                            });
-                        }
-
-                        @Override
-                        public void onCancelled(DatabaseError databaseError) {
-
-                        }
-                    });
+                            }
+                        });
+                    }
                 }
             }
             @Override
