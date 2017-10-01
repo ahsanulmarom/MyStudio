@@ -33,19 +33,21 @@
             android:layout_marginStart="10dp"
             app:layout_constraintBottom_toBottomOf="@+id/imageView3"
             tools:layout_constraintLeft_creator="1"
-            app:layout_constraintLeft_toRightOf="@+id/imageView3" />
+            app:layout_constraintLeft_toRightOf="@+id/imageView3"
+            android:layout_marginLeft="9dp"
+            android:layout_marginBottom="9dp" />
 
         <ImageView
             android:id="@+id/imageView3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="23dp"
+            android:layout_height="28dp"
             android:layout_alignBottom="@+id/textView3"
             android:layout_alignParentStart="true"
-            app:srcCompat="@drawable/user"
+            app:srcCompat="@drawable/iconuser"
             tools:layout_constraintTop_creator="1"
             tools:layout_constraintLeft_creator="1"
-            tools:layout_editor_absoluteY="118dp"
-            tools:layout_editor_absoluteX="53dp" />
+            tools:layout_editor_absoluteY="129dp"
+            tools:layout_editor_absoluteX="62dp" />
 
     <EditText
         android:id="@+id/login_email"
@@ -62,7 +64,7 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="@+id/textView3"
-        app:layout_constraintVertical_bias="0.0"
+        app:layout_constraintVertical_bias="0.333"
         tools:layout_constraintBottom_creator="1"
         tools:layout_constraintLeft_creator="1"
         tools:layout_constraintRight_creator="1"
@@ -83,13 +85,11 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.446"
+        app:layout_constraintVertical_bias="0.461"
         tools:layout_constraintBottom_creator="1"
         tools:layout_constraintLeft_creator="1"
         tools:layout_constraintRight_creator="1"
-        tools:layout_constraintTop_creator="1"
-        tools:layout_editor_absoluteX="59dp"
-        app:layout_constraintHorizontal_bias="0.466" />
+        tools:layout_constraintTop_creator="1" />
 
     <ImageView
         android:id="@+id/imageView4"
