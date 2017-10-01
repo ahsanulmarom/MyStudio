@@ -144,7 +144,7 @@
         android:layout_height="wrap_content"
         android:elevation="1dp"
         android:text="Lost Password ?"
-        android:textColor="@android:color/holo_blue_dark"
+        android:textColor="#ffffff"
         android:textStyle="italic"
         tools:layout_constraintTop_creator="1"
         tools:layout_constraintRight_creator="1"
