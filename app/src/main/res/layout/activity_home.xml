@@ -10,10 +10,10 @@
 
 
     <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:srcCompat="@drawable/camera"
-        tools:layout_editor_absoluteX="0dp"
-        tools:layout_editor_absoluteY="144dp" />
+        android:id="@+id/imageView13"
+        android:layout_width="202dp"
+        android:layout_height="158dp"
+        app:srcCompat="@drawable/cameraicon"
+        tools:layout_editor_absoluteX="91dp"
+        tools:layout_editor_absoluteY="204dp" />
 </android.support.constraint.ConstraintLayout>
