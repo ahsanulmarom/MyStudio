@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 
+
 public class Menu extends AppCompatActivity {
     //Mendefinisikan variabel
     CheckNetwork cn;
