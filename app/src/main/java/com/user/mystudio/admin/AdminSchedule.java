@@ -160,8 +160,8 @@ public class AdminSchedule extends AppCompatActivity implements AdapterView.OnIt
                         public void onClick(DialogInterface dialog, int which) {
                             FirebaseDatabase database = FirebaseDatabase.getInstance();
                             DatabaseReference booking = database.getReference("booking");
-                            booking.child(fillMaps.get(position).get("key").toString()).removeValue();
                             startActivity(new Intent(AdminSchedule.this, AdminSchedule.class));
+                            booking.child(fillMaps.get(position).get("key").toString()).removeValue();
                             finish();
                         }
                     });
@@ -199,8 +199,8 @@ public class AdminSchedule extends AppCompatActivity implements AdapterView.OnIt
                         public void onClick(DialogInterface dialog, int which) {
                             FirebaseDatabase database = FirebaseDatabase.getInstance();
                             DatabaseReference booking = database.getReference("booking");
-                            booking.child(fillMaps.get(position).get("key").toString()).removeValue();
                             startActivity(new Intent(AdminSchedule.this, AdminSchedule.class));
+                            booking.child(fillMaps.get(position).get("key").toString()).removeValue();
                             finish();
                         }
                     });
@@ -222,6 +222,17 @@ public class AdminSchedule extends AppCompatActivity implements AdapterView.OnIt
 
                         }
                     });
+                    builder.setNeutralButton("Delete Order", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            FirebaseDatabase database = FirebaseDatabase.getInstance();
+                            DatabaseReference booking = database.getReference("booking");
+                            startActivity(new Intent(AdminSchedule.this, AdminSchedule.class));
+                            booking.child(fillMaps.get(position).get("key").toString()).removeValue();
+                            finish();
+                        }
+                    });
+                    builder.show();
                 }
             }
         });
