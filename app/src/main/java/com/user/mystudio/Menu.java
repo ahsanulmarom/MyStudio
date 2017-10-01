@@ -111,6 +111,8 @@ public class Menu extends AppCompatActivity {
                 return true;
             case R.id.nav_logout:
                 FirebaseAuth.getInstance().signOut();
+                startActivity(new Intent(Menu.this, Login.class));
+                finish();
                 return true;
             default:
                 Toast.makeText(getApplication(), "Kesalahan Terjadi ", Toast.LENGTH_SHORT).show();

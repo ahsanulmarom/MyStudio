@@ -74,6 +74,16 @@ public class BookingPhoto extends AppCompatActivity {
                     date.setError("Isi sesuai Format dd-mm-yyy");
                 } else if (time.getText().toString().equalsIgnoreCase("")) {
                     time.setError("This Field is Required");
+                } else if (Integer.parseInt(time.getText().toString().substring(0,2)) < 0) {
+                    time.setError("Jam salah");
+                } else if (Integer.parseInt(time.getText().toString().substring(0,2)) > 23) {
+                    time.setError("Jam salah");
+                } else if (Integer.parseInt(time.getText().toString().substring(3,5)) < 0) {
+                    time.setError("Jam salah");
+                } else if (Integer.parseInt(time.getText().toString().substring(3,5)) > 59) {
+                    time.setError("Jam salah");
+                } else if (!(time.getText().toString().substring(2,3).equals(":"))) {
+                    time.setError("Format jam salah");
                 } else if (time.getText().toString().length() != 5) {
                     time.setError("Isi sesuai Format hh:mm");
                 } else if(studio.isChecked()) {
@@ -238,6 +248,8 @@ public class BookingPhoto extends AppCompatActivity {
                 return true;
             case R.id.nav_logout:
                 FirebaseAuth.getInstance().signOut();
+                startActivity(new Intent(BookingPhoto.this, Login.class));
+                finish();
                 return true;
             default:
                 Toast.makeText(getApplication(), "Kesalahan Terjadi ", Toast.LENGTH_SHORT).show();

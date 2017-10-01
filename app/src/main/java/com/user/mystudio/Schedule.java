@@ -148,8 +148,8 @@ public class Schedule extends AppCompatActivity implements AdapterView.OnItemCli
                         public void onClick(DialogInterface dialog, int which) {
                             FirebaseDatabase database = FirebaseDatabase.getInstance();
                             DatabaseReference booking = database.getReference("booking");
-                            booking.child(fillMaps.get(position).get("key").toString()).removeValue();
                             startActivity(new Intent(Schedule.this, Schedule.class));
+                            booking.child(fillMaps.get(position).get("key").toString()).removeValue();
                             finish();
                         }
                     });
@@ -285,6 +285,8 @@ public class Schedule extends AppCompatActivity implements AdapterView.OnItemCli
                 return true;
             case R.id.nav_logout:
                 FirebaseAuth.getInstance().signOut();
+                startActivity(new Intent(Schedule.this, Login.class));
+                finish();
                 return true;
             default:
                 Toast.makeText(getApplication(), "Kesalahan Terjadi ", Toast.LENGTH_SHORT).show();
