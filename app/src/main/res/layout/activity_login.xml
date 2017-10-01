@@ -6,8 +6,6 @@
     android:layout_height="match_parent"
     android:background="@drawable/borobudur_edited" >
 
-
-
         <TextView
             android:id="@+id/textView2"
             android:layout_width="wrap_content"
@@ -17,9 +15,9 @@
             android:textColor="#FFFFFF"
             tools:layout_constraintBottom_creator="1"
             android:layout_marginStart="8dp"
+            app:layout_constraintBottom_toBottomOf="@+id/imageView4"
             tools:layout_constraintLeft_creator="1"
-            tools:layout_editor_absoluteY="225dp"
-            tools:layout_editor_absoluteX="89dp" />
+            app:layout_constraintLeft_toRightOf="@+id/imageView4" />
 
         <TextView
             android:id="@+id/textView3"
@@ -45,9 +43,11 @@
             android:layout_alignParentStart="true"
             app:srcCompat="@drawable/iconuser"
             tools:layout_constraintTop_creator="1"
+            android:layout_marginTop="121dp"
             tools:layout_constraintLeft_creator="1"
-            tools:layout_editor_absoluteY="129dp"
-            tools:layout_editor_absoluteX="62dp" />
+            app:layout_constraintLeft_toLeftOf="@+id/login_email"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginLeft="0dp" />
 
     <EditText
         android:id="@+id/login_email"
@@ -167,10 +167,7 @@
         android:layout_marginLeft="0dp"
         app:layout_constraintLeft_toLeftOf="parent"
         android:layout_marginRight="0dp"
-        app:layout_constraintRight_toRightOf="parent"
-
-
-        />
+        app:layout_constraintRight_toRightOf="parent" />
 
     <TextView
         android:id="@+id/textView7"
@@ -190,12 +187,14 @@
         app:layout_constraintTop_toTopOf="@+id/toolbar2" />
 
     <ImageView
-        android:id="@+id/imageView2"
+        android:id="@+id/imageView4"
         android:layout_width="15dp"
-        android:layout_height="67dp"
+        android:layout_height="17dp"
         app:srcCompat="@drawable/key"
-        tools:layout_editor_absoluteX="62dp"
-        tools:layout_editor_absoluteY="191dp" />
-
+        tools:layout_constraintBottom_creator="1"
+        tools:layout_constraintLeft_creator="1"
+        app:layout_constraintLeft_toLeftOf="@+id/imageView3"
+        app:layout_constraintBottom_toTopOf="@+id/login_password"
+        android:layout_marginBottom="8dp" />
 
 </android.support.constraint.ConstraintLayout>

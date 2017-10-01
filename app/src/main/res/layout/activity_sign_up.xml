@@ -148,9 +148,9 @@
 
     <ImageView
         android:id="@+id/imageView5"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:srcCompat="@drawable/user"
+        android:layout_width="23dp"
+        android:layout_height="28dp"
+        app:srcCompat="@drawable/iconuser"
         tools:layout_constraintTop_creator="1"
         tools:layout_constraintBottom_creator="1"
         app:layout_constraintBottom_toTopOf="@+id/imageView6"
@@ -173,9 +173,9 @@
 
     <ImageView
         android:id="@+id/imageView7"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:srcCompat="@drawable/pass"
+        android:layout_width="15dp"
+        android:layout_height="17dp"
+        app:srcCompat="@drawable/key"
         tools:layout_constraintRight_creator="1"
         tools:layout_constraintBottom_creator="1"
         app:layout_constraintBottom_toTopOf="@+id/signup_repassword"
@@ -188,9 +188,9 @@
 
     <ImageView
         android:id="@+id/imageView8"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:srcCompat="@drawable/pass"
+        android:layout_width="15dp"
+        android:layout_height="17dp"
+        app:srcCompat="@drawable/key"
         tools:layout_constraintTop_creator="1"
         tools:layout_constraintRight_creator="1"
         tools:layout_constraintBottom_creator="1"
