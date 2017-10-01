@@ -11,9 +11,9 @@
 
     <ImageView
         android:id="@+id/imageView13"
-        android:layout_width="202dp"
-        android:layout_height="158dp"
+        android:layout_width="329dp"
+        android:layout_height="354dp"
         app:srcCompat="@drawable/cameraicon"
-        tools:layout_editor_absoluteX="91dp"
-        tools:layout_editor_absoluteY="204dp" />
+        tools:layout_editor_absoluteX="47dp"
+        tools:layout_editor_absoluteY="205dp" />
 </android.support.constraint.ConstraintLayout>
