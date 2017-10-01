@@ -43,10 +43,9 @@
             android:layout_alignParentStart="true"
             app:srcCompat="@drawable/user"
             tools:layout_constraintTop_creator="1"
-            android:layout_marginTop="118dp"
             tools:layout_constraintLeft_creator="1"
-            app:layout_constraintLeft_toLeftOf="@+id/login_email"
-            app:layout_constraintTop_toTopOf="parent" />
+            tools:layout_editor_absoluteY="118dp"
+            tools:layout_editor_absoluteX="53dp" />
 
     <EditText
         android:id="@+id/login_email"
