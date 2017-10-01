@@ -123,7 +123,7 @@ public class Login extends AppCompatActivity {
         });
     }
 
-    private void login(final String email, String password){
+    public void login(final String email, String password){
         fAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override

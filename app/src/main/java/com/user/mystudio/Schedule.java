@@ -44,8 +44,8 @@ public class Schedule extends AppCompatActivity implements AdapterView.OnItemCli
     CheckNetwork cn;
     Model_Schedule modelSchedule;
     private Context context = this;
-    private ListView lv;
     private Button cancel;
+    private ListView lv;
     List<HashMap<String, Object>> fillMaps = new ArrayList<>();
     Adapter adapter;
     Map map;
@@ -119,7 +119,7 @@ public class Schedule extends AppCompatActivity implements AdapterView.OnItemCli
         map.put("status", status);
         map.put("key", key);
         fillMaps.add((HashMap) map);
-        adapter = new SimpleAdapter(getBaseContext(), fillMaps, R.layout.activity_schedule,
+        adapter = new SimpleAdapter(this, fillMaps, R.layout.activity_schedule,
                 new String[]{"date", "time", "lokasi", "status",},
                 new int[]{R.id.sch_date, R.id.sch_time, R.id.sch_location, R.id.sch_stats});
         lv.setAdapter((ListAdapter) adapter);

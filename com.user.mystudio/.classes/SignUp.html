@@ -50,7 +50,7 @@
     0%
   </span>
   <span class="absValue">
-    (0/ 29)
+    (0/ 35)
   </span>
 </td>
 </tr>
@@ -145,7 +145,7 @@
     0%
   </span>
   <span class="absValue">
-    (0/ 78)
+    (0/ 84)
   </span>
 </td>
 </tr>
@@ -243,7 +243,7 @@
 <i>86</i>&nbsp;
 <i>87</i>&nbsp;                }
 <i>88</i>&nbsp;            });
-<i>89</i>&nbsp;    }
+<b class="nc"><i>89</i>&nbsp;    }</b>
 <i>90</i>&nbsp;
 <i>91</i>&nbsp;    private void signUp(final String mail, String password) {
 <b class="nc"><i>92</i>&nbsp;        fAuth.createUserWithEmailAndPassword(mail, password)</b>
@@ -273,7 +273,7 @@
 <i>116</i>&nbsp;                        }
 <i>117</i>&nbsp;                    }
 <i>118</i>&nbsp;                });
-<i>119</i>&nbsp;    }
+<b class="nc"><i>119</i>&nbsp;    }</b>
 <i>120</i>&nbsp;
 <i>121</i>&nbsp;    private void sendVerificationEmail() {
 <b class="nc"><i>122</i>&nbsp;        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();</b>
@@ -298,19 +298,19 @@
 <i>141</i>&nbsp;                        }
 <i>142</i>&nbsp;                    }
 <i>143</i>&nbsp;                });
-<i>144</i>&nbsp;    }
+<b class="nc"><i>144</i>&nbsp;    }</b>
 <i>145</i>&nbsp;
 <i>146</i>&nbsp;    @Override
 <i>147</i>&nbsp;    protected void onStart() {
 <b class="nc"><i>148</i>&nbsp;        super.onStart();</b>
 <b class="nc"><i>149</i>&nbsp;        fAuth.addAuthStateListener(fStateListener);</b>
-<i>150</i>&nbsp;    }
+<b class="nc"><i>150</i>&nbsp;    }</b>
 <i>151</i>&nbsp;
 <i>152</i>&nbsp;    @Override
 <i>153</i>&nbsp;    public void onResume(){
 <b class="nc"><i>154</i>&nbsp;        super.onResume();</b>
 <b class="nc"><i>155</i>&nbsp;        fAuth.addAuthStateListener(fStateListener);</b>
-<i>156</i>&nbsp;    }
+<b class="nc"><i>156</i>&nbsp;    }</b>
 <i>157</i>&nbsp;
 <i>158</i>&nbsp;    @Override
 <i>159</i>&nbsp;    protected void onStop() {
@@ -318,14 +318,14 @@
 <b class="nc"><i>161</i>&nbsp;        if (fStateListener != null) {</b>
 <b class="nc"><i>162</i>&nbsp;            fAuth.removeAuthStateListener(fStateListener);</b>
 <i>163</i>&nbsp;        }
-<i>164</i>&nbsp;    }
+<b class="nc"><i>164</i>&nbsp;    }</b>
 <i>165</i>&nbsp;}
 </div>
 </div>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2017-10-01 09:09</div>
+    <div style="float:right;">generated on 2017-10-01 12:03</div>
 </div>
 </body>
 </html>
