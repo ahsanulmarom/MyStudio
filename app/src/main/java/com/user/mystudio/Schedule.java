@@ -16,7 +16,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Adapter;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.ListView;
@@ -43,15 +42,14 @@ import java.util.Map;
 public class Schedule extends AppCompatActivity implements AdapterView.OnItemClickListener {
     CheckNetwork cn;
     Model_Schedule modelSchedule;
-    private Context context = this;
-    private Button cancel;
+    private Context context;
     private ListView lv;
-    List<HashMap<String, Object>> fillMaps = new ArrayList<>();
+    List<HashMap<String, Object>> fillMaps;
     Adapter adapter;
     Map map;
     public FirebaseAuth fAuth;
     public FirebaseAuth.AuthStateListener fStateListener;
-    public final String TAG = getClass().getSimpleName();
+    public String TAG;
     private Toolbar toolbar;
     private NavigationView navigationView;
     private DrawerLayout drawerLayout;
@@ -61,6 +59,9 @@ public class Schedule extends AppCompatActivity implements AdapterView.OnItemCli
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_schedule_list);
         lv = (ListView) findViewById(R.id.sch_listView);
+        context = this;
+        fillMaps = new ArrayList<>();
+        TAG = getClass().getSimpleName();
         cn = new CheckNetwork(this);
         if (!cn.isConnected()) {
             Toast.makeText(this, "You are not connected internet. Pease check your connection!", Toast.LENGTH_LONG).show();
@@ -149,7 +150,7 @@ public class Schedule extends AppCompatActivity implements AdapterView.OnItemCli
                             FirebaseDatabase database = FirebaseDatabase.getInstance();
                             DatabaseReference booking = database.getReference("booking");
                             startActivity(new Intent(Schedule.this, Schedule.class));
-                            booking.child(fillMaps.get(position).get("key").toString()).removeValue();
+                            booking.child(fillMaps.get(position).get("key").toString()).setValue(null);
                             finish();
                         }
                     });
@@ -300,14 +301,8 @@ public class Schedule extends AppCompatActivity implements AdapterView.OnItemCli
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 FirebaseUser user = firebaseAuth.getCurrentUser();
-                if (user != null) {
-                    // User sedang login
-                    Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
-                } else {
-                    // User sedang logout
-                    Log.d(TAG, "onAuthStateChanged:signed_out");
+                if (user == null)
                     startActivity(new Intent(getApplicationContext(), Login.class));
-                }
             }
         };
     }

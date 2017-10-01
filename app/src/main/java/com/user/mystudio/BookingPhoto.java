@@ -105,62 +105,47 @@ public class BookingPhoto extends AppCompatActivity {
     }
 
     public void setBooking(final String tanggal, final String jam, final String lokasi) {
-        Log.e(TAG, "setBooking: berhasil masuk sini" );
         final FirebaseUser user = fAuth.getCurrentUser();
         FirebaseDatabase database = FirebaseDatabase.getInstance();
-        final DatabaseReference booking = database.getReference("booking");
-        booking.orderByChild("Tanggal").equalTo(date.getText().toString().trim()).addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                Log.e(TAG, "onDataChange: data1 = " + dataSnapshot.getValue() );
-                if (dataSnapshot.getValue() == null) {
-                    saveDataBooking(tanggal, jam, lokasi);
-                } else if(!dataSnapshot.getValue().equals(null)) {
-                    booking.orderByChild("Jam").equalTo(time.getText().toString().trim()).addValueEventListener(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(DataSnapshot dataSnapshot) {
-                            Log.e(TAG, "onDataChange: data2 = " + dataSnapshot.getValue() );
-                            if (dataSnapshot.getValue() == null) {
-                                saveDataBooking(tanggal, jam, lokasi);
-                            } else {
-                                Toast.makeText(BookingPhoto.this, "Maaf jadwal tidak tersedia, silakan pilih jadwal lain!",
-                                        Toast.LENGTH_LONG).show();
-                            }
-                        }
-
-                        @Override
-                        public void onCancelled(DatabaseError databaseError) {
-
-                        }
-                    });
-                }
-            }
-            @Override
-            public void onCancelled(DatabaseError databaseError) {}
-        });
-    }
-
-    public void saveDataBooking(final String tanggal, final String jam, final String lokasi) {
-        final FirebaseUser user = fAuth.getCurrentUser();
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        final DatabaseReference bookingInfo = database.getReference("booking");
-        final DatabaseReference userInfo = database.getReference("userData").child(user.getUid());
+        final DatabaseReference bookingan = database.getReference("booking");
+        DatabaseReference userInfo = database.getReference("userData").child(user.getUid());
         userInfo.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                String pemesan = dataSnapshot.child("name").getValue(String.class);
-                Map data = new HashMap();
-                data.put("idPemesan", user.getUid());
-                data.put("Pemesan", pemesan);
-                data.put("Tanggal", tanggal);
-                data.put("Jam", jam);
-                data.put("Alamat", lokasi);
-                data.put("Status", "Menunggu Persetujuan Admin");
-                bookingInfo.push().setValue(data);
-                Toast.makeText(BookingPhoto.this, "Jadwal telah dipesan untuk Anda.",
-                        Toast.LENGTH_SHORT).show();
-                startActivity(new Intent(BookingPhoto.this, Schedule.class));
-                finish();
+                final String pemesan = dataSnapshot.child("name").getValue(String.class);
+                bookingan.orderByChild("Tanggal").equalTo(date.getText().toString().trim()).addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        Log.e(TAG, "onDataChange: data1 = " + dataSnapshot.getValue() );
+                        if (dataSnapshot.getValue() == null) {
+                            bookingan.push().setValue(saveDataBooking(user.getUid(), pemesan, tanggal, jam, lokasi));
+                            Toast.makeText(BookingPhoto.this, "Jadwal telah dipesan untuk Anda.",
+                                    Toast.LENGTH_SHORT).show();
+                        } else if(!dataSnapshot.getValue().equals(null)) {
+                            bookingan.orderByChild("Jam").equalTo(time.getText().toString().trim()).addValueEventListener(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(DataSnapshot dataSnapshot) {
+                                    Log.e(TAG, "onDataChange: data2 = " + dataSnapshot.getValue() );
+                                    if (dataSnapshot.getValue() == null) {
+                                        bookingan.push().setValue(saveDataBooking(user.getUid(), pemesan, tanggal, jam, lokasi));
+                                        Toast.makeText(BookingPhoto.this, "Jadwal telah dipesan untuk Anda.",
+                                                Toast.LENGTH_SHORT).show();
+                                    } else {
+                                        Toast.makeText(BookingPhoto.this, "Maaf jadwal tidak tersedia, silakan pilih jadwal lain!",
+                                                Toast.LENGTH_LONG).show();
+                                    }
+                                }
+
+                                @Override
+                                public void onCancelled(DatabaseError databaseError) {
+
+                                }
+                            });
+                        }
+                    }
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {}
+                });
             }
 
             @Override
@@ -168,6 +153,17 @@ public class BookingPhoto extends AppCompatActivity {
 
             }
         });
+    }
+
+    public Map saveDataBooking(String key, String pemesan, final String tanggal, final String jam, final String lokasi) {
+                Map data = new HashMap();
+                data.put("idPemesan", key);
+                data.put("Pemesan", pemesan);
+                data.put("Tanggal", tanggal);
+                data.put("Jam", jam);
+                data.put("Alamat", lokasi);
+                data.put("Status", "Menunggu Persetujuan Admin");
+                return data;
     }
 
     public void checkSession() {
