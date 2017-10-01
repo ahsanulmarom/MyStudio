@@ -33,21 +33,19 @@
             android:layout_marginStart="10dp"
             app:layout_constraintBottom_toBottomOf="@+id/imageView3"
             tools:layout_constraintLeft_creator="1"
-            app:layout_constraintLeft_toRightOf="@+id/imageView3"
-            android:layout_marginLeft="9dp"
-            android:layout_marginBottom="9dp" />
+            app:layout_constraintLeft_toRightOf="@+id/imageView3" />
 
         <ImageView
             android:id="@+id/imageView3"
-            android:layout_width="23dp"
-            android:layout_height="28dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_alignBottom="@+id/textView3"
             android:layout_alignParentStart="true"
-            app:srcCompat="@drawable/iconuser"
+            app:srcCompat="@drawable/user"
             tools:layout_constraintTop_creator="1"
             tools:layout_constraintLeft_creator="1"
-            tools:layout_editor_absoluteY="129dp"
-            tools:layout_editor_absoluteX="62dp" />
+            tools:layout_editor_absoluteY="118dp"
+            tools:layout_editor_absoluteX="53dp" />
 
     <EditText
         android:id="@+id/login_email"
@@ -64,7 +62,7 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="@+id/textView3"
-        app:layout_constraintVertical_bias="0.008"
+        app:layout_constraintVertical_bias="0.0"
         tools:layout_constraintBottom_creator="1"
         tools:layout_constraintLeft_creator="1"
         tools:layout_constraintRight_creator="1"
@@ -85,19 +83,24 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.461"
+        app:layout_constraintVertical_bias="0.446"
         tools:layout_constraintBottom_creator="1"
         tools:layout_constraintLeft_creator="1"
         tools:layout_constraintRight_creator="1"
-        tools:layout_constraintTop_creator="1" />
+        tools:layout_constraintTop_creator="1"
+        tools:layout_editor_absoluteX="59dp"
+        app:layout_constraintHorizontal_bias="0.466" />
 
     <ImageView
-        android:id="@+id/imageView2"
-        android:layout_width="15dp"
-        android:layout_height="55dp"
-        app:srcCompat="@drawable/key"
-        tools:layout_editor_absoluteX="62dp"
-        tools:layout_editor_absoluteY="198dp" />
+        android:id="@+id/imageView4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/pass"
+        tools:layout_constraintBottom_creator="1"
+        tools:layout_constraintLeft_creator="1"
+        app:layout_constraintLeft_toLeftOf="@+id/imageView3"
+        app:layout_constraintBottom_toTopOf="@+id/login_password"
+        android:layout_marginBottom="8dp" />
 
     <Button
         android:id="@+id/login_btnSignUp"
@@ -196,8 +199,6 @@
         app:layout_constraintLeft_toLeftOf="@+id/toolbar2"
         app:layout_constraintRight_toRightOf="@+id/toolbar2"
         app:layout_constraintTop_toTopOf="@+id/toolbar2" />
-
-
 
 
 </android.support.constraint.ConstraintLayout>
