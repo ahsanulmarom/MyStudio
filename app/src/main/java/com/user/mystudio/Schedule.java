@@ -59,9 +59,9 @@ public class Schedule extends AppCompatActivity implements AdapterView.OnItemCli
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_schedule_list);
         lv = (ListView) findViewById(R.id.sch_listView);
-        context = this;
+        context = Schedule.this;
         fillMaps = new ArrayList<>();
-        TAG = getClass().getSimpleName();
+        TAG = Schedule.class.getSimpleName();
         cn = new CheckNetwork(this);
         if (!cn.isConnected()) {
             Toast.makeText(this, "You are not connected internet. Pease check your connection!", Toast.LENGTH_LONG).show();
@@ -129,10 +129,10 @@ public class Schedule extends AppCompatActivity implements AdapterView.OnItemCli
             public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
                 Log.e(TAG, "onItemClick: "+fillMaps.get(position) );
                 Log.e(TAG, "onItemClick: "+fillMaps.get(position).get("date") );
-                fillMaps.get(position);
-                LinearLayout layoutinput = new LinearLayout(context);   //layout
-                layoutinput.setOrientation(LinearLayout.VERTICAL);
-                layoutinput.setPadding(50, 50, 50, 50);
+                final String kunci = fillMaps.get(position).get("key").toString();
+                LinearLayout layoutinputSchedule = new LinearLayout(context);   //layout
+                layoutinputSchedule.setOrientation(LinearLayout.VERTICAL);
+                layoutinputSchedule.setPadding(50, 50, 50, 50);
 
                 if (fillMaps.get(position).get("status").toString().equalsIgnoreCase("Menunggu Persetujuan Admin")) {
                     AlertDialog.Builder builder = new AlertDialog.Builder(context);
@@ -143,15 +143,15 @@ public class Schedule extends AppCompatActivity implements AdapterView.OnItemCli
                             fillMaps.get(position).get("status") + "\n" +
                             "* * * * *" + "\n" +
                             "Anda dapat membatalkan SEBELUM mendapat approval admin.");
-                    builder.setView(layoutinput);
+                    builder.setView(layoutinputSchedule);
                     //posstive button
                     builder.setPositiveButton("Cancel Booking", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
                             FirebaseDatabase database = FirebaseDatabase.getInstance();
                             DatabaseReference booking = database.getReference("booking");
-                            startActivity(new Intent(Schedule.this, Schedule.class));
-                            booking.child(fillMaps.get(position).get("key").toString()).setValue(null);
-                            finish();
+                            recreate();
+                            booking.child(kunci).child("Status").setValue("Canceled By User");
+                            Log.e(TAG, "onClick: hapus data " +  fillMaps.get(position).get("key").toString());
                         }
                     });
                     builder.setNeutralButton("Close", new DialogInterface.OnClickListener() {
@@ -170,7 +170,7 @@ public class Schedule extends AppCompatActivity implements AdapterView.OnItemCli
                             fillMaps.get(position).get("status") + "\n" +
                             "* * * * *" + "\n" +
                             "Pesanan telah dikonfirmasi admin. Pesanan tidak dapat dibatalkan.");
-                    builder.setView(layoutinput);
+                    builder.setView(layoutinputSchedule);
                     //posstive button
                     builder.setPositiveButton("Close", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
@@ -187,7 +187,7 @@ public class Schedule extends AppCompatActivity implements AdapterView.OnItemCli
                             fillMaps.get(position).get("status") + "\n" +
                             "* * * * *" + "\n" +
                             "Booking telah selesai. Selamat.");
-                    builder.setView(layoutinput);
+                    builder.setView(layoutinputSchedule);
                     //posstive button
                     builder.setPositiveButton("Close", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {

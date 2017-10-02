@@ -31,7 +31,7 @@ public class BookingPhoto extends AppCompatActivity {
 
     public FirebaseAuth fAuth;
     public FirebaseAuth.AuthStateListener fStateListener;
-    public final String TAG = getClass().getSimpleName();
+    public final String TAG = BookingPhoto.class.getSimpleName();
     CheckNetwork cn;
     private Button booking, schedule;
     EditText date, time, alamat;
@@ -115,13 +115,13 @@ public class BookingPhoto extends AppCompatActivity {
                 final String pemesan = dataSnapshot.child("name").getValue(String.class);
                 bookingan.orderByChild("Tanggal").equalTo(date.getText().toString().trim()).addValueEventListener(new ValueEventListener() {
                     @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        Log.e(TAG, "onDataChange: data1 = " + dataSnapshot.getValue() );
-                        if (dataSnapshot.getValue() == null) {
+                    public void onDataChange(DataSnapshot dataSnapshotBooking) {
+                        Log.e(TAG, "onDataChange: data1 = " + dataSnapshotBooking.getValue() );
+                        if (dataSnapshotBooking.getValue() == null) {
                             bookingan.push().setValue(saveDataBooking(user.getUid(), pemesan, tanggal, jam, lokasi));
                             Toast.makeText(BookingPhoto.this, "Jadwal telah dipesan untuk Anda.",
                                     Toast.LENGTH_SHORT).show();
-                        } else if(!dataSnapshot.getValue().equals(null)) {
+                        } else {
                             bookingan.orderByChild("Jam").equalTo(time.getText().toString().trim()).addValueEventListener(new ValueEventListener() {
                                 @Override
                                 public void onDataChange(DataSnapshot dataSnapshot) {
@@ -130,8 +130,9 @@ public class BookingPhoto extends AppCompatActivity {
                                         bookingan.push().setValue(saveDataBooking(user.getUid(), pemesan, tanggal, jam, lokasi));
                                         Toast.makeText(BookingPhoto.this, "Jadwal telah dipesan untuk Anda.",
                                                 Toast.LENGTH_SHORT).show();
+                                        recreate();
                                     } else {
-                                        Toast.makeText(BookingPhoto.this, "Maaf jadwal tidak tersedia, silakan pilih jadwal lain!",
+                                        Toast.makeText(BookingPhoto.this, "Maaf jadwal telah dipesan, silakan pilih jadwal lain!",
                                                 Toast.LENGTH_LONG).show();
                                     }
                                 }
