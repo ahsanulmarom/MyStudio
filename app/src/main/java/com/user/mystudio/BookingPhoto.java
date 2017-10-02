@@ -163,9 +163,9 @@ public class BookingPhoto extends AppCompatActivity {
         });
     }
 
-    public Map saveDataBooking(String key, String pemesan, final String tanggal, final String jam, final String lokasi) {
+    public Map saveDataBooking(String id, String pemesan, final String tanggal, final String jam, final String lokasi) {
                 Map data = new HashMap();
-                data.put("idPemesan", key);
+                data.put("idPemesan", id);
                 data.put("Pemesan", pemesan);
                 data.put("Tanggal", tanggal);
                 data.put("Jam", jam);
