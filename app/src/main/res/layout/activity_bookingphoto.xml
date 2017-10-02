@@ -95,7 +95,7 @@
             android:focusable="true"
             android:textColor="#ffffff"
             android:textColorHint="#ffffff"
-            android:hint="dd-mm-yyyy"
+            android:hint="dd/mm/yyyy"
             android:inputType="date" />
 
         <EditText

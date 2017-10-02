@@ -70,8 +70,10 @@ public class BookingPhoto extends AppCompatActivity {
                     date.setError("Maksimal bulan adalah 12");
                 } else if(Integer.parseInt(date.getText().toString().substring(6,10)) > 2018) {
                     date.setError("Maksimal tahun adalah 2018");
-                } else if ((!(date.getText().toString().substring(2,3).equals("-"))) && (!(date.getText().toString().substring(5,6).equals("-")))) {
-                    date.setError("Isi sesuai Format dd-mm-yyy");
+                } else if (!(date.getText().toString().substring(2,3).equals("/"))) {
+                    date.setError("Isi sesuai Format dd/mm/yyyy");
+                } else if (!(date.getText().toString().substring(5,6).equals("/"))) {
+                    date.setError("Isi sesuai Format dd/mm/yyyy");
                 } else if (time.getText().toString().equalsIgnoreCase("")) {
                     time.setError("This Field is Required");
                 } else if (Integer.parseInt(time.getText().toString().substring(0,2)) < 0) {
@@ -89,8 +91,12 @@ public class BookingPhoto extends AppCompatActivity {
                 } else if(studio.isChecked()) {
                         setBooking(date.getText().toString().trim(), time.getText().toString().trim(), "Studio");
                 } else if(alamatLain.isChecked()){
+                    if (alamat.getText().toString().trim().equalsIgnoreCase("")) {
+                        alamat.setError("This Field is Required");
+                    } else {
                         setBooking(date.getText().toString().trim(), time.getText().toString().trim(),
                                 alamat.getText().toString().trim());
+                    }
                 }
             }
         });
@@ -99,6 +105,7 @@ public class BookingPhoto extends AppCompatActivity {
             public void onClick(View v) {
                startActivity(new Intent(BookingPhoto.this, Schedule.class));
                 finish();
+                closeContextMenu();
             }
         });
         setToolbar();
