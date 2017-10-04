@@ -40,16 +40,16 @@ import java.util.Map;
  */
 
 public class Schedule extends AppCompatActivity implements AdapterView.OnItemClickListener {
-    CheckNetwork cn;
-    Model_Schedule modelSchedule;
-    private Context context;
+    private CheckNetwork cn;
+    private Model_Schedule modelSchedule;
+    private Context context = this;
     private ListView lv;
-    List<HashMap<String, Object>> fillMaps;
-    Adapter adapter;
+    private List<HashMap<String, Object>> fillMaps = new ArrayList<>();
+    private Adapter adapter;
     Map map;
-    public FirebaseAuth fAuth;
-    public FirebaseAuth.AuthStateListener fStateListener;
-    public String TAG;
+    private FirebaseAuth fAuth;
+    private FirebaseAuth.AuthStateListener fStateListener;
+    private String TAG = Schedule.class.getSimpleName();;
     private Toolbar toolbar;
     private NavigationView navigationView;
     private DrawerLayout drawerLayout;
@@ -59,9 +59,6 @@ public class Schedule extends AppCompatActivity implements AdapterView.OnItemCli
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_schedule_list);
         lv = (ListView) findViewById(R.id.sch_listView);
-        context = Schedule.this;
-        fillMaps = new ArrayList<>();
-        TAG = Schedule.class.getSimpleName();
         cn = new CheckNetwork(this);
         if (!cn.isConnected()) {
             Toast.makeText(this, "You are not connected internet. Pease check your connection!", Toast.LENGTH_LONG).show();
@@ -74,8 +71,8 @@ public class Schedule extends AppCompatActivity implements AdapterView.OnItemCli
 
     public void getSchedule() {
         final FirebaseUser user = fAuth.getCurrentUser();
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        final DatabaseReference booking = database.getReference("booking");
+        FirebaseDatabase db = FirebaseDatabase.getInstance();
+        final DatabaseReference booking = db.getReference("booking");
         booking.orderByChild("idPemesan").equalTo(user.getUid()).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -151,7 +148,6 @@ public class Schedule extends AppCompatActivity implements AdapterView.OnItemCli
                             DatabaseReference booking = database.getReference("booking");
                             recreate();
                             booking.child(kunci).child("Status").setValue("Canceled By User");
-                            Log.e(TAG, "onClick: hapus data " +  fillMaps.get(position).get("key").toString());
                         }
                     });
                     builder.setNeutralButton("Close", new DialogInterface.OnClickListener() {
@@ -273,20 +269,20 @@ public class Schedule extends AppCompatActivity implements AdapterView.OnItemCli
             // pilihan menu item navigasi akan menampilkan pesan toast klik kalian bisa menggantinya
             //dengan intent activity
             case R.id.nav_home:
-                startActivity(new Intent(getApplication(), Menu.class));
+                startActivity(new Intent(this, Menu.class));
                 finish();
                 return true;
             case R.id.nav_booking:
-                startActivity(new Intent(getApplication(), BookingPhoto.class));
+                startActivity(new Intent(this, BookingPhoto.class));
                 finish();
                 return true;
             case R.id.nav_schedule:
-                startActivity(new Intent(getApplication(), Schedule.class));
+                startActivity(new Intent(this, Schedule.class));
                 finish();
                 return true;
             case R.id.nav_logout:
                 FirebaseAuth.getInstance().signOut();
-                startActivity(new Intent(Schedule.this, Login.class));
+                startActivity(new Intent(this, Login.class));
                 finish();
                 return true;
             default:

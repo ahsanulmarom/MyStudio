@@ -20,9 +20,9 @@ public class LoginTest {
 
     @Test
     public void loginEmailTest() {
-        login.login("ahsanulmarom@gmail.com", "123456");
+        login.login("aaaaaa@gmail.com", "111111");
         String result = FirebaseAuth.getInstance().getCurrentUser().getEmail().toString();
-        Assert.assertEquals("ahsanulmarom@gmail.com", result);
+        Assert.assertEquals("aaaaaa@gmail.com", result);
     }
 
     @After

@@ -29,13 +29,13 @@ import java.util.Map;
 
 public class BookingPhoto extends AppCompatActivity {
 
-    public FirebaseAuth fAuth;
-    public FirebaseAuth.AuthStateListener fStateListener;
-    public final String TAG = BookingPhoto.class.getSimpleName();
-    CheckNetwork cn;
+    private FirebaseAuth fAuth;
+    private FirebaseAuth.AuthStateListener fStateListener;
+    private final String TAG = BookingPhoto.class.getSimpleName();
+    private CheckNetwork cn;
     private Button booking, schedule;
-    EditText date, time, alamat;
-    RadioButton studio, alamatLain;
+    private EditText date, time, alamat;
+    private RadioButton studio, alamatLain;
     private Toolbar toolbar;
     private NavigationView navigationView;
     private DrawerLayout drawerLayout;
@@ -116,11 +116,11 @@ public class BookingPhoto extends AppCompatActivity {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         final DatabaseReference bookingan = database.getReference("booking");
         DatabaseReference userInfo = database.getReference("userData").child(user.getUid());
-        userInfo.addValueEventListener(new ValueEventListener() {
+        userInfo.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 final String pemesan = dataSnapshot.child("name").getValue(String.class);
-                bookingan.orderByChild("Tanggal").equalTo(date.getText().toString().trim()).addValueEventListener(new ValueEventListener() {
+                bookingan.orderByChild("Tanggal").equalTo(date.getText().toString().trim()).addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshotBooking) {
                         Log.e(TAG, "onDataChange: data1 = " + dataSnapshotBooking.getValue() );
@@ -129,7 +129,7 @@ public class BookingPhoto extends AppCompatActivity {
                             Toast.makeText(BookingPhoto.this, "Jadwal telah dipesan untuk Anda.",
                                     Toast.LENGTH_SHORT).show();
                         } else {
-                            bookingan.orderByChild("Jam").equalTo(time.getText().toString().trim()).addValueEventListener(new ValueEventListener() {
+                            bookingan.orderByChild("Jam").equalTo(time.getText().toString().trim()).addListenerForSingleValueEvent(new ValueEventListener() {
                                 @Override
                                 public void onDataChange(DataSnapshot dataSnapshot) {
                                     Log.e(TAG, "onDataChange: data2 = " + dataSnapshot.getValue() );
@@ -139,7 +139,7 @@ public class BookingPhoto extends AppCompatActivity {
                                                 Toast.LENGTH_SHORT).show();
                                         recreate();
                                     } else {
-                                        Toast.makeText(BookingPhoto.this, "Maaf jadwal telah dipesan, silakan pilih jadwal lain!",
+                                        Toast.makeText(BookingPhoto.this, "Silakan pilih jadwal lain!",
                                                 Toast.LENGTH_LONG).show();
                                     }
                                 }
@@ -239,24 +239,24 @@ public class BookingPhoto extends AppCompatActivity {
             // pilihan menu item navigasi akan menampilkan pesan toast klik kalian bisa menggantinya
             //dengan intent activity
             case R.id.nav_home:
-                startActivity(new Intent(getApplication(), Menu.class));
+                startActivity(new Intent(this, Menu.class));
                 finish();
                 return true;
             case R.id.nav_booking:
-                startActivity(new Intent(getApplication(), BookingPhoto.class));
+                startActivity(new Intent(this, BookingPhoto.class));
                 finish();
                 return true;
             case R.id.nav_schedule:
-                startActivity(new Intent(getApplication(), Schedule.class));
+                startActivity(new Intent(this, Schedule.class));
                 finish();
                 return true;
             case R.id.nav_logout:
                 FirebaseAuth.getInstance().signOut();
-                startActivity(new Intent(BookingPhoto.this, Login.class));
+                startActivity(new Intent(this, Login.class));
                 finish();
                 return true;
             default:
-                Toast.makeText(getApplication(), "Kesalahan Terjadi ", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Kesalahan Terjadi ", Toast.LENGTH_SHORT).show();
                 return true;
         }
     }
