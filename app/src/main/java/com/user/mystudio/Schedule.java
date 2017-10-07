@@ -28,28 +28,20 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-/**
- * Created by user on 27/09/2017.
- */
-
-public class Schedule extends Menu implements AdapterView.OnItemClickListener {
-    private CheckNetwork cn;
+public class Schedule extends MenuAct implements AdapterView.OnItemClickListener {
     private Model_Schedule modelSchedule;
     private Context context = this;
     private ListView lv;
-    private List<HashMap<String, Object>> fillMaps = new ArrayList<>();
-    private Adapter adapter;
-    private Map map;
+    List<Map<String, String>> fillMaps = new ArrayList<>();
     private FirebaseAuth fAuth;
     private FirebaseAuth.AuthStateListener fStateListener;
-    private String TAG = Schedule.class.getSimpleName();;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_schedule_list);
         lv = (ListView) findViewById(R.id.sch_listView);
-        cn = new CheckNetwork(this);
+        CheckNetwork cn = new CheckNetwork(this);
         if (!cn.isConnected()) {
             Toast.makeText(this, "You are not connected internet. Pease check your connection!", Toast.LENGTH_LONG).show();
         }
@@ -63,6 +55,7 @@ public class Schedule extends Menu implements AdapterView.OnItemClickListener {
         final FirebaseUser user = fAuth.getCurrentUser();
         FirebaseDatabase db = FirebaseDatabase.getInstance();
         final DatabaseReference booking = db.getReference("booking");
+        assert user != null;
         booking.orderByChild("idPemesan").equalTo(user.getUid()).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -95,27 +88,27 @@ public class Schedule extends Menu implements AdapterView.OnItemClickListener {
     }
 
     public void loadSchedule(final String key, final String date, final String time, final String lokasi, String pemesan, final String status) {
-        map = new HashMap();
+        Map<String, String> map = new HashMap<>();
         map.put("date", date);
         map.put("time", time);
         map.put("lokasi", lokasi);
         map.put("pemesan", pemesan);
         map.put("status", status);
         map.put("key", key);
-        fillMaps.add((HashMap) map);
-        adapter = new SimpleAdapter(this, fillMaps, R.layout.activity_schedule,
+        fillMaps.add(map);
+        Adapter adapter = new SimpleAdapter(this, fillMaps, R.layout.activity_schedule,
                 new String[]{"date", "time", "lokasi", "status",},
                 new int[]{R.id.sch_date, R.id.sch_time, R.id.sch_location, R.id.sch_stats});
         lv.setAdapter((ListAdapter) adapter);
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
-                final String kunci = fillMaps.get(position).get("key").toString();
+                final String kunci = fillMaps.get(position).get("key");
                 LinearLayout layoutinputSchedule = new LinearLayout(context);   //layout
                 layoutinputSchedule.setOrientation(LinearLayout.VERTICAL);
                 layoutinputSchedule.setPadding(50, 50, 50, 50);
 
-                if (fillMaps.get(position).get("status").toString().equalsIgnoreCase("Menunggu Persetujuan Admin")) {
+                if (fillMaps.get(position).get("status").equalsIgnoreCase("Menunggu Persetujuan Admin")) {
                     AlertDialog.Builder builder = new AlertDialog.Builder(context);
                     builder.setTitle("My Detail Schedule");
                     builder.setMessage(fillMaps.get(position).get("date") + " " +
@@ -140,7 +133,7 @@ public class Schedule extends Menu implements AdapterView.OnItemClickListener {
                         }
                     });
                     builder.show();
-                } else if(fillMaps.get(position).get("status").toString().equalsIgnoreCase("Disetujui Admin")) {
+                } else if(fillMaps.get(position).get("status").equalsIgnoreCase("Disetujui Admin")) {
                     AlertDialog.Builder builder = new AlertDialog.Builder(context);
                     builder.setTitle("My Detail Schedule");
                     builder.setMessage(fillMaps.get(position).get("date") + " " +

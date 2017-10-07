@@ -2,6 +2,7 @@ package com.user.mystudio;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -15,33 +16,25 @@ import android.widget.Toast;
 import com.google.firebase.auth.FirebaseAuth;
 
 
-public class Menu extends AppCompatActivity {
-    private CheckNetwork cn;
-    private Button booking, print, galery, promotion;
-    private Toolbar toolbar;
-    private NavigationView navigationView;
+public class MenuAct extends AppCompatActivity {
     private DrawerLayout drawerLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu);
-        cn = new CheckNetwork(this);
+        CheckNetwork cn = new CheckNetwork(this);
         if (!cn.isConnected()) {
             Toast.makeText(this, "You are not connected internet. Please check your connection!", Toast.LENGTH_LONG).show();
         }
 
         cn.checkSession();
 
-        booking = (Button) findViewById(R.id.menu_booking);
-        print = (Button) findViewById(R.id.menu_print);
-        galery = (Button) findViewById(R.id.menu_galery);
-        promotion = (Button) findViewById(R.id.menu_promotion);
+        Button booking = (Button) findViewById(R.id.menu_booking);
 
         booking.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                startActivity(new Intent(Menu.this, BookingPhoto.class));
-                finish();
+                startActivity(new Intent(MenuAct.this, BookingPhoto.class));
             }
         });
         setToolbar();
@@ -49,15 +42,15 @@ public class Menu extends AppCompatActivity {
 
     public void setToolbar() {
         // Menginisiasi Toolbar dan mensetting sebagai actionbar
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         // Menginisiasi  NavigationView
-        navigationView = (NavigationView) findViewById(R.id.navigation_view);
+        NavigationView navigationView = (NavigationView) findViewById(R.id.navigation_view);
         //Mengatur Navigasi View Item yang akan dipanggil untuk menangani item klik menu navigasi
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             // This method will trigger on item Click of navigation menu
             @Override
-            public boolean onNavigationItemSelected(MenuItem menuItem) {
+            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
                 //Memeriksa apakah item tersebut dalam keadaan dicek  atau tidak,
                 if (menuItem.isChecked()) menuItem.setChecked(false);
                 else menuItem.setChecked(true);
@@ -94,7 +87,7 @@ public class Menu extends AppCompatActivity {
             // pilihan menu item navigasi akan menampilkan pesan toast klik kalian bisa menggantinya
             //dengan intent activity
             case R.id.nav_home:
-                startActivity(new Intent(getApplication(), Menu.class));
+                startActivity(new Intent(getApplication(), MenuAct.class));
                 finish();
                 return true;
             case R.id.nav_booking:
@@ -107,7 +100,7 @@ public class Menu extends AppCompatActivity {
                 return true;
             case R.id.nav_logout:
                 FirebaseAuth.getInstance().signOut();
-                startActivity(new Intent(Menu.this, Login.class));
+                startActivity(new Intent(MenuAct.this, Login.class));
                 finish();
                 return true;
             default:

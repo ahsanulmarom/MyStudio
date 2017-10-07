@@ -1,9 +1,5 @@
 package com.user.mystudio;
 
-/**
- * Created by user on 28/09/2017.
- */
-
 public class Model_Schedule {
     private String date;
     private String time;
@@ -23,7 +19,7 @@ public class Model_Schedule {
         return date;
     }
 
-    public void setDate(String date) {
+    void setDate(String date) {
         this.date = date;
     }
 
@@ -31,7 +27,7 @@ public class Model_Schedule {
         return time;
     }
 
-    public void setTime(String time) {
+    void setTime(String time) {
         this.time = time;
     }
 
@@ -39,7 +35,7 @@ public class Model_Schedule {
         return lokasi;
     }
 
-    public void setLokasi(String lokasi) {
+    void setLokasi(String lokasi) {
         this.lokasi = lokasi;
     }
 
@@ -47,7 +43,7 @@ public class Model_Schedule {
         return pemesan;
     }
 
-    public void setPemesan(String pemesan) {
+    void setPemesan(String pemesan) {
         this.pemesan = pemesan;
     }
 
@@ -55,7 +51,7 @@ public class Model_Schedule {
         return status;
     }
 
-    public void setStatus(String status) {
+    void setStatus(String status) {
         this.status = status;
     }
 }

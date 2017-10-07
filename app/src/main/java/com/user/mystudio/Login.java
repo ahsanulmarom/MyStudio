@@ -24,7 +24,6 @@ import com.google.firebase.auth.FirebaseUser;
 public class Login extends AppCompatActivity {
 
     private EditText email, password;
-    private Button submit, daftar, reset;
     private FirebaseAuth fAuth;
     private FirebaseAuth.AuthStateListener fStateListener;
     private static final String TAG = SignUp.class.getSimpleName();
@@ -42,9 +41,9 @@ public class Login extends AppCompatActivity {
 
         email = (EditText) findViewById(R.id.login_email);
         password = (EditText) findViewById(R.id.login_password);
-        submit = (Button) findViewById(R.id.login_btnLogin);
-        daftar = (Button) findViewById(R.id.login_btnSignUp);
-        reset = (Button) findViewById(R.id.login_reset);
+        Button submit = (Button) findViewById(R.id.login_btnLogin);
+        Button daftar = (Button) findViewById(R.id.login_btnSignUp);
+        Button reset = (Button) findViewById(R.id.login_reset);
 
         fAuth = FirebaseAuth.getInstance();
         fStateListener = new FirebaseAuth.AuthStateListener() {
@@ -143,16 +142,17 @@ public class Login extends AppCompatActivity {
 
     private void checkIfEmailVerified() {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        assert user != null;
         if (user.isEmailVerified()) {
-            // user is verified, so you can finish this activity or send user to activity which you want.
-            startActivity(new Intent(Login.this, Menu.class));
-            finish();
-        }
-        else {
-            Toast.makeText(Login.this, "Sorry, Please Check Email and Verify Your Account!",
-                    Toast.LENGTH_SHORT).show();
-            FirebaseAuth.getInstance().signOut();
-        }
+                // user is verified, so you can finish this activity or send user to activity which you want.
+                startActivity(new Intent(Login.this, MenuAct.class));
+                finish();
+            }
+            else {
+                Toast.makeText(Login.this, "Sorry, Please Check Email and Verify Your Account!",
+                        Toast.LENGTH_SHORT).show();
+                FirebaseAuth.getInstance().signOut();
+            }
     }
 
     private void sendEmailResetPassword(String emailAd) {

@@ -19,7 +19,7 @@ public class ScheduleTest {
     @Test
     public void loadScheduleTest() {
         schedule.loadSchedule("aaaa","10/10/2017","10:00","Studio","MrX","waiting");
-        String result = schedule.map.get("pemesan").toString();
+        String result = schedule.fillMaps.get(0).get("pemesan").toString();
         Assert.assertEquals("MrX", result);
     }
 

@@ -25,7 +25,6 @@ public class SignUp extends AppCompatActivity {
 
     private EditText username, email, password, repassword;
     String uname, mail;
-    private Button submit;
     private FirebaseAuth fAuth;
     private FirebaseAuth.AuthStateListener fStateListener;
     private static final String TAG = SignUp.class.getSimpleName();
@@ -41,7 +40,7 @@ public class SignUp extends AppCompatActivity {
         mail = email.getText().toString().trim();
         password = (EditText) findViewById(R.id.signup_password);
         repassword = (EditText) findViewById(R.id.signup_repassword);
-        submit = (Button) findViewById(R.id.signup_submit);
+        Button submit = (Button) findViewById(R.id.signup_submit);
 
         cn = new CheckNetwork(this);
         if (!cn.isConnected()) {
@@ -97,8 +96,9 @@ public class SignUp extends AppCompatActivity {
                         } else if (task.isSuccessful()) {
                             FirebaseUser user = fAuth.getCurrentUser();
                             FirebaseDatabase database = FirebaseDatabase.getInstance();
+                            assert user != null;
                             DatabaseReference userData = database.getReference("userData").child(user.getUid());
-                            Map data = new HashMap();
+                            Map<String, String> data = new HashMap<>();
                             data.put("id", user.getUid());
                             data.put("email", email.getText().toString().trim());
                             data.put("name", username.getText().toString().trim());
@@ -113,6 +113,7 @@ public class SignUp extends AppCompatActivity {
 
     private void sendVerificationEmail() {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        assert user != null;
         user.sendEmailVerification()
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override

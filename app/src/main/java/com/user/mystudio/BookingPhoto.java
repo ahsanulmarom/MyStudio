@@ -20,13 +20,10 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.HashMap;
 import java.util.Map;
 
-public class BookingPhoto extends Menu {
+public class BookingPhoto extends MenuAct {
 
     private FirebaseAuth fAuth;
     private FirebaseAuth.AuthStateListener fStateListener;
-    private final String TAG = BookingPhoto.class.getSimpleName();
-    private CheckNetwork cn;
-    private Button booking, schedule;
     private EditText date, time, alamat;
     private RadioButton studio, alamatLain;
 
@@ -34,14 +31,14 @@ public class BookingPhoto extends Menu {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bookingphoto);
-        cn = new CheckNetwork(this);
+        CheckNetwork cn = new CheckNetwork(this);
         if (!cn.isConnected()) {
             Toast.makeText(this, "You are not connected internet. Pease check your connection!", Toast.LENGTH_LONG).show();
         }
         checkSession();
 
-        booking = (Button) findViewById(R.id.booking_now);
-        schedule = (Button) findViewById(R.id.booking_schedule);
+        Button booking = (Button) findViewById(R.id.booking_now);
+        Button schedule = (Button) findViewById(R.id.booking_schedule);
         date = (EditText) findViewById(R.id.booking_date);
         time = (EditText) findViewById(R.id.booking_time);
         alamat = (EditText) findViewById(R.id.booking_alamat);
@@ -94,7 +91,6 @@ public class BookingPhoto extends Menu {
         schedule.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                startActivity(new Intent(BookingPhoto.this, Schedule.class));
-                finish();
             }
         });
         setToolbar();
@@ -104,6 +100,7 @@ public class BookingPhoto extends Menu {
         final FirebaseUser user = fAuth.getCurrentUser();
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         final DatabaseReference bookingan = database.getReference("booking");
+        assert user != null;
         DatabaseReference userInfo = database.getReference("userData").child(user.getUid());
         userInfo.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -146,8 +143,8 @@ public class BookingPhoto extends Menu {
         });
     }
 
-    public Map saveDataBooking(String id, String pemesan, final String tanggal, final String jam, final String lokasi) {
-        Map data = new HashMap();
+    public Map<String, String> saveDataBooking(String id, String pemesan, final String tanggal, final String jam, final String lokasi) {
+        Map<String, String> data = new HashMap<>();
         data.put("idPemesan", id);
         data.put("Pemesan", pemesan);
         data.put("Tanggal", tanggal);

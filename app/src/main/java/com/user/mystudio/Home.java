@@ -12,7 +12,6 @@ public class Home extends AppCompatActivity {
 
     private FirebaseAuth fAuth;
     private FirebaseAuth.AuthStateListener fStateListener;
-    private static final String TAG = Home.class.getSimpleName();
     private static int SPLASH_TIME_OUT = 3000;
 
     @Override
@@ -28,7 +27,7 @@ public class Home extends AppCompatActivity {
                     new Handler().postDelayed(new Runnable() {
                         @Override
                         public void run() {
-                            Intent intent = new Intent(Home.this, Menu.class);
+                            Intent intent = new Intent(Home.this, MenuAct.class);
                             startActivity(intent);
                             finish();
                         }

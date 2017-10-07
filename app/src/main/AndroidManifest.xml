@@ -27,7 +27,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".Menu"
+            android:name=".MenuAct"
             android:theme="@style/AppTheme" />
         <activity
             android:name=".Login"
