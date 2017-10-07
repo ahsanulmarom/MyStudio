@@ -52,16 +52,8 @@ public class SignUp extends AppCompatActivity {
         fStateListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                FirebaseUser user = firebaseAuth.getCurrentUser();
-                if (user != null) {
-                    // User sedang login
-                    if (!(user.isEmailVerified())) {
-                        sendVerificationEmail();
-                    }
-                    Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
+                if (firebaseAuth.getCurrentUser() != null) {
                 } else {
-                    // User sedang logout
-                    Log.d(TAG, "onAuthStateChanged:signed_out");
                 }
             }
         };
@@ -113,6 +105,7 @@ public class SignUp extends AppCompatActivity {
                             userData.setValue(data);
                             Toast.makeText(SignUp.this, "Sign up Successfully. Please check email to verify account! ",
                                     Toast.LENGTH_SHORT).show();
+                            sendVerificationEmail();
                         }
                     }
                 });

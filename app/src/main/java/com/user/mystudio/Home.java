@@ -1,14 +1,12 @@
 package com.user.mystudio;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.util.Log;
 
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 
 public class Home extends AppCompatActivity {
 
@@ -26,10 +24,7 @@ public class Home extends AppCompatActivity {
         fStateListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                FirebaseUser user = firebaseAuth.getCurrentUser();
-                if (user != null) {
-                    // User sedang login
-                    Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
+                if (firebaseAuth.getCurrentUser() != null) {
                     new Handler().postDelayed(new Runnable() {
                         @Override
                         public void run() {
@@ -40,7 +35,6 @@ public class Home extends AppCompatActivity {
                     },SPLASH_TIME_OUT);
                 } else {
                     // User sedang logout
-                    Log.d(TAG, "onAuthStateChanged:signed_out");
                     new Handler().postDelayed(new Runnable() {
                         @Override
                         public void run() {

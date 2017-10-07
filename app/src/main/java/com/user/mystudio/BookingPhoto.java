@@ -3,13 +3,6 @@ package com.user.mystudio;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.design.widget.NavigationView;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-import android.util.Log;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -27,7 +20,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.HashMap;
 import java.util.Map;
 
-public class BookingPhoto extends AppCompatActivity {
+public class BookingPhoto extends Menu {
 
     private FirebaseAuth fAuth;
     private FirebaseAuth.AuthStateListener fStateListener;
@@ -36,9 +29,6 @@ public class BookingPhoto extends AppCompatActivity {
     private Button booking, schedule;
     private EditText date, time, alamat;
     private RadioButton studio, alamatLain;
-    private Toolbar toolbar;
-    private NavigationView navigationView;
-    private DrawerLayout drawerLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -105,7 +95,6 @@ public class BookingPhoto extends AppCompatActivity {
             public void onClick(View v) {
                startActivity(new Intent(BookingPhoto.this, Schedule.class));
                 finish();
-                closeContextMenu();
             }
         });
         setToolbar();
@@ -123,7 +112,6 @@ public class BookingPhoto extends AppCompatActivity {
                 bookingan.orderByChild("Tanggal").equalTo(date.getText().toString().trim()).addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshotBooking) {
-                        Log.e(TAG, "onDataChange: data1 = " + dataSnapshotBooking.getValue() );
                         if (dataSnapshotBooking.getValue() == null) {
                             bookingan.push().setValue(saveDataBooking(user.getUid(), pemesan, tanggal, jam, lokasi));
                             Toast.makeText(BookingPhoto.this, "Jadwal telah dipesan untuk Anda.",
@@ -132,7 +120,6 @@ public class BookingPhoto extends AppCompatActivity {
                             bookingan.orderByChild("Jam").equalTo(time.getText().toString().trim()).addListenerForSingleValueEvent(new ValueEventListener() {
                                 @Override
                                 public void onDataChange(DataSnapshot dataSnapshot) {
-                                    Log.e(TAG, "onDataChange: data2 = " + dataSnapshot.getValue() );
                                     if (dataSnapshot.getValue() == null) {
                                         bookingan.push().setValue(saveDataBooking(user.getUid(), pemesan, tanggal, jam, lokasi));
                                         Toast.makeText(BookingPhoto.this, "Jadwal telah dipesan untuk Anda.",
@@ -145,9 +132,7 @@ public class BookingPhoto extends AppCompatActivity {
                                 }
 
                                 @Override
-                                public void onCancelled(DatabaseError databaseError) {
-
-                                }
+                                public void onCancelled(DatabaseError databaseError) {}
                             });
                         }
                     }
@@ -157,21 +142,19 @@ public class BookingPhoto extends AppCompatActivity {
             }
 
             @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
+            public void onCancelled(DatabaseError databaseError) {}
         });
     }
 
     public Map saveDataBooking(String id, String pemesan, final String tanggal, final String jam, final String lokasi) {
-                Map data = new HashMap();
-                data.put("idPemesan", id);
-                data.put("Pemesan", pemesan);
-                data.put("Tanggal", tanggal);
-                data.put("Jam", jam);
-                data.put("Alamat", lokasi);
-                data.put("Status", "Menunggu Persetujuan Admin");
-                return data;
+        Map data = new HashMap();
+        data.put("idPemesan", id);
+        data.put("Pemesan", pemesan);
+        data.put("Tanggal", tanggal);
+        data.put("Jam", jam);
+        data.put("Alamat", lokasi);
+        data.put("Status", "Menunggu Persetujuan Admin");
+        return data;
     }
 
     public void checkSession() {
@@ -179,86 +162,12 @@ public class BookingPhoto extends AppCompatActivity {
         fStateListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                FirebaseUser user = firebaseAuth.getCurrentUser();
-                if (user != null) {
-                    // User sedang login
-                    Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
+                if (firebaseAuth.getCurrentUser() != null) {
                 } else {
-                    // User sedang logout
-                    Log.d(TAG, "onAuthStateChanged:signed_out");
                     startActivity(new Intent(getApplicationContext(), Login.class));
                 }
             }
         };
-    }
-
-    public void setToolbar() {
-        // Menginisiasi Toolbar dan mensetting sebagai actionbar
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        // Menginisiasi  NavigationView
-        navigationView = (NavigationView) findViewById(R.id.navigation_view);
-        //Mengatur Navigasi View Item yang akan dipanggil untuk menangani item klik menu navigasi
-        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
-            // This method will trigger on item Click of navigation menu
-            @Override
-            public boolean onNavigationItemSelected(MenuItem menuItem) {
-                //Memeriksa apakah item tersebut dalam keadaan dicek  atau tidak,
-                if (menuItem.isChecked()) menuItem.setChecked(false);
-                else menuItem.setChecked(true);
-                //Menutup  drawer item klik
-                drawerLayout.closeDrawers();
-                //Memeriksa untuk melihat item yang akan dilklik dan melalukan aksi
-                toolbarNav(menuItem);
-                return true;
-            }
-        });
-        // Menginisasi Drawer Layout dan ActionBarToggle
-        drawerLayout = (DrawerLayout) findViewById(R.id.drawer);
-        ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.openDrawer, R.string.closeDrawer) {
-            @Override
-            public void onDrawerClosed(View drawerView) {
-                // Kode di sini akan merespons setelah drawer menutup disini kita biarkan kosong
-                super.onDrawerClosed(drawerView);
-            }
-
-            @Override
-            public void onDrawerOpened(View drawerView) {
-                //  Kode di sini akan merespons setelah drawer terbuka disini kita biarkan kosong
-                super.onDrawerOpened(drawerView);
-            }
-        };
-        //Mensetting actionbarToggle untuk drawer layout
-        drawerLayout.setDrawerListener(actionBarDrawerToggle);
-        //memanggil synstate
-        actionBarDrawerToggle.syncState();
-    }
-
-    public boolean toolbarNav(MenuItem menuItem) {
-        switch (menuItem.getItemId()) {
-            // pilihan menu item navigasi akan menampilkan pesan toast klik kalian bisa menggantinya
-            //dengan intent activity
-            case R.id.nav_home:
-                startActivity(new Intent(this, Menu.class));
-                finish();
-                return true;
-            case R.id.nav_booking:
-                startActivity(new Intent(this, BookingPhoto.class));
-                finish();
-                return true;
-            case R.id.nav_schedule:
-                startActivity(new Intent(this, Schedule.class));
-                finish();
-                return true;
-            case R.id.nav_logout:
-                FirebaseAuth.getInstance().signOut();
-                startActivity(new Intent(this, Login.class));
-                finish();
-                return true;
-            default:
-                Toast.makeText(this, "Kesalahan Terjadi ", Toast.LENGTH_SHORT).show();
-                return true;
-        }
     }
 
     @Override

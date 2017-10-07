@@ -9,15 +9,12 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 
 public class CheckNetwork extends AppCompatActivity {
 
     Context context;
     public FirebaseAuth fAuth;
     public FirebaseAuth.AuthStateListener fStateListener;
-    public final String TAG = getClass().getSimpleName();
-
     public CheckNetwork(Context context) {
         this.context = context;
     }
@@ -41,8 +38,7 @@ public class CheckNetwork extends AppCompatActivity {
         fStateListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                FirebaseUser user = firebaseAuth.getCurrentUser();
-                if (user == null) {
+                if (firebaseAuth.getCurrentUser() == null) {
                     startActivity(new Intent(getApplicationContext(), Login.class));
                 }
             }

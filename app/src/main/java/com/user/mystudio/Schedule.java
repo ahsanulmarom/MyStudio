@@ -5,14 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.design.widget.NavigationView;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-import android.util.Log;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Adapter;
 import android.widget.AdapterView;
@@ -39,20 +32,17 @@ import java.util.Map;
  * Created by user on 27/09/2017.
  */
 
-public class Schedule extends AppCompatActivity implements AdapterView.OnItemClickListener {
+public class Schedule extends Menu implements AdapterView.OnItemClickListener {
     private CheckNetwork cn;
     private Model_Schedule modelSchedule;
     private Context context = this;
     private ListView lv;
     private List<HashMap<String, Object>> fillMaps = new ArrayList<>();
     private Adapter adapter;
-    Map map;
+    private Map map;
     private FirebaseAuth fAuth;
     private FirebaseAuth.AuthStateListener fStateListener;
     private String TAG = Schedule.class.getSimpleName();;
-    private Toolbar toolbar;
-    private NavigationView navigationView;
-    private DrawerLayout drawerLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,7 +70,6 @@ public class Schedule extends AppCompatActivity implements AdapterView.OnItemCli
                     nullSchedule();
                 } else {
                     for (final DataSnapshot snap : dataSnapshot.getChildren()) {
-                        Log.e(TAG, "onDataChange: testkey " + snap.getKey());
                         final String key = snap.getKey();
                         booking.child(key).addValueEventListener(new ValueEventListener() {
                             @Override
@@ -95,16 +84,13 @@ public class Schedule extends AppCompatActivity implements AdapterView.OnItemCli
                             }
 
                             @Override
-                            public void onCancelled(DatabaseError databaseError) {
-
-                            }
+                            public void onCancelled(DatabaseError databaseError) {}
                         });
                     }
                 }
             }
             @Override
-            public void onCancelled(DatabaseError databaseError) {
-            }
+            public void onCancelled(DatabaseError databaseError) {}
         });
     }
 
@@ -124,8 +110,6 @@ public class Schedule extends AppCompatActivity implements AdapterView.OnItemCli
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
-                Log.e(TAG, "onItemClick: "+fillMaps.get(position) );
-                Log.e(TAG, "onItemClick: "+fillMaps.get(position).get("date") );
                 final String kunci = fillMaps.get(position).get("key").toString();
                 LinearLayout layoutinputSchedule = new LinearLayout(context);   //layout
                 layoutinputSchedule.setOrientation(LinearLayout.VERTICAL);
@@ -141,7 +125,6 @@ public class Schedule extends AppCompatActivity implements AdapterView.OnItemCli
                             "* * * * *" + "\n" +
                             "Anda dapat membatalkan SEBELUM mendapat approval admin.");
                     builder.setView(layoutinputSchedule);
-                    //posstive button
                     builder.setPositiveButton("Cancel Booking", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
                             FirebaseDatabase database = FirebaseDatabase.getInstance();
@@ -167,11 +150,8 @@ public class Schedule extends AppCompatActivity implements AdapterView.OnItemCli
                             "* * * * *" + "\n" +
                             "Pesanan telah dikonfirmasi admin. Pesanan tidak dapat dibatalkan.");
                     builder.setView(layoutinputSchedule);
-                    //posstive button
                     builder.setPositiveButton("Close", new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int which) {
-
-                        }
+                        public void onClick(DialogInterface dialog, int which) {}
                     });
                     builder.show();
                 } else {
@@ -184,11 +164,8 @@ public class Schedule extends AppCompatActivity implements AdapterView.OnItemCli
                             "* * * * *" + "\n" +
                             "Booking telah selesai. Selamat.");
                     builder.setView(layoutinputSchedule);
-                    //posstive button
                     builder.setPositiveButton("Close", new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int which) {
-
-                        }
+                        public void onClick(DialogInterface dialog, int which) {}
                     });
                     builder.show();
                 }
@@ -222,75 +199,6 @@ public class Schedule extends AppCompatActivity implements AdapterView.OnItemCli
         builder.show();
     }
 
-    public void setToolbar() {
-        // Menginisiasi Toolbar dan mensetting sebagai actionbar
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        // Menginisiasi  NavigationView
-        navigationView = (NavigationView) findViewById(R.id.navigation_view);
-        //Mengatur Navigasi View Item yang akan dipanggil untuk menangani item klik menu navigasi
-        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
-            // This method will trigger on item Click of navigation menu
-            @Override
-            public boolean onNavigationItemSelected(MenuItem menuItem) {
-                //Memeriksa apakah item tersebut dalam keadaan dicek  atau tidak,
-                if (menuItem.isChecked()) menuItem.setChecked(false);
-                else menuItem.setChecked(true);
-                //Menutup  drawer item klik
-                drawerLayout.closeDrawers();
-                //Memeriksa untuk melihat item yang akan dilklik dan melalukan aksi
-                toolbarNav(menuItem);
-                return true;
-            }
-        });
-        // Menginisasi Drawer Layout dan ActionBarToggle
-        drawerLayout = (DrawerLayout) findViewById(R.id.drawer);
-        ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.openDrawer, R.string.closeDrawer) {
-            @Override
-            public void onDrawerClosed(View drawerView) {
-                // Kode di sini akan merespons setelah drawer menutup disini kita biarkan kosong
-                super.onDrawerClosed(drawerView);
-            }
-
-            @Override
-            public void onDrawerOpened(View drawerView) {
-                //  Kode di sini akan merespons setelah drawer terbuka disini kita biarkan kosong
-                super.onDrawerOpened(drawerView);
-            }
-        };
-        //Mensetting actionbarToggle untuk drawer layout
-        drawerLayout.setDrawerListener(actionBarDrawerToggle);
-        //memanggil synstate
-        actionBarDrawerToggle.syncState();
-    }
-
-    public boolean toolbarNav(MenuItem menuItem) {
-        switch (menuItem.getItemId()) {
-            // pilihan menu item navigasi akan menampilkan pesan toast klik kalian bisa menggantinya
-            //dengan intent activity
-            case R.id.nav_home:
-                startActivity(new Intent(this, Menu.class));
-                finish();
-                return true;
-            case R.id.nav_booking:
-                startActivity(new Intent(this, BookingPhoto.class));
-                finish();
-                return true;
-            case R.id.nav_schedule:
-                startActivity(new Intent(this, Schedule.class));
-                finish();
-                return true;
-            case R.id.nav_logout:
-                FirebaseAuth.getInstance().signOut();
-                startActivity(new Intent(this, Login.class));
-                finish();
-                return true;
-            default:
-                Toast.makeText(getApplication(), "Kesalahan Terjadi ", Toast.LENGTH_SHORT).show();
-                return true;
-        }
-    }
-
     public void checkSession() {
         fAuth = FirebaseAuth.getInstance();
         fStateListener = new FirebaseAuth.AuthStateListener() {
@@ -318,7 +226,5 @@ public class Schedule extends AppCompatActivity implements AdapterView.OnItemCli
     }
 
     @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-    }
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {}
 }

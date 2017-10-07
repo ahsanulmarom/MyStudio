@@ -16,12 +16,8 @@ import com.google.firebase.auth.FirebaseAuth;
 
 
 public class Menu extends AppCompatActivity {
-    //Mendefinisikan variabel
-    CheckNetwork cn;
-    public FirebaseAuth fAuth;
-    public FirebaseAuth.AuthStateListener fStateListener;
-    public final String TAG = getClass().getSimpleName();
-    Button booking, print, galery, promotion;
+    private CheckNetwork cn;
+    private Button booking, print, galery, promotion;
     private Toolbar toolbar;
     private NavigationView navigationView;
     private DrawerLayout drawerLayout;

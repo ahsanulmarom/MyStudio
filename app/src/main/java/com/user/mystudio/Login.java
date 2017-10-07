@@ -50,13 +50,8 @@ public class Login extends AppCompatActivity {
         fStateListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                FirebaseUser user = firebaseAuth.getCurrentUser();
-                if (user != null) {
-                    // User sedang login
-                    Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
+                if (firebaseAuth.getCurrentUser() != null) {
                 } else {
-                    // User sedang logout
-                    Log.d(TAG, "onAuthStateChanged:signed_out");
                 }
             }
         };
