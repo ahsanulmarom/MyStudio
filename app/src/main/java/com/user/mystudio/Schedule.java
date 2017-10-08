@@ -128,9 +128,7 @@ public class Schedule extends MenuAct implements AdapterView.OnItemClickListener
                     });
                     builder.setNeutralButton("Close", new DialogInterface.OnClickListener() {
                         @Override
-                        public void onClick(DialogInterface dialog, int which) {
-
-                        }
+                        public void onClick(DialogInterface dialog, int which) {}
                     });
                     builder.show();
                 } else if(fillMaps.get(position).get("status").equalsIgnoreCase("Disetujui Admin")) {
@@ -159,6 +157,15 @@ public class Schedule extends MenuAct implements AdapterView.OnItemClickListener
                     builder.setView(layoutinputSchedule);
                     builder.setPositiveButton("Close", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {}
+                    });
+                    builder.setNeutralButton("Delete List", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            FirebaseDatabase database = FirebaseDatabase.getInstance();
+                            DatabaseReference booking = database.getReference("booking");
+                            recreate();
+                            booking.child(kunci).removeValue();
+                        }
                     });
                     builder.show();
                 }

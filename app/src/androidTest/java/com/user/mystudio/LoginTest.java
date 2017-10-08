@@ -18,13 +18,15 @@ import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
+import static android.support.test.espresso.intent.Intents.intended;
+import static android.support.test.espresso.intent.matcher.IntentMatchers.hasComponent;
 import static android.support.test.espresso.matcher.RootMatchers.withDecorView;
 import static android.support.test.espresso.matcher.ViewMatchers.hasErrorText;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
 @RunWith(AndroidJUnit4.class)
-@FixMethodOrder(MethodSorters.NAME_ASCENDING)
+@FixMethodOrder(MethodSorters.DEFAULT)
 public class LoginTest {
     @Rule
     public ActivityTestRule<Login> loginActivityActivityTestRule = new ActivityTestRule<>(Login.class, true, false);
@@ -74,8 +76,7 @@ public class LoginTest {
         onView(withId(R.id.login_btnLogin)).perform(click());
         pauseTestFor(2500);
         onView(withText("Sorry, Your Email or Password is Incorrect. Please try again!"))
-                .inRoot(withDecorView(Matchers.not(Matchers.is(loginActivityActivityTestRule.getActivity().getWindow().getDecorView()))))
-                .perform(click());
+                .inRoot(withDecorView(Matchers.not(Matchers.is(loginActivityActivityTestRule.getActivity().getWindow().getDecorView()))));
     }
 
     @Test
@@ -84,9 +85,11 @@ public class LoginTest {
         onView(withId(R.id.login_email)).perform(typeText("ahsanulmarom@gmail.com"), closeSoftKeyboard());
         onView(withId(R.id.login_password)).perform(typeText("123456"), closeSoftKeyboard());
         onView(withId(R.id.login_btnLogin)).perform(click());
-        pauseTestFor(2500);
+        pauseTestFor(5000);
         onView(withText("You are logged in as ahsanulmarom@gmail.com"))
-                .inRoot(withDecorView(Matchers.not(Matchers.is(loginActivityActivityTestRule.getActivity().getWindow().getDecorView()))))
-                .perform(click());
+                .inRoot(withDecorView(Matchers.not(Matchers.is(loginActivityActivityTestRule.getActivity().getWindow().getDecorView()))));
+        pauseTestFor(3000);
+        intended(hasComponent(MenuAct.class.getName()));
+        pauseTestFor(2000);
     }
 }

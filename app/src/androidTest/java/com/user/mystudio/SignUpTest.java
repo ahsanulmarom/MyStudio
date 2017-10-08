@@ -1,9 +1,12 @@
 package com.user.mystudio;
 
+import android.support.test.espresso.intent.Intents;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 
 import org.hamcrest.Matchers;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.FixMethodOrder;
 import org.junit.Rule;
 import org.junit.Test;
@@ -15,13 +18,15 @@ import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
+import static android.support.test.espresso.intent.Intents.intended;
+import static android.support.test.espresso.intent.matcher.IntentMatchers.hasComponent;
 import static android.support.test.espresso.matcher.RootMatchers.withDecorView;
 import static android.support.test.espresso.matcher.ViewMatchers.hasErrorText;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
 @RunWith(AndroidJUnit4.class)
-@FixMethodOrder(MethodSorters.NAME_ASCENDING)
+@FixMethodOrder(MethodSorters.DEFAULT)
 public class SignUpTest {
     @Rule
     public ActivityTestRule<SignUp> signUpActivityTestRule = new ActivityTestRule<>(SignUp.class, true, false);
@@ -34,18 +39,31 @@ public class SignUpTest {
         }
     }
 
+    @Before
+    public void setUp() throws Exception {
+        Intents.init();
+    }
+
+    @After
+    public void tearDown() throws Exception {
+        Intents.release();
+    }
+
     @Test
     public void testSignUp() {
+        String email = "espressoTest" + (int) (Math.random()*1000) +"@gmail.com";
         signUpActivityTestRule.launchActivity(null);
-        onView(withId(R.id.signup_username)).perform(typeText("Agus Testing Espresso"), closeSoftKeyboard());
-        onView(withId(R.id.signup_email)).perform(typeText("espressoTest@gmail.com"), closeSoftKeyboard());
+        onView(withId(R.id.signup_username)).perform(typeText("Espresso Testing"), closeSoftKeyboard());
+        onView(withId(R.id.signup_email)).perform(typeText(email), closeSoftKeyboard());
         onView(withId(R.id.signup_password)).perform(typeText("123456"), closeSoftKeyboard());
         onView(withId(R.id.signup_repassword)).perform(typeText("123456"), closeSoftKeyboard());
         onView(withId(R.id.signup_submit)).perform(click());
-        pauseTestFor(2500);
+        pauseTestFor(5000);
         onView(withText("Sign up Successfully. Please check email to verify account!"))
-                .inRoot(withDecorView(Matchers.not(Matchers.is(signUpActivityTestRule.getActivity().getWindow().getDecorView()))))
-                .perform(click());
+                .inRoot(withDecorView(Matchers.not(Matchers.is(signUpActivityTestRule.getActivity().getWindow().getDecorView()))));
+        pauseTestFor(3000);
+        intended(hasComponent(Login.class.getName()));
+        pauseTestFor(3000);
     }
 
     @Test
@@ -58,8 +76,8 @@ public class SignUpTest {
         onView(withId(R.id.signup_submit)).perform(click());
         pauseTestFor(2500);
         onView(withText("Failed to sign up. Email has been registered."))
-                .inRoot(withDecorView(Matchers.not(Matchers.is(signUpActivityTestRule.getActivity().getWindow().getDecorView()))))
-                .perform(click());
+                .inRoot(withDecorView(Matchers.not(Matchers.is(signUpActivityTestRule.getActivity().getWindow().getDecorView()))));
+        pauseTestFor(3000);
     }
 
     @Test

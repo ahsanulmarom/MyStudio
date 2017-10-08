@@ -18,7 +18,7 @@ import static android.support.test.espresso.intent.matcher.IntentMatchers.hasCom
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 
 @RunWith(AndroidJUnit4.class)
-@FixMethodOrder(MethodSorters.NAME_ASCENDING)
+@FixMethodOrder(MethodSorters.DEFAULT)
 public class MenuActTest {
     @Rule
     public IntentsTestRule<MenuAct> menuIntentsTestRule = new IntentsTestRule<>(MenuAct.class, true, false);
