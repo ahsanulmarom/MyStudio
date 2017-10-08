@@ -103,7 +103,7 @@ public class SignUp extends AppCompatActivity {
                             data.put("email", email.getText().toString().trim());
                             data.put("name", username.getText().toString().trim());
                             userData.setValue(data);
-                            Toast.makeText(SignUp.this, "Sign up Successfully. Please check email to verify account! ",
+                            Toast.makeText(SignUp.this, "Sign up Successfully. Please check email to verify account!",
                                     Toast.LENGTH_SHORT).show();
                             sendVerificationEmail();
                         }

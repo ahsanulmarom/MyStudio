@@ -4,6 +4,7 @@ import android.support.test.espresso.intent.Intents;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 
+import org.hamcrest.Matchers;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.FixMethodOrder;
@@ -17,11 +18,10 @@ import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
-import static android.support.test.espresso.intent.Intents.intended;
-import static android.support.test.espresso.intent.Intents.times;
-import static android.support.test.espresso.intent.matcher.IntentMatchers.hasComponent;
+import static android.support.test.espresso.matcher.RootMatchers.withDecorView;
 import static android.support.test.espresso.matcher.ViewMatchers.hasErrorText;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
+import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
 @RunWith(AndroidJUnit4.class)
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
@@ -67,12 +67,26 @@ public class LoginTest {
     }
 
     @Test
+    public void testLoginFailed() {
+        loginActivityActivityTestRule.launchActivity(null);
+        onView(withId(R.id.login_email)).perform(typeText("testFailed@gmail.com"), closeSoftKeyboard());
+        onView(withId(R.id.login_password)).perform(typeText("asdfghjkl"), closeSoftKeyboard());
+        onView(withId(R.id.login_btnLogin)).perform(click());
+        pauseTestFor(2500);
+        onView(withText("Sorry, Your Email or Password is Incorrect. Please try again!"))
+                .inRoot(withDecorView(Matchers.not(Matchers.is(loginActivityActivityTestRule.getActivity().getWindow().getDecorView()))))
+                .perform(click());
+    }
+
+    @Test
     public void testLogin() {
         loginActivityActivityTestRule.launchActivity(null);
         onView(withId(R.id.login_email)).perform(typeText("ahsanulmarom@gmail.com"), closeSoftKeyboard());
         onView(withId(R.id.login_password)).perform(typeText("123456"), closeSoftKeyboard());
         onView(withId(R.id.login_btnLogin)).perform(click());
-        intended(hasComponent(MenuAct.class.getName()));
-        intended(hasComponent(Login.class.getName()), times(0));
+        pauseTestFor(2500);
+        onView(withText("You are logged in as ahsanulmarom@gmail.com"))
+                .inRoot(withDecorView(Matchers.not(Matchers.is(loginActivityActivityTestRule.getActivity().getWindow().getDecorView()))))
+                .perform(click());
     }
 }

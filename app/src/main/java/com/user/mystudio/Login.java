@@ -145,14 +145,15 @@ public class Login extends AppCompatActivity {
         assert user != null;
         if (user.isEmailVerified()) {
                 // user is verified, so you can finish this activity or send user to activity which you want.
-                startActivity(new Intent(Login.this, MenuAct.class));
-                finish();
-            }
-            else {
-                Toast.makeText(Login.this, "Sorry, Please Check Email and Verify Your Account!",
-                        Toast.LENGTH_SHORT).show();
-                FirebaseAuth.getInstance().signOut();
-            }
+            startActivity(new Intent(Login.this, MenuAct.class));
+            Toast.makeText(Login.this, "You are logged in as " + user.getEmail(),
+                    Toast.LENGTH_SHORT).show();
+            finish();
+        } else {
+            Toast.makeText(Login.this, "Sorry, Please Check Email and Verify Your Account!",
+                    Toast.LENGTH_SHORT).show();
+            FirebaseAuth.getInstance().signOut();
+        }
     }
 
     private void sendEmailResetPassword(String emailAd) {
