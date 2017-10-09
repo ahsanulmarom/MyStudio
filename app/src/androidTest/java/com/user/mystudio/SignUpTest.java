@@ -1,5 +1,7 @@
 package com.user.mystudio;
 
+import android.content.Context;
+import android.net.ConnectivityManager;
 import android.support.test.espresso.intent.Intents;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
@@ -12,6 +14,8 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.MethodSorters;
+
+import java.lang.reflect.Method;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
@@ -39,6 +43,15 @@ public class SignUpTest {
         }
     }
 
+    private void enableData(Context context, boolean enable) {
+        ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        try {
+            Method m = cm.getClass().getDeclaredMethod("setMobileDataEnabled", boolean.class);
+            m.invoke(cm, enable);
+        } catch (Exception ignored) {
+        }
+    }
+
     @Before
     public void setUp() throws Exception {
         Intents.init();
@@ -47,6 +60,37 @@ public class SignUpTest {
     @After
     public void tearDown() throws Exception {
         Intents.release();
+    }
+
+    @Test
+    public void testNoConnection() {
+        signUpActivityTestRule.launchActivity(null);
+        pauseTestFor(1000);
+        enableData(signUpActivityTestRule.getActivity().getApplicationContext(), false);
+        pauseTestFor(3000);
+        onView(withText("You are not connected internet. Pease check your connection!"))
+                .inRoot(withDecorView(Matchers.not(Matchers.is(signUpActivityTestRule.getActivity().getWindow().getDecorView()))));
+        enableData(signUpActivityTestRule.getActivity().getApplicationContext(), true);
+        pauseTestFor(5000);
+    }
+
+    @Test
+    public void testSignUpNoConnection() {
+        String email = "espressoTest" + (int) (Math.random()*1000) +"@gmail.com";
+        signUpActivityTestRule.launchActivity(null);
+        pauseTestFor(1000);
+        onView(withId(R.id.signup_username)).perform(typeText("Espresso Testing"), closeSoftKeyboard());
+        onView(withId(R.id.signup_email)).perform(typeText(email), closeSoftKeyboard());
+        onView(withId(R.id.signup_password)).perform(typeText("123456"), closeSoftKeyboard());
+        onView(withId(R.id.signup_repassword)).perform(typeText("123456"), closeSoftKeyboard());
+        pauseTestFor(5000);
+        enableData(signUpActivityTestRule.getActivity().getApplicationContext(), false);
+        pauseTestFor(2000);
+        onView(withId(R.id.signup_submit)).perform(click());
+        onView(withText("You are not connected internet. Pease check your connection!"))
+                .inRoot(withDecorView(Matchers.not(Matchers.is(signUpActivityTestRule.getActivity().getWindow().getDecorView()))));
+        enableData(signUpActivityTestRule.getActivity().getApplicationContext(), true);
+        pauseTestFor(5000);
     }
 
     @Test

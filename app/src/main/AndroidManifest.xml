@@ -4,9 +4,11 @@
 
     <!-- To auto-complete the email text field in the login form with the user's emails -->
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.UPDATE_DEVICE_STATS" />
 
     <uses-feature
         android:glEsVersion="0x00020000"
@@ -40,9 +42,6 @@
             android:theme="@style/AppTheme" />
         <activity
             android:name=".Schedule"
-            android:theme="@style/AppTheme" />
-        <activity
-            android:name=".admin.AdminSchedule"
             android:theme="@style/AppTheme" />
 </application>
 

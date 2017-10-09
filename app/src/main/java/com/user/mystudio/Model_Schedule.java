@@ -1,13 +1,13 @@
 package com.user.mystudio;
 
-public class Model_Schedule {
+class Model_Schedule {
     private String date;
     private String time;
     private String lokasi;
     private String pemesan;
     private String status;
 
-    public Model_Schedule(String date, String time, String lokasi, String pemesan, String status) {
+    Model_Schedule(String date, String time, String lokasi, String pemesan, String status) {
         this.date = date;
         this.time = time;
         this.lokasi = lokasi;
@@ -15,7 +15,7 @@ public class Model_Schedule {
         this.status = status;
     }
 
-    public String getDate() {
+    String getDate() {
         return date;
     }
 
@@ -23,7 +23,7 @@ public class Model_Schedule {
         this.date = date;
     }
 
-    public String getTime() {
+    String getTime() {
         return time;
     }
 
@@ -31,7 +31,7 @@ public class Model_Schedule {
         this.time = time;
     }
 
-    public String getLokasi() {
+    String getLokasi() {
         return lokasi;
     }
 
@@ -39,7 +39,7 @@ public class Model_Schedule {
         this.lokasi = lokasi;
     }
 
-    public String getPemesan() {
+    String getPemesan() {
         return pemesan;
     }
 
@@ -47,7 +47,7 @@ public class Model_Schedule {
         this.pemesan = pemesan;
     }
 
-    public String getStatus() {
+    String getStatus() {
         return status;
     }
 

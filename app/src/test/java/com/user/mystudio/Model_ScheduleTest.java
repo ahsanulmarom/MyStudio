@@ -5,11 +5,8 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-/**
- * Created by user on 01/10/2017.
- */
 public class Model_ScheduleTest {
-    public Model_Schedule modelSchedule = null;
+    private Model_Schedule modelSchedule = null;
 
 
     @Before
