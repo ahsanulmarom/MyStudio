@@ -776,5 +776,14 @@ public class BookingPhotoTest {
         onView(withId(R.id.booking_time)).check(matches(hasErrorText("Format jam salah")));
     }
 
-
+    @Test
+    public void testBookingTimeSalah32(){
+        bookingPhotoActivityTestRule.launchActivity(null);
+        onView(withId(R.id.booking_date)).perform(typeText("30/11/2018"), closeSoftKeyboard());
+        onView(withId(R.id.booking_time)).perform(typeText("21?02"), closeSoftKeyboard());
+        onView(withId(R.id.radioStudio)).perform(click(), closeSoftKeyboard());
+        onView(withId(R.id.booking_now)).perform(click());
+        pauseTestFor(1000);
+        onView(withId(R.id.booking_time)).check(matches(hasErrorText("Format jam salah")));
+    }
 }
