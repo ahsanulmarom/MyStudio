@@ -50,7 +50,7 @@ public class BookingPhoto extends MenuAct {
                 if (date.getText().toString().equalsIgnoreCase("")) {
                     date.setError("This Field is Required");
                 } else if(date.getText().toString().length() != 10) {
-                    date.setError("Isi sesuai Format dd/mm/yyy");
+                    date.setError("Isi sesuai Format dd-mm-yyy");
                 } else if(Integer.parseInt(date.getText().toString().substring(0,2)) > 30) {
                     date.setError("Maksimal tanggal 30");
                 } else if(Integer.parseInt(date.getText().toString().substring(3,5)) > 12) {
