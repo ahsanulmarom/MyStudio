@@ -100,7 +100,7 @@ public class MenuAct extends AppCompatActivity {
                 return true;
             case R.id.nav_logout:
                 FirebaseAuth.getInstance().signOut();
-                startActivity(new Intent(MenuAct.this, Login.class));
+                startActivity(new Intent(getApplication(), Login.class));
                 finish();
                 return true;
             default:

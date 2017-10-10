@@ -1,10 +1,9 @@
 package com.user.mystudio;
 
-import android.support.test.espresso.ViewAction;
-import android.support.test.espresso.action.ViewActions;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 
+import org.hamcrest.Matchers;
 import org.junit.FixMethodOrder;
 import org.junit.Rule;
 import org.junit.Test;
@@ -16,12 +15,10 @@ import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
+import static android.support.test.espresso.matcher.RootMatchers.withDecorView;
 import static android.support.test.espresso.matcher.ViewMatchers.hasErrorText;
-import static android.support.test.espresso.matcher.ViewMatchers.isChecked;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
-/**
- * Created by Edwin Dwi Ahmad on 09-Oct-17.
- */
+import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
 @RunWith(AndroidJUnit4.class)
 @FixMethodOrder(MethodSorters.DEFAULT)
@@ -71,29 +68,18 @@ public class BookingPhotoTest {
         pauseTestFor(1000);
         onView(withId(R.id.booking_alamat)).check(matches(hasErrorText("This Field is Required")));
     }
-/*
-    @Test
-    public void testBookingDateSalah(){
-        bookingPhotoActivityTestRule.launchActivity(null);
-        onView(withId(R.id.booking_date)).perform(typeText("2-10-2017"), closeSoftKeyboard());
-        onView(withId(R.id.booking_time)).perform(typeText("10:00"), closeSoftKeyboard());
-        onView(withId(R.id.radioStudio)).perform(click(), closeSoftKeyboard());
-        onView(withId(R.id.booking_now)).perform(click());
-        pauseTestFor(1000);
-        onView(withId(R.id.booking_date)).check(matches(hasErrorText("Isi sesuai Format dd/mm/yyyy")));
-    }
 
     @Test
     public void testBookingDateSalah2(){
         bookingPhotoActivityTestRule.launchActivity(null);
-        onView(withId(R.id.booking_date)).perform(typeText("002-10-2017"), closeSoftKeyboard());
+        onView(withId(R.id.booking_date)).perform(typeText("2/9/2017"), closeSoftKeyboard());
         onView(withId(R.id.booking_time)).perform(typeText("10:00"), closeSoftKeyboard());
         onView(withId(R.id.radioStudio)).perform(click(), closeSoftKeyboard());
         onView(withId(R.id.booking_now)).perform(click());
         pauseTestFor(1000);
-        onView(withId(R.id.booking_date)).check(matches(hasErrorText("Isi sesuai Format dd/mm/yyyy")));
+        onView(withId(R.id.booking_date)).check(matches(hasErrorText("Isi sesuai Format dd/mm/yyy")));
     }
-*/
+
     @Test
     public void testBookingDateSalah3(){
         bookingPhotoActivityTestRule.launchActivity(null);
@@ -127,17 +113,6 @@ public class BookingPhotoTest {
         onView(withId(R.id.booking_date)).check(matches(hasErrorText("Maksimal tahun adalah 2018")));
     }
 
-/*    @Test
-    public void testBookingDateSalah5(){
-        bookingPhotoActivityTestRule.launchActivity(null);
-        onView(withId(R.id.booking_date)).perform(typeText("30+11/2018"), closeSoftKeyboard());
-        onView(withId(R.id.booking_time)).perform(typeText("10:00"), closeSoftKeyboard());
-        onView(withId(R.id.radioStudio)).perform(click(), closeSoftKeyboard());
-        onView(withId(R.id.booking_now)).perform(click());
-        pauseTestFor(1000);
-        onView(withId(R.id.booking_date)).check(matches(hasErrorText("Isi sesuai Format dd/mm/yyyy")));
-    }
-*/
     @Test
     public void testBookingDateSalah6(){
         bookingPhotoActivityTestRule.launchActivity(null);
@@ -181,18 +156,7 @@ public class BookingPhotoTest {
         pauseTestFor(1000);
         onView(withId(R.id.booking_date)).check(matches(hasErrorText("Isi sesuai Format dd/mm/yyyy")));
     }
-/*
-    @Test
-    public void testBookingDateSalah10(){
-        bookingPhotoActivityTestRule.launchActivity(null);
-        onView(withId(R.id.booking_date)).perform(typeText("30:11/2018"), closeSoftKeyboard());
-        onView(withId(R.id.booking_time)).perform(typeText("10:00"), closeSoftKeyboard());
-        onView(withId(R.id.radioStudio)).perform(click(), closeSoftKeyboard());
-        onView(withId(R.id.booking_now)).perform(click());
-        pauseTestFor(1000);
-        onView(withId(R.id.booking_date)).check(matches(hasErrorText("Isi sesuai Format dd/mm/yyyy")));
-    }
-*/
+
     @Test
     public void testBookingDateSalah11(){
         bookingPhotoActivityTestRule.launchActivity(null);
@@ -247,51 +211,7 @@ public class BookingPhotoTest {
         pauseTestFor(1000);
         onView(withId(R.id.booking_date)).check(matches(hasErrorText("Isi sesuai Format dd/mm/yyyy")));
     }
-/*
-    @Test
-    public void testBookingDateSalah17(){
-        bookingPhotoActivityTestRule.launchActivity(null);
-        onView(withId(R.id.booking_date)).perform(typeText("30`11/2018"), closeSoftKeyboard());
-        onView(withId(R.id.booking_time)).perform(typeText("10:00"), closeSoftKeyboard());
-        onView(withId(R.id.radioStudio)).perform(click(), closeSoftKeyboard());
-        onView(withId(R.id.booking_now)).perform(click());
-        pauseTestFor(1000);
-        onView(withId(R.id.booking_date)).check(matches(hasErrorText("Isi sesuai Format dd/mm/yyyy")));
-    }
 
-    @Test
-    public void testBookingDateSalah18(){
-        bookingPhotoActivityTestRule.launchActivity(null);
-        onView(withId(R.id.booking_date)).perform(typeText("30~11/2018"), closeSoftKeyboard());
-        onView(withId(R.id.booking_time)).perform(typeText("10:00"), closeSoftKeyboard());
-        onView(withId(R.id.radioStudio)).perform(click(), closeSoftKeyboard());
-        onView(withId(R.id.booking_now)).perform(click());
-        pauseTestFor(1000);
-        onView(withId(R.id.booking_date)).check(matches(hasErrorText("Isi sesuai Format dd/mm/yyyy")));
-    }
-
-    @Test
-    public void testBookingDateSalah19(){
-        bookingPhotoActivityTestRule.launchActivity(null);
-        onView(withId(R.id.booking_date)).perform(typeText("30;11/2018"), closeSoftKeyboard());
-        onView(withId(R.id.booking_time)).perform(typeText("10:00"), closeSoftKeyboard());
-        onView(withId(R.id.radioStudio)).perform(click(), closeSoftKeyboard());
-        onView(withId(R.id.booking_now)).perform(click());
-        pauseTestFor(1000);
-        onView(withId(R.id.booking_date)).check(matches(hasErrorText("Isi sesuai Format dd/mm/yyyy")));
-    }
-
-    @Test
-    public void testBookingDateSalah21(){
-        bookingPhotoActivityTestRule.launchActivity(null);
-        onView(withId(R.id.booking_date)).perform(typeText("30/11+2018"), closeSoftKeyboard());
-        onView(withId(R.id.booking_time)).perform(typeText("10:00"), closeSoftKeyboard());
-        onView(withId(R.id.radioStudio)).perform(click(), closeSoftKeyboard());
-        onView(withId(R.id.booking_now)).perform(click());
-        pauseTestFor(1000);
-        onView(withId(R.id.booking_date)).check(matches(hasErrorText("Isi sesuai Format dd/mm/yyyy")));
-    }
-*/
     @Test
     public void testBookingDateSalah22(){
         bookingPhotoActivityTestRule.launchActivity(null);
@@ -335,18 +255,7 @@ public class BookingPhotoTest {
         pauseTestFor(1000);
         onView(withId(R.id.booking_date)).check(matches(hasErrorText("Isi sesuai Format dd/mm/yyyy")));
     }
-/*
-    @Test
-    public void testBookingDateSalah26(){
-        bookingPhotoActivityTestRule.launchActivity(null);
-        onView(withId(R.id.booking_date)).perform(typeText("30/11:2018"), closeSoftKeyboard());
-        onView(withId(R.id.booking_time)).perform(typeText("10:00"), closeSoftKeyboard());
-        onView(withId(R.id.radioStudio)).perform(click(), closeSoftKeyboard());
-        onView(withId(R.id.booking_now)).perform(click());
-        pauseTestFor(1000);
-        onView(withId(R.id.booking_date)).check(matches(hasErrorText("Isi sesuai Format dd/mm/yyyy")));
-    }
-*/
+
     @Test
     public void testBookingDateSalah27(){
         bookingPhotoActivityTestRule.launchActivity(null);
@@ -401,51 +310,7 @@ public class BookingPhotoTest {
         pauseTestFor(1000);
         onView(withId(R.id.booking_date)).check(matches(hasErrorText("Isi sesuai Format dd/mm/yyyy")));
     }
-/*
-    @Test
-    public void testBookingDateSalah32(){
-        bookingPhotoActivityTestRule.launchActivity(null);
-        onView(withId(R.id.booking_date)).perform(typeText("30/11`2018"), closeSoftKeyboard());
-        onView(withId(R.id.booking_time)).perform(typeText("10:00"), closeSoftKeyboard());
-        onView(withId(R.id.radioStudio)).perform(click(), closeSoftKeyboard());
-        onView(withId(R.id.booking_now)).perform(click());
-        pauseTestFor(1000);
-        onView(withId(R.id.booking_date)).check(matches(hasErrorText("Isi sesuai Format dd/mm/yyyy")));
-    }
 
-    @Test
-    public void testBookingDateSalah33(){
-        bookingPhotoActivityTestRule.launchActivity(null);
-        onView(withId(R.id.booking_date)).perform(typeText("30/11~2018"), closeSoftKeyboard());
-        onView(withId(R.id.booking_time)).perform(typeText("10:00"), closeSoftKeyboard());
-        onView(withId(R.id.radioStudio)).perform(click(), closeSoftKeyboard());
-        onView(withId(R.id.booking_now)).perform(click());
-        pauseTestFor(1000);
-        onView(withId(R.id.booking_date)).check(matches(hasErrorText("Isi sesuai Format dd/mm/yyyy")));
-    }
-
-    @Test
-    public void testBookingDateSalah34(){
-        bookingPhotoActivityTestRule.launchActivity(null);
-        onView(withId(R.id.booking_date)).perform(typeText("30/11;2018"), closeSoftKeyboard());
-        onView(withId(R.id.booking_time)).perform(typeText("10:00"), closeSoftKeyboard());
-        onView(withId(R.id.radioStudio)).perform(click(), closeSoftKeyboard());
-        onView(withId(R.id.booking_now)).perform(click());
-        pauseTestFor(1000);
-        onView(withId(R.id.booking_date)).check(matches(hasErrorText("Isi sesuai Format dd/mm/yyyy")));
-    }
-
-    @Test
-    public void testBookingTimeSalah1(){
-        bookingPhotoActivityTestRule.launchActivity(null);
-        onView(withId(R.id.booking_date)).perform(typeText("30/11/2018"), closeSoftKeyboard());
-        onView(withId(R.id.booking_time)).perform(typeText("-2:00"), closeSoftKeyboard());
-        onView(withId(R.id.radioStudio)).perform(click(), closeSoftKeyboard());
-        onView(withId(R.id.booking_now)).perform(click());
-        pauseTestFor(1000);
-        onView(withId(R.id.booking_time)).check(matches(hasErrorText("Jam salah")));
-    }
-*/
     @Test
     public void testBookingTimeSalah2(){
         bookingPhotoActivityTestRule.launchActivity(null);
@@ -456,18 +321,7 @@ public class BookingPhotoTest {
         pauseTestFor(1000);
         onView(withId(R.id.booking_time)).check(matches(hasErrorText("Jam salah")));
     }
-/*
-    @Test
-    public void testBookingTimeSalah3(){
-        bookingPhotoActivityTestRule.launchActivity(null);
-        onView(withId(R.id.booking_date)).perform(typeText("30/11/2018"), closeSoftKeyboard());
-        onView(withId(R.id.booking_time)).perform(typeText("21:-2"), closeSoftKeyboard());
-        onView(withId(R.id.radioStudio)).perform(click(), closeSoftKeyboard());
-        onView(withId(R.id.booking_now)).perform(click());
-        pauseTestFor(1000);
-        onView(withId(R.id.booking_time)).check(matches(hasErrorText("Jam salah")));
-    }
-*/
+
     @Test
     public void testBookingTimeSalah4(){
         bookingPhotoActivityTestRule.launchActivity(null);
@@ -478,29 +332,7 @@ public class BookingPhotoTest {
         pauseTestFor(1000);
         onView(withId(R.id.booking_time)).check(matches(hasErrorText("Jam salah")));
     }
-/*
-    @Test
-    public void testBookingTimeSalah5(){
-        bookingPhotoActivityTestRule.launchActivity(null);
-        onView(withId(R.id.booking_date)).perform(typeText("30/11/2018"), closeSoftKeyboard());
-        onView(withId(R.id.booking_time)).perform(typeText("21`02"), closeSoftKeyboard());
-        onView(withId(R.id.radioStudio)).perform(click(), closeSoftKeyboard());
-        onView(withId(R.id.booking_now)).perform(click());
-        pauseTestFor(1000);
-        onView(withId(R.id.booking_time)).check(matches(hasErrorText("Format jam salah")));
-    }
 
-    @Test
-    public void testBookingTimeSalah6(){
-        bookingPhotoActivityTestRule.launchActivity(null);
-        onView(withId(R.id.booking_date)).perform(typeText("30/11/2018"), closeSoftKeyboard());
-        onView(withId(R.id.booking_time)).perform(typeText("21~02"), closeSoftKeyboard());
-        onView(withId(R.id.radioStudio)).perform(click(), closeSoftKeyboard());
-        onView(withId(R.id.booking_now)).perform(click());
-        pauseTestFor(1000);
-        onView(withId(R.id.booking_time)).check(matches(hasErrorText("Format jam salah")));
-    }
-*/
     @Test
     public void testBookingTimeSalah7(){
         bookingPhotoActivityTestRule.launchActivity(null);
@@ -610,181 +442,109 @@ public class BookingPhotoTest {
         pauseTestFor(1000);
         onView(withId(R.id.booking_time)).check(matches(hasErrorText("Format jam salah")));
     }
-/*
+
     @Test
     public void testBookingTimeSalah17(){
         bookingPhotoActivityTestRule.launchActivity(null);
         onView(withId(R.id.booking_date)).perform(typeText("30/11/2018"), closeSoftKeyboard());
-        onView(withId(R.id.booking_time)).perform(typeText("21-02"), closeSoftKeyboard());
+        onView(withId(R.id.booking_time)).perform(typeText("1:25"), closeSoftKeyboard());
         onView(withId(R.id.radioStudio)).perform(click(), closeSoftKeyboard());
         onView(withId(R.id.booking_now)).perform(click());
         pauseTestFor(1000);
-        onView(withId(R.id.booking_time)).check(matches(hasErrorText("Format jam salah")));
+        onView(withId(R.id.booking_time)).check(matches(hasErrorText("Isi sesuai Format hh:mm")));
     }
 
     @Test
     public void testBookingTimeSalah18(){
         bookingPhotoActivityTestRule.launchActivity(null);
         onView(withId(R.id.booking_date)).perform(typeText("30/11/2018"), closeSoftKeyboard());
-        onView(withId(R.id.booking_time)).perform(typeText("21_02"), closeSoftKeyboard());
+        onView(withId(R.id.booking_time)).perform(typeText("-1:10"), closeSoftKeyboard());
         onView(withId(R.id.radioStudio)).perform(click(), closeSoftKeyboard());
         onView(withId(R.id.booking_now)).perform(click());
         pauseTestFor(1000);
-        onView(withId(R.id.booking_time)).check(matches(hasErrorText("Format jam salah")));
+        onView(withId(R.id.booking_time)).check(matches(hasErrorText("Isi sesuai Format hh:mm")));
     }
 
     @Test
     public void testBookingTimeSalah19(){
         bookingPhotoActivityTestRule.launchActivity(null);
         onView(withId(R.id.booking_date)).perform(typeText("30/11/2018"), closeSoftKeyboard());
-        onView(withId(R.id.booking_time)).perform(typeText("21+02"), closeSoftKeyboard());
+        onView(withId(R.id.booking_time)).perform(typeText("10:-1"), closeSoftKeyboard());
         onView(withId(R.id.radioStudio)).perform(click(), closeSoftKeyboard());
         onView(withId(R.id.booking_now)).perform(click());
         pauseTestFor(1000);
-        onView(withId(R.id.booking_time)).check(matches(hasErrorText("Format jam salah")));
+        onView(withId(R.id.booking_time)).check(matches(hasErrorText("Isi sesuai Format hh:mm")));
     }
 
     @Test
-    public void testBookingTimeSalah20(){
+    public void testBookingNoAvail() {
         bookingPhotoActivityTestRule.launchActivity(null);
-        onView(withId(R.id.booking_date)).perform(typeText("30/11/2018"), closeSoftKeyboard());
-        onView(withId(R.id.booking_time)).perform(typeText("21=02"), closeSoftKeyboard());
+        onView(withId(R.id.booking_date)).perform(typeText("21/12/2017"), closeSoftKeyboard());
+        onView(withId(R.id.booking_time)).perform(typeText("10:00"), closeSoftKeyboard());
         onView(withId(R.id.radioStudio)).perform(click(), closeSoftKeyboard());
         onView(withId(R.id.booking_now)).perform(click());
-        pauseTestFor(1000);
-        onView(withId(R.id.booking_time)).check(matches(hasErrorText("Format jam salah")));
+        pauseTestFor(5000);
+        onView(withText("Jadwal tidak tersedia. Silakan pilih jadwal lain!"))
+                .inRoot(withDecorView(Matchers.not(Matchers.is(bookingPhotoActivityTestRule.getActivity().getWindow().getDecorView()))));
+        pauseTestFor(3000);
     }
 
     @Test
-    public void testBookingTimeSalah21(){
+    public void testBookingDateNoAvailTimeAvail() {
+        String time = "1" + ((int) (Math.random() * 9)) + ":" + "3" + ((int) (Math.random() * 9));
         bookingPhotoActivityTestRule.launchActivity(null);
-        onView(withId(R.id.booking_date)).perform(typeText("30/11/2018"), closeSoftKeyboard());
-        onView(withId(R.id.booking_time)).perform(typeText("21[02"), closeSoftKeyboard());
+        onView(withId(R.id.booking_date)).perform(typeText("21/12/2017"), closeSoftKeyboard());
+        onView(withId(R.id.booking_time)).perform(typeText(time), closeSoftKeyboard());
         onView(withId(R.id.radioStudio)).perform(click(), closeSoftKeyboard());
         onView(withId(R.id.booking_now)).perform(click());
-        pauseTestFor(1000);
-        onView(withId(R.id.booking_time)).check(matches(hasErrorText("Format jam salah")));
+        pauseTestFor(5000);
+        onView(withText("Jadwal telah dipesan untuk Anda."))
+                .inRoot(withDecorView(Matchers.not(Matchers.is(bookingPhotoActivityTestRule.getActivity().getWindow().getDecorView()))));
+        pauseTestFor(3000);
     }
 
     @Test
-    public void testBookingTimeSalah22(){
+    public void testBookingDateAvailTimeNoAvail() {
+        String date = "1" + ((int) (Math.random() * 9)) + "/" + "0" + ((int) (Math.random() * 9)) + "/" + "2018";
         bookingPhotoActivityTestRule.launchActivity(null);
-        onView(withId(R.id.booking_date)).perform(typeText("30/11/2018"), closeSoftKeyboard());
-        onView(withId(R.id.booking_time)).perform(typeText("21]02"), closeSoftKeyboard());
+        onView(withId(R.id.booking_date)).perform(typeText(date), closeSoftKeyboard());
+        onView(withId(R.id.booking_time)).perform(typeText("10:00"), closeSoftKeyboard());
         onView(withId(R.id.radioStudio)).perform(click(), closeSoftKeyboard());
         onView(withId(R.id.booking_now)).perform(click());
-        pauseTestFor(1000);
-        onView(withId(R.id.booking_time)).check(matches(hasErrorText("Format jam salah")));
+        pauseTestFor(5000);
+        onView(withText("Jadwal telah dipesan untuk Anda."))
+                .inRoot(withDecorView(Matchers.not(Matchers.is(bookingPhotoActivityTestRule.getActivity().getWindow().getDecorView()))));
+        pauseTestFor(3000);
     }
 
     @Test
-    public void testBookingTimeSalah23(){
+    public void testBookingAvailStudio() {
+        String date = "1" + ((int) (Math.random() * 9)) + "/" + "0" + ((int) (Math.random() * 9)) + "/" + "2018";
+        String time = "1" + ((int) (Math.random() * 9)) + ":" + "3" + ((int) (Math.random() * 9));
         bookingPhotoActivityTestRule.launchActivity(null);
-        onView(withId(R.id.booking_date)).perform(typeText("30/11/2018"), closeSoftKeyboard());
-        onView(withId(R.id.booking_time)).perform(typeText("21{02"), closeSoftKeyboard());
+        onView(withId(R.id.booking_date)).perform(typeText(date), closeSoftKeyboard());
+        onView(withId(R.id.booking_time)).perform(typeText(time), closeSoftKeyboard());
         onView(withId(R.id.radioStudio)).perform(click(), closeSoftKeyboard());
         onView(withId(R.id.booking_now)).perform(click());
-        pauseTestFor(1000);
-        onView(withId(R.id.booking_time)).check(matches(hasErrorText("Format jam salah")));
+        pauseTestFor(5000);
+        onView(withText("Jadwal telah dipesan untuk Anda."))
+                .inRoot(withDecorView(Matchers.not(Matchers.is(bookingPhotoActivityTestRule.getActivity().getWindow().getDecorView()))));
+        pauseTestFor(3000);
     }
 
     @Test
-    public void testBookingTimeSalah24(){
+    public void testBookingAvailLain() {
+        String date = "1" + ((int) (Math.random() * 9)) + "/" + "0" + ((int) (Math.random() * 9)) + "/" + "2018";
+        String time = "1" + ((int) (Math.random() * 9)) + ":" + "3" + ((int) (Math.random() * 9));
         bookingPhotoActivityTestRule.launchActivity(null);
-        onView(withId(R.id.booking_date)).perform(typeText("30/11/2018"), closeSoftKeyboard());
-        onView(withId(R.id.booking_time)).perform(typeText("21}02"), closeSoftKeyboard());
-        onView(withId(R.id.radioStudio)).perform(click(), closeSoftKeyboard());
+        onView(withId(R.id.booking_date)).perform(typeText(date), closeSoftKeyboard());
+        onView(withId(R.id.booking_time)).perform(typeText(time), closeSoftKeyboard());
+        onView(withId(R.id.radioLain)).perform(click(), closeSoftKeyboard());
+        onView(withId(R.id.booking_alamat)).perform(typeText("Test Espresso"), closeSoftKeyboard());
         onView(withId(R.id.booking_now)).perform(click());
-        pauseTestFor(1000);
-        onView(withId(R.id.booking_time)).check(matches(hasErrorText("Format jam salah")));
+        pauseTestFor(5000);
+        onView(withText("Jadwal telah dipesan untuk Anda."))
+                .inRoot(withDecorView(Matchers.not(Matchers.is(bookingPhotoActivityTestRule.getActivity().getWindow().getDecorView()))));
+        pauseTestFor(3000);
     }
-
-    @Test
-    public void testBookingTimeSalah25(){
-        bookingPhotoActivityTestRule.launchActivity(null);
-        onView(withId(R.id.booking_date)).perform(typeText("30/11/2018"), closeSoftKeyboard());
-        onView(withId(R.id.booking_time)).perform(typeText("21;02"), closeSoftKeyboard());
-        onView(withId(R.id.radioStudio)).perform(click(), closeSoftKeyboard());
-        onView(withId(R.id.booking_now)).perform(click());
-        pauseTestFor(1000);
-        onView(withId(R.id.booking_time)).check(matches(hasErrorText("Format jam salah")));
-    }
-
-    @Test
-    public void testBookingTimeSalah26(){
-        bookingPhotoActivityTestRule.launchActivity(null);
-        onView(withId(R.id.booking_date)).perform(typeText("30/11/2018"), closeSoftKeyboard());
-        onView(withId(R.id.booking_time)).perform(typeText("21'02"), closeSoftKeyboard());
-        onView(withId(R.id.radioStudio)).perform(click(), closeSoftKeyboard());
-        onView(withId(R.id.booking_now)).perform(click());
-        pauseTestFor(1000);
-        onView(withId(R.id.booking_time)).check(matches(hasErrorText("Format jam salah")));
-    }
-
-    @Test
-    public void testBookingTimeSalah27(){
-        bookingPhotoActivityTestRule.launchActivity(null);
-        onView(withId(R.id.booking_date)).perform(typeText("30/11/2018"), closeSoftKeyboard());
-        onView(withId(R.id.booking_time)).perform(typeText("21,02"), closeSoftKeyboard());
-        onView(withId(R.id.radioStudio)).perform(click(), closeSoftKeyboard());
-        onView(withId(R.id.booking_now)).perform(click());
-        pauseTestFor(1000);
-        onView(withId(R.id.booking_time)).check(matches(hasErrorText("Format jam salah")));
-    }
-
-    @Test
-    public void testBookingTimeSalah28(){
-        bookingPhotoActivityTestRule.launchActivity(null);
-        onView(withId(R.id.booking_date)).perform(typeText("30/11/2018"), closeSoftKeyboard());
-        onView(withId(R.id.booking_time)).perform(typeText("21.02"), closeSoftKeyboard());
-        onView(withId(R.id.radioStudio)).perform(click(), closeSoftKeyboard());
-        onView(withId(R.id.booking_now)).perform(click());
-        pauseTestFor(1000);
-        onView(withId(R.id.booking_time)).check(matches(hasErrorText("Format jam salah")));
-    }
-
-    @Test
-    public void testBookingTimeSalah29(){
-        bookingPhotoActivityTestRule.launchActivity(null);
-        onView(withId(R.id.booking_date)).perform(typeText("30/11/2018"), closeSoftKeyboard());
-        onView(withId(R.id.booking_time)).perform(typeText("21/02"), closeSoftKeyboard());
-        onView(withId(R.id.radioStudio)).perform(click(), closeSoftKeyboard());
-        onView(withId(R.id.booking_now)).perform(click());
-        pauseTestFor(1000);
-        onView(withId(R.id.booking_time)).check(matches(hasErrorText("Format jam salah")));
-    }
-
-    @Test
-    public void testBookingTimeSalah30(){
-        bookingPhotoActivityTestRule.launchActivity(null);
-        onView(withId(R.id.booking_date)).perform(typeText("30/11/2018"), closeSoftKeyboard());
-        onView(withId(R.id.booking_time)).perform(typeText("21<02"), closeSoftKeyboard());
-        onView(withId(R.id.radioStudio)).perform(click(), closeSoftKeyboard());
-        onView(withId(R.id.booking_now)).perform(click());
-        pauseTestFor(1000);
-        onView(withId(R.id.booking_time)).check(matches(hasErrorText("Format jam salah")));
-    }
-
-    @Test
-    public void testBookingTimeSalah31(){
-        bookingPhotoActivityTestRule.launchActivity(null);
-        onView(withId(R.id.booking_date)).perform(typeText("30/11/2018"), closeSoftKeyboard());
-        onView(withId(R.id.booking_time)).perform(typeText("21>02"), closeSoftKeyboard());
-        onView(withId(R.id.radioStudio)).perform(click(), closeSoftKeyboard());
-        onView(withId(R.id.booking_now)).perform(click());
-        pauseTestFor(1000);
-        onView(withId(R.id.booking_time)).check(matches(hasErrorText("Format jam salah")));
-    }
-
-    @Test
-    public void testBookingTimeSalah32(){
-        bookingPhotoActivityTestRule.launchActivity(null);
-        onView(withId(R.id.booking_date)).perform(typeText("30/11/2018"), closeSoftKeyboard());
-        onView(withId(R.id.booking_time)).perform(typeText("21?02"), closeSoftKeyboard());
-        onView(withId(R.id.radioStudio)).perform(click(), closeSoftKeyboard());
-        onView(withId(R.id.booking_now)).perform(click());
-        pauseTestFor(1000);
-        onView(withId(R.id.booking_time)).check(matches(hasErrorText("Format jam salah")));
-    }
-*/
 }

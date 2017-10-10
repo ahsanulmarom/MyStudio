@@ -50,7 +50,7 @@ public class BookingPhoto extends MenuAct {
                 if (date.getText().toString().equalsIgnoreCase("")) {
                     date.setError("This Field is Required");
                 } else if(date.getText().toString().length() != 10) {
-                    date.setError("Isi sesuai Format dd-mm-yyy");
+                    date.setError("Isi sesuai Format dd/mm/yyy");
                 } else if(Integer.parseInt(date.getText().toString().substring(0,2)) > 30) {
                     date.setError("Maksimal tanggal 30");
                 } else if(Integer.parseInt(date.getText().toString().substring(3,5)) > 12) {
@@ -63,6 +63,8 @@ public class BookingPhoto extends MenuAct {
                     date.setError("Isi sesuai Format dd/mm/yyyy");
                 } else if (time.getText().toString().equalsIgnoreCase("")) {
                     time.setError("This Field is Required");
+                } else if (time.getText().toString().length() != 5) {
+                    time.setError("Isi sesuai Format hh:mm");
                 } else if (Integer.parseInt(time.getText().toString().substring(0,2)) < 0) {
                     time.setError("Jam salah");
                 } else if (Integer.parseInt(time.getText().toString().substring(0,2)) > 23) {
@@ -73,8 +75,6 @@ public class BookingPhoto extends MenuAct {
                     time.setError("Jam salah");
                 } else if (!(time.getText().toString().substring(2,3).equals(":"))) {
                     time.setError("Format jam salah");
-                } else if (time.getText().toString().length() != 5) {
-                    time.setError("Isi sesuai Format hh:mm");
                 } else if(studio.isChecked()) {
                         setBooking(date.getText().toString().trim(), time.getText().toString().trim(), "Studio");
                 } else if(alamatLain.isChecked()){
@@ -123,7 +123,7 @@ public class BookingPhoto extends MenuAct {
                                                 Toast.LENGTH_SHORT).show();
                                         recreate();
                                     } else {
-                                        Toast.makeText(BookingPhoto.this, "Silakan pilih jadwal lain!",
+                                        Toast.makeText(BookingPhoto.this, "Jadwal tidak tersedia. Silakan pilih jadwal lain!",
                                                 Toast.LENGTH_LONG).show();
                                     }
                                 }

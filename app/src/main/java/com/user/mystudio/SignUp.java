@@ -44,7 +44,7 @@ public class SignUp extends AppCompatActivity {
 
         cn = new CheckNetwork(this);
         if (!cn.isConnected()) {
-            Toast.makeText(this, "You are not connected internet. Pease check your connection!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "You are not connected internet. Please check your connection!", Toast.LENGTH_SHORT).show();
         }
 
         fAuth = FirebaseAuth.getInstance();
@@ -87,7 +87,7 @@ public class SignUp extends AppCompatActivity {
                         Log.d(TAG, "createUserWithEmail:onComplete:" + task.isSuccessful());
                         if (!task.isSuccessful()) {
                             if (!cn.isConnected()) {
-                                Toast.makeText(SignUp.this, "You are offline. Pease check your connection!",
+                                Toast.makeText(SignUp.this, "You are offline. Please check your connection!",
                                         Toast.LENGTH_LONG).show();
                             } else {
                                 Toast.makeText(SignUp.this, "Failed to sign up. Email has been registered.",

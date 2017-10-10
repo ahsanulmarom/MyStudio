@@ -1,18 +1,14 @@
 package com.user.mystudio;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.text.InputType;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -43,7 +39,6 @@ public class Login extends AppCompatActivity {
         password = (EditText) findViewById(R.id.login_password);
         Button submit = (Button) findViewById(R.id.login_btnLogin);
         Button daftar = (Button) findViewById(R.id.login_btnSignUp);
-        Button reset = (Button) findViewById(R.id.login_reset);
 
         fAuth = FirebaseAuth.getInstance();
         fStateListener = new FirebaseAuth.AuthStateListener() {
@@ -70,44 +65,6 @@ public class Login extends AppCompatActivity {
         daftar.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 startActivity(new Intent(Login.this, SignUp.class));
-            }
-        });
-
-        reset.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                LinearLayout layoutinput = new LinearLayout(context);   //layout
-                layoutinput.setOrientation(LinearLayout.VERTICAL);
-                layoutinput.setPadding(50, 50, 50, 50);
-
-                final EditText mail = new EditText(context);
-                mail.setInputType(InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS);
-                mail.setHint("Enter your verified Email!");
-                layoutinput.addView(mail);
-
-                AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                builder.setTitle("Reset Password");
-                builder.setMessage("Please enter your verified and active email address below." +
-                            "We will send you an email with instruction for resetting your password.");
-                builder.setView(layoutinput);
-                    //negative button
-                builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-
-                    }
-                });
-                    //posstive button
-                builder.setPositiveButton("Reset", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        if (!cn.isConnected()) {
-                            Toast.makeText(Login.this, "You are offline. Pease check your connection!",
-                                        Toast.LENGTH_LONG).show();
-                        } else {
-                            sendEmailResetPassword(mail.getText().toString().trim());
-                        }
-                    }
-                });
-                builder.show();
             }
         });
     }
@@ -149,22 +106,6 @@ public class Login extends AppCompatActivity {
                     Toast.LENGTH_SHORT).show();
             FirebaseAuth.getInstance().signOut();
         }
-    }
-
-    private void sendEmailResetPassword(String emailAd) {
-        fAuth = FirebaseAuth.getInstance();
-        fAuth.sendPasswordResetEmail(emailAd).addOnCompleteListener(new OnCompleteListener<Void>() {
-            @Override
-            public void onComplete(@NonNull Task<Void> task) {
-                if (task.isSuccessful()) {
-                    Toast.makeText(Login.this, "The instruction has been sent to your email. Please check your email!",
-                            Toast.LENGTH_SHORT).show();
-                } else if(!task.isSuccessful()) {
-                    Toast.makeText(Login.this, "Request failed. Pelase, try again!",
-                            Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
     }
 
     @Override

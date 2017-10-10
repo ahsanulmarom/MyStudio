@@ -1,5 +1,7 @@
 package com.user.mystudio;
 
+import android.content.Context;
+import android.net.ConnectivityManager;
 import android.support.test.espresso.intent.Intents;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
@@ -12,6 +14,8 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.MethodSorters;
+
+import java.lang.reflect.Method;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
@@ -39,6 +43,15 @@ public class LoginTest {
         }
     }
 
+    private void enableData(Context context, boolean enable) {
+        ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        try {
+            Method m = cm.getClass().getDeclaredMethod("setMobileDataEnabled", boolean.class);
+            m.invoke(cm, enable);
+        } catch (Exception ignored) {
+        }
+    }
+
     @Before
     public void setUp() throws Exception {
         Intents.init();
@@ -48,6 +61,33 @@ public class LoginTest {
     public void tearDown() throws Exception {
         Intents.release();
     }
+
+/*    @Test
+    public void testNoConnection() {
+        enableData(loginActivityActivityTestRule.getActivity().getApplicationContext(), false);
+        pauseTestFor(5000);
+        loginActivityActivityTestRule.launchActivity(null);
+        pauseTestFor(2000);
+        onView(withText("You are not connected internet. Please check your connection!"))
+                .inRoot(withDecorView(Matchers.not(Matchers.is(loginActivityActivityTestRule.getActivity().getWindow().getDecorView()))));
+        enableData(loginActivityActivityTestRule.getActivity().getApplicationContext(), true);
+        pauseTestFor(5000);
+    }
+
+    @Test
+    public void testLoginNoConnection() {
+        enableData(loginActivityActivityTestRule.getActivity().getApplicationContext(), false);
+        pauseTestFor(5000);
+        loginActivityActivityTestRule.launchActivity(null);
+        onView(withId(R.id.login_email)).perform(typeText("ahsanulmarom@gmail.com"), closeSoftKeyboard());
+        onView(withId(R.id.login_password)).perform(typeText("123456"), closeSoftKeyboard());
+        onView(withId(R.id.login_btnLogin)).perform(click());
+        pauseTestFor(2000);
+        onView(withText("You are not connected internet. Please check your connection!"))
+                .inRoot(withDecorView(Matchers.not(Matchers.is(loginActivityActivityTestRule.getActivity().getWindow().getDecorView()))));
+        enableData(loginActivityActivityTestRule.getActivity().getApplicationContext(), true);
+        pauseTestFor(5000);
+    }*/
 
     @Test
     public void testLoginNoEmail() {
