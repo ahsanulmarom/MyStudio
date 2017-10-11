@@ -84,8 +84,6 @@ public class MenuAct extends AppCompatActivity {
 
     public boolean toolbarNav(MenuItem menuItem) {
         switch (menuItem.getItemId()) {
-            // pilihan menu item navigasi akan menampilkan pesan toast klik kalian bisa menggantinya
-            //dengan intent activity
             case R.id.nav_home:
                 startActivity(new Intent(getApplication(), MenuAct.class));
                 finish();

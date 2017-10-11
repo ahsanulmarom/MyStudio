@@ -23,7 +23,7 @@ import static android.support.test.espresso.intent.matcher.IntentMatchers.hasCom
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 
 @RunWith(AndroidJUnit4.class)
-@FixMethodOrder(MethodSorters.DEFAULT)
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class MenuActTest {
     @Rule
     public IntentsTestRule<MenuAct> menuIntentsTestRule = new IntentsTestRule<>(MenuAct.class, true, false);
@@ -86,7 +86,7 @@ public class MenuActTest {
     }
 
     @Test
-    public void testToolbarLogout() {
+    public void testToolbarToolLogout() {
         menuIntentsTestRule.launchActivity(null);
         pauseTestFor(1000);
         onView(withId(R.id.drawer)).check(matches(isClosed(Gravity.LEFT))).perform(open());

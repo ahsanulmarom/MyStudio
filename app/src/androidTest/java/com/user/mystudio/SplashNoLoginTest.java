@@ -42,7 +42,7 @@ public class SplashNoLoginTest {
     @Test
     public void testSplashScreen() throws InterruptedException {
         splashActivityTestRule.launchActivity(null);
-        pauseTestFor(6000);
+        pauseTestFor(5000);
         intended(hasComponent(Login.class.getName()));
     }
 }

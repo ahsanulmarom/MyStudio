@@ -102,12 +102,12 @@ public class SignUpTest {
         onView(withId(R.id.signup_password)).perform(typeText("123456"), closeSoftKeyboard());
         onView(withId(R.id.signup_repassword)).perform(typeText("123456"), closeSoftKeyboard());
         onView(withId(R.id.signup_submit)).perform(click());
-        pauseTestFor(5000);
+        pauseTestFor(7000);
         onView(withText("Sign up Successfully. Please check email to verify account!"))
                 .inRoot(withDecorView(Matchers.not(Matchers.is(signUpActivityTestRule.getActivity().getWindow().getDecorView()))));
-        pauseTestFor(3000);
+        pauseTestFor(7000);
         intended(hasComponent(Login.class.getName()));
-        pauseTestFor(3000);
+        pauseTestFor(5000);
     }
 
     @Test

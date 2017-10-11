@@ -125,11 +125,11 @@ public class LoginTest {
         onView(withId(R.id.login_email)).perform(typeText("ahsanulmarom@gmail.com"), closeSoftKeyboard());
         onView(withId(R.id.login_password)).perform(typeText("123456"), closeSoftKeyboard());
         onView(withId(R.id.login_btnLogin)).perform(click());
-        pauseTestFor(5000);
+        pauseTestFor(7000);
         onView(withText("You are logged in as ahsanulmarom@gmail.com"))
                 .inRoot(withDecorView(Matchers.not(Matchers.is(loginActivityActivityTestRule.getActivity().getWindow().getDecorView()))));
-        pauseTestFor(3000);
+        pauseTestFor(7000);
         intended(hasComponent(MenuAct.class.getName()));
-        pauseTestFor(2000);
+        pauseTestFor(5000);
     }
 }
