@@ -130,6 +130,17 @@ public class LoginTest {
                 .inRoot(withDecorView(Matchers.not(Matchers.is(loginActivityActivityTestRule.getActivity().getWindow().getDecorView()))));
         pauseTestFor(7000);
         intended(hasComponent(MenuAct.class.getName()));
-        pauseTestFor(5000);
+        pauseTestFor(4000);
+    }
+
+    @Test
+    public void testLoginNoVerify() {
+        loginActivityActivityTestRule.launchActivity(null);
+        onView(withId(R.id.login_email)).perform(typeText("ahsan@gmail.com"), closeSoftKeyboard());
+        onView(withId(R.id.login_password)).perform(typeText("123456"), closeSoftKeyboard());
+        onView(withId(R.id.login_btnLogin)).perform(click());
+        pauseTestFor(7000);
+        onView(withText("You are logged in as ahsanulmarom@gmail.com"))
+                .inRoot(withDecorView(Matchers.not(Matchers.is(loginActivityActivityTestRule.getActivity().getWindow().getDecorView()))));
     }
 }

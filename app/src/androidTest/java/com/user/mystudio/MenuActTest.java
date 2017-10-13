@@ -91,7 +91,7 @@ public class MenuActTest {
         pauseTestFor(1000);
         onView(withId(R.id.drawer)).check(matches(isClosed(Gravity.LEFT))).perform(open());
         onView(withId(R.id.navigation_view)).perform(navigateTo(R.id.nav_logout));
-        pauseTestFor(4000);
+        pauseTestFor(3000);
         intended(hasComponent(Login.class.getName()));
         pauseTestFor(1000);
     }

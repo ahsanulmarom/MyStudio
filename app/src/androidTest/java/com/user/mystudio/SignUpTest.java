@@ -107,7 +107,7 @@ public class SignUpTest {
                 .inRoot(withDecorView(Matchers.not(Matchers.is(signUpActivityTestRule.getActivity().getWindow().getDecorView()))));
         pauseTestFor(7000);
         intended(hasComponent(Login.class.getName()));
-        pauseTestFor(5000);
+        pauseTestFor(4000);
     }
 
     @Test
