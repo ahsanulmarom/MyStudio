@@ -204,9 +204,10 @@ public class Schedule extends MenuAct implements AdapterView.OnItemClickListener
         fStateListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                FirebaseUser user = firebaseAuth.getCurrentUser();
-                if (user == null)
+                if (firebaseAuth.getCurrentUser() != null) {
+                } else {
                     startActivity(new Intent(getApplicationContext(), Login.class));
+                }
             }
         };
     }

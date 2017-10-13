@@ -1,8 +1,11 @@
 package com.user.mystudio;
 
+import android.support.test.espresso.intent.Intents;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 
+import org.junit.After;
+import org.junit.Before;
 import org.junit.FixMethodOrder;
 import org.junit.Rule;
 import org.junit.Test;
@@ -26,8 +29,18 @@ public class TestNoLoginBookingPhoto {
         }
     }
 
+    @Before
+    public void setUp() throws Exception {
+        Intents.init();
+    }
+
+    @After
+    public void tearDown() throws Exception {
+        Intents.release();
+    }
+
     @Test
-    public void testButtonSchedule() {
+    public void testNoLoginBooking() {
         bookingPhotoActivityTestRule.launchActivity(null);
         pauseTestFor(1000);
         intended(hasComponent(Login.class.getName()));
