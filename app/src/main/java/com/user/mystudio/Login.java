@@ -105,6 +105,7 @@ public class Login extends AppCompatActivity {
             Toast.makeText(Login.this, "Sorry, Please Check Email and Verify Your Account!",
                     Toast.LENGTH_SHORT).show();
             FirebaseAuth.getInstance().signOut();
+            recreate();
         }
     }
 
