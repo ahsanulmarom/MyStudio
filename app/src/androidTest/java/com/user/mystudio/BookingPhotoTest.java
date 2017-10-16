@@ -158,17 +158,6 @@ public class BookingPhotoTest {
     }
 
     @Test
-    public void testBookingDateSalah11(){
-        bookingPhotoActivityTestRule.launchActivity(null);
-        onView(withId(R.id.booking_date)).perform(typeText("30%11/2018"), closeSoftKeyboard());
-        onView(withId(R.id.booking_time)).perform(typeText("10:00"), closeSoftKeyboard());
-        onView(withId(R.id.radioStudio)).perform(click(), closeSoftKeyboard());
-        onView(withId(R.id.booking_now)).perform(click());
-        pauseTestFor(1000);
-        onView(withId(R.id.booking_date)).check(matches(hasErrorText("Isi sesuai Format dd/mm/yyyy")));
-    }
-
-    @Test
     public void testBookingDateSalah12(){
         bookingPhotoActivityTestRule.launchActivity(null);
         onView(withId(R.id.booking_date)).perform(typeText("30$11/2018"), closeSoftKeyboard());
