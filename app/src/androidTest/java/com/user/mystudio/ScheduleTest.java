@@ -14,6 +14,7 @@ import static android.support.test.espresso.Espresso.onData;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.closeSoftKeyboard;
+import static android.support.test.espresso.action.ViewActions.pressImeActionButton;
 import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
@@ -78,6 +79,10 @@ public class ScheduleTest {
         onView(withText("My Detail Schedule")).check(matches(isDisplayed()));
         onView(withText("Cancel Booking")).check(matches(isDisplayed()));
         pauseTestFor(1000);
+        onView(withText("Cancel Booking")).perform(click());
+        pauseTestFor(5000);
+        onView(withText("Delete List")).check(matches(isDisplayed()));
+        pauseTestFor(1000);
     }
 
     @Test
@@ -133,4 +138,5 @@ public class ScheduleTest {
         onView(withText("Close")).check(matches(isDisplayed()));
         pauseTestFor(1000);
     }
+
 }

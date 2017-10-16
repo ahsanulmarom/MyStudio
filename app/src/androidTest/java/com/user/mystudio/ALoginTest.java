@@ -31,7 +31,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
 @RunWith(AndroidJUnit4.class)
 @FixMethodOrder(MethodSorters.DEFAULT)
-public class LoginTest {
+public class ALoginTest {
     @Rule
     public ActivityTestRule<Login> loginActivityActivityTestRule = new ActivityTestRule<>(Login.class, true, false);
 
