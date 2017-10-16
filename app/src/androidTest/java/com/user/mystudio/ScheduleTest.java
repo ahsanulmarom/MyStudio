@@ -81,6 +81,8 @@ public class ScheduleTest {
         pauseTestFor(1000);
         onView(withText("Cancel Booking")).perform(click());
         pauseTestFor(5000);
+        onData(anything()).inAdapterView(withId(R.id.sch_listView)).atPosition(0).perform(click());
+        pauseTestFor(5000);
         onView(withText("Delete List")).check(matches(isDisplayed()));
         pauseTestFor(1000);
     }
