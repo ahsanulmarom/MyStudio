@@ -147,7 +147,7 @@ public class Schedule extends MenuAct implements AdapterView.OnItemClickListener
                     builder.show();
                 } else {
                     AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                    builder.setTitle("Booking Detail");
+                    builder.setTitle("My Detail Schedule");
                     builder.setMessage(fillMaps.get(position).get("date") + " " +
                             fillMaps.get(position).get("time") + "\n" +
                             fillMaps.get(position).get("lokasi") + "\n" +
