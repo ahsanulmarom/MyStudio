@@ -65,11 +65,7 @@ public class BookingPhoto extends MenuAct {
                     time.setError("This Field is Required");
                 } else if (time.getText().toString().length() != 5) {
                     time.setError("Isi sesuai Format hh:mm");
-                } else if (Integer.parseInt(time.getText().toString().substring(0,2)) < 0) {
-                    time.setError("Jam salah");
                 } else if (Integer.parseInt(time.getText().toString().substring(0,2)) > 23) {
-                    time.setError("Jam salah");
-                } else if (Integer.parseInt(time.getText().toString().substring(3,5)) < 0) {
                     time.setError("Jam salah");
                 } else if (Integer.parseInt(time.getText().toString().substring(3,5)) > 59) {
                     time.setError("Jam salah");

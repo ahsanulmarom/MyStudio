@@ -62,36 +62,6 @@ public class SignUpTest {
         Intents.release();
     }
 
-/*    @Test
-    public void testNoConnection() {
-        enableData(signUpActivityTestRule.getActivity().getApplicationContext(), false);
-        pauseTestFor(5000);
-        signUpActivityTestRule.launchActivity(null);
-        pauseTestFor(2000);
-        onView(withText("You are not connected internet. Please check your connection!"))
-                .inRoot(withDecorView(Matchers.not(Matchers.is(signUpActivityTestRule.getActivity().getWindow().getDecorView()))));
-        enableData(signUpActivityTestRule.getActivity().getApplicationContext(), true);
-        pauseTestFor(5000);
-    }
-
-    @Test
-    public void testSignUpNoConnection() {
-        enableData(signUpActivityTestRule.getActivity().getApplicationContext(), false);
-        pauseTestFor(5000);
-        String email = "espressoTest" + (int) (Math.random()*1000) +"@gmail.com";
-        signUpActivityTestRule.launchActivity(null);
-        pauseTestFor(1000);
-        onView(withId(R.id.signup_username)).perform(typeText("Espresso Testing"), closeSoftKeyboard());
-        onView(withId(R.id.signup_email)).perform(typeText(email), closeSoftKeyboard());
-        onView(withId(R.id.signup_password)).perform(typeText("123456"), closeSoftKeyboard());
-        onView(withId(R.id.signup_repassword)).perform(typeText("123456"), closeSoftKeyboard());
-        onView(withId(R.id.signup_submit)).perform(click());
-        pauseTestFor(2000);
-        onView(withText("You are not connected internet. Please check your connection!"))
-                .inRoot(withDecorView(Matchers.not(Matchers.is(signUpActivityTestRule.getActivity().getWindow().getDecorView()))));
-        enableData(signUpActivityTestRule.getActivity().getApplicationContext(), true);
-        pauseTestFor(5000);
-    }*/
 
     @Test
     public void testSignUp() {

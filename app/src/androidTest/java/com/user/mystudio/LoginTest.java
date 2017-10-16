@@ -62,32 +62,6 @@ public class LoginTest {
         Intents.release();
     }
 
-/*    @Test
-    public void testNoConnection() {
-        enableData(loginActivityActivityTestRule.getActivity().getApplicationContext(), false);
-        pauseTestFor(5000);
-        loginActivityActivityTestRule.launchActivity(null);
-        pauseTestFor(2000);
-        onView(withText("You are not connected internet. Please check your connection!"))
-                .inRoot(withDecorView(Matchers.not(Matchers.is(loginActivityActivityTestRule.getActivity().getWindow().getDecorView()))));
-        enableData(loginActivityActivityTestRule.getActivity().getApplicationContext(), true);
-        pauseTestFor(5000);
-    }
-
-    @Test
-    public void testLoginNoConnection() {
-        enableData(loginActivityActivityTestRule.getActivity().getApplicationContext(), false);
-        pauseTestFor(5000);
-        loginActivityActivityTestRule.launchActivity(null);
-        onView(withId(R.id.login_email)).perform(typeText("ahsanulmarom@gmail.com"), closeSoftKeyboard());
-        onView(withId(R.id.login_password)).perform(typeText("123456"), closeSoftKeyboard());
-        onView(withId(R.id.login_btnLogin)).perform(click());
-        pauseTestFor(2000);
-        onView(withText("You are not connected internet. Please check your connection!"))
-                .inRoot(withDecorView(Matchers.not(Matchers.is(loginActivityActivityTestRule.getActivity().getWindow().getDecorView()))));
-        enableData(loginActivityActivityTestRule.getActivity().getApplicationContext(), true);
-        pauseTestFor(5000);
-    }*/
 
     @Test
     public void testLoginNoEmail() {

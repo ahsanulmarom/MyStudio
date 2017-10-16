@@ -51,9 +51,9 @@ public class ScheduleTest {
         onView(withId(R.id.menu_booking)).perform(click());
         pauseTestFor(500);
         onView(withId(R.id.booking_schedule)).perform(click());
-        pauseTestFor(5000);
+        pauseTestFor(7000);
         onView(withText("No Schedule")).check(matches(isDisplayed()));
-        pauseTestFor(1000);
+        pauseTestFor(3000);
         onView(withText("Booking Photo")).perform(click());
         pauseTestFor(1000);
         onView(withId(R.id.booking_schedule)).perform(click());
