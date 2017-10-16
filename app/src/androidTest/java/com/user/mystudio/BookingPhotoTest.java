@@ -161,6 +161,7 @@ public class BookingPhotoTest {
     public void testBookingDateSalah12(){
         bookingPhotoActivityTestRule.launchActivity(null);
         onView(withId(R.id.booking_date)).perform(typeText("30$11/2018"), closeSoftKeyboard());
+        pauseTestFor(500);
         onView(withId(R.id.booking_time)).perform(typeText("10:00"), closeSoftKeyboard());
         onView(withId(R.id.radioStudio)).perform(click(), closeSoftKeyboard());
         onView(withId(R.id.booking_now)).perform(click());
